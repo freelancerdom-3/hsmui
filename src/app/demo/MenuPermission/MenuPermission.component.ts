@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-//* eslint-disable no-debugger */
+//* eslint-disable no- */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @angular-eslint/component-class-suffix */
 import { Component, OnInit } from '@angular/core';
@@ -8,17 +8,18 @@ import { BaseService } from 'src/app/services/base.service';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { AppConstant } from 'src/app/demo/baseservice/baseservice.service';
 import { ToastrService } from 'ngx-toastr';
+import { TranslatePipe } from 'src/app/translate.pipe';
 
 @Component({
   selector: 'app-hospitaltype',
   standalone: true,
-  imports: [SharedModule],
+  imports: [SharedModule,TranslatePipe],
   templateUrl: './MenuPermission.component.html',
   styleUrls: ['./MenuPermission.component.scss']
 })
 export class MenuPermission implements OnInit {
   TblMenuPermissionlist: any[] = [];
-  MenuPermissionlist : any []=[];
+  MenuPermissionlist: any[] = [];
   selectedRoleId: number | null = null;
 
   formChanged: boolean = false;
@@ -27,7 +28,7 @@ export class MenuPermission implements OnInit {
 
 
 
-  constructor(private baseService: BaseService, private toastr: ToastrService) {}
+  constructor(private baseService: BaseService, private toastr: ToastrService) { }
 
   ngOnInit() {
     this.getMenuPermissionlist();
@@ -52,8 +53,8 @@ export class MenuPermission implements OnInit {
       });
   }
 
-  getrolename(){
-    this.baseService.GET<any>(this.URL+"GetDropDownList/FillRoles").subscribe(response => {
+  getrolename() {
+    this.baseService.GET<any>(this.URL + "GetDropDownList/FillRoles").subscribe(response => {
       console.log("GET Response:", response);
       this.MenuPermissionlist = response.data;
       this.selectedRoleId = this.MenuPermissionlist[0]?.id;

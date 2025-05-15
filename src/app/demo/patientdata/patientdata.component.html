@@ -8,12 +8,9 @@
     <app-card cardTitle="Patient Data Table" [options]="false" blockClass="table-border-style">
       <div class="table-responsive">
         <table class="table table-striped">
-      <app-datatable
-      [tableHeaders]="tableHeaders"
-      [tableData]="paginatedList"
-      [actionButtons]="actionButtons"
-      (actionClicked)="onTableAction($event)">
-      </app-datatable>
+          <app-datatable [tableHeaders]="tableHeaders" [tableData]="paginatedList" [actionButtons]="actionButtons"
+            (actionClicked)="onTableAction($event)">
+          </app-datatable>
         </table>
       </div>
       <!-- <div class="table-responsive">
@@ -82,42 +79,41 @@
         </table>
       </div> -->
 
-              <app-pop-up 
-                *ngIf="showPopup"
-                [message]="'Are you sure you want to delete this patient?'"
-                [show]="showPopup"
-                (confirmDelete)="confirmDelete()"
-                (cancelDelete)="cancelDelete()">
-              </app-pop-up>
+      <app-pop-up *ngIf="showPopup" [message]="'Areyousureyouwanttodeletethis' | translate" [show]="showPopup"
+        (confirmDelete)="confirmDelete()" (cancelDelete)="cancelDelete()">
+      </app-pop-up>
 
       <nav aria-label="Page navigation">
         <ul class="pagination justify-content-end">
-            <li class="page-item" [class.disabled]="currentPage === 1">
-                <a class="page-link" href="javascript:void(0)" (click)="nextpage(currentPage - 1)">Previous</a>
-            </li>
+          <li class="page-item" [class.disabled]="currentPage === 1">
+            <a class="page-link" href="javascript:void(0)" (click)="nextpage(currentPage - 1)">{{'Previous' |
+              translate}}</a>
+          </li>
 
-            <li class="page-item" *ngFor="let page of pageNumbers">
-                <a class="page-link" href="javascript:void(0)" (click)="nextpage(page)" [class.active]="currentPage === page">{{ page }}</a>
-            </li>
+          <li class="page-item" *ngFor="let page of pageNumbers">
+            <a class="page-link" href="javascript:void(0)" (click)="nextpage(page)"
+              [class.active]="currentPage === page">{{ page }}</a>
+          </li>
 
-            <li class="page-item" [class.disabled]="currentPage === totalPages">
-                <a class="page-link" href="javascript:void(0)" (click)="nextpage(currentPage + 1)">Next</a>
-            </li>
+          <li class="page-item" [class.disabled]="currentPage === totalPages">
+            <a class="page-link" href="javascript:void(0)" (click)="nextpage(currentPage + 1)">{{'Next' |
+              translate}}</a>
+          </li>
         </ul>
-    </nav>
+      </nav>
     </app-card>
   </div>
   } @if(!isShowList) {
-    <div class="col-sm-12">
-      <app-card cardTitle="Update Patient Details" [options]="false">
-        <h5>Patient Form</h5>
-        <hr />
-        <div class="row">
-          <div class="col-md-6">
-            <form [formGroup]="patientFormGroup">
+  <div class="col-sm-12">
+    <app-card cardTitle="Update Patient Details" [options]="false">
+      <h5>{{'PatientForm' | translate}}</h5>
+      <hr />
+      <div class="row">
+        <div class="col-md-6">
+          <form [formGroup]="patientFormGroup">
 
-              <!-- Patient Name Dropdown -->
-              <!-- <div class="form-group">
+            <!-- Patient Name Dropdown -->
+            <!-- <div class="form-group">
                 <label for="patientName">Patient Name</label>
                 <select formControlName="patientName" class="form-control">
                   <option *ngFor="let patient of patientlist" [value]="patient.value">
@@ -126,84 +122,85 @@
                 </select>
               </div> -->
 
-              <div class="form-group">
-                <label for="fullName">Full Name</label>
-                <input type="text" formControlName="fullName" class="form-control" />
-              </div>
+            <div class="form-group">
+              <label for="fullName">{{'FullName' | translate}}</label>
+              <input type="text" formControlName="fullName" class="form-control" />
+            </div>
 
-              <div class="form-group">
-                <label for="email">Email</label>
-                <input type="email" formControlName="email" class="form-control" />
-              </div>
+            <div class="form-group">
+              <label for="email">{{'Email' | translate}}</label>
+              <input type="email" formControlName="email" class="form-control" />
+            </div>
 
-              <!-- <div class="form-group">
+            <!-- <div class="form-group">
                 <label for="password">Password</label>
                 <input type="password" formControlName="password" class="form-control" />
               </div> -->
 
-              <!-- <div class="form-group">
+            <!-- <div class="form-group">
                 <label for="mobilNumber">Mobile Number</label>
                 <input type="text" formControlName="mobileNumber" class="form-control" />
               </div> -->
-              <div class="form-group">
-                <label for="mobileNumber">Mobile Number</label>
-                <input type="text" formControlName="mobileNumber" class="form-control" maxlength="10" pattern="[0-9]*"
-                inputmode="numeric"/>
+            <div class="form-group">
+              <label for="mobileNumber">{{'MobileNumber' | translate}}</label>
+              <input type="text" formControlName="mobileNumber" class="form-control" maxlength="10" pattern="[0-9]*"
+                inputmode="numeric" />
 
-                <div class="text-danger mt-1" *ngIf="checkValidation('mobileNumber') as error">
-                  {{ error }}
-                </div>
+              <div class="text-danger mt-1" *ngIf="checkValidation('mobileNumber') as error">
+                {{ error }}
               </div>
+            </div>
 
-              <div class="form-group">
-                <label for="dob">DOB</label>
-                <input type="date" formControlName="dob" class="form-control" />
+            <div class="form-group">
+              <label for="dob">{{'DOB' | translate}}</label>
+              <input type="date" formControlName="dob" class="form-control" />
+            </div>
+
+            <div class="form-group">
+              <label for="gender">{{'Gender' | translate}}</label><br />
+              <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" formControlName="gender" value="M" />
+                <label class="form-check-label">{{'Male' | translate}}</label>
               </div>
-
-              <div class="form-group">
-                <label for="gender">Gender</label><br />
-                <div class="form-check form-check-inline">
-                  <input class="form-check-input" type="radio" formControlName="gender" value="M" />
-                  <label class="form-check-label">Male</label>
-                </div>
-                <div class="form-check form-check-inline">
-                  <input class="form-check-input" type="radio" formControlName="gender" value="F" />
-                  <label class="form-check-label">Female</label>
-                </div>
+              <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" formControlName="gender" value="F" />
+                <label class="form-check-label">{{'Female' | translate}}</label>
               </div>
+            </div>
 
-              <div class="form-group">
-                <label for="blood_Group">Blood Group</label>
-                <select formControlName="blood_Group" class="form-control">
-                  <option *ngFor="let group of bloodGroups" [value]="group">{{ group }}</option>
-                </select>
-              </div>
+            <div class="form-group">
+              <label for="blood_Group">{{'BloodGroup' | translate}}</label>
+              <select formControlName="blood_Group" class="form-control">
+                <option *ngFor="let group of bloodGroups" [value]="group">{{ group }}</option>
+              </select>
+            </div>
 
-              <div class="form-group">
-                <label for="emergency_Contact">Emergency Contact</label>
-                <input type="text" formControlName="emergency_Contact" class="form-control" />
-              </div>
+            <div class="form-group">
+              <label for="emergency_Contact">{{'EmergencyContact' | translate}}</label>
+              <input type="text" formControlName="emergency_Contact" class="form-control" />
+            </div>
 
-              <div class="form-group">
-                <label for="medical_History">Medical History</label>
-                <input type="text" formControlName="medical_History" class="form-control" />
-              </div>
+            <div class="form-group">
+              <label for="medical_History">{{'MedicalHistory' | translate}}</label>
+              <input type="text" formControlName="medical_History" class="form-control" />
+            </div>
 
-              <div class="form-group">
-                <label for="address">Address</label>
-                <textarea formControlName="address" class="form-control" rows="3"></textarea>
-              </div>
+            <div class="form-group">
+              <label for="address">{{'Address' | translate}}</label>
+              <textarea formControlName="address" class="form-control" rows="3"></textarea>
+            </div>
 
-              <div class="mt-3">
-                <button *ngIf="selectedPatientId" type="button" class="btn btn-success" (click)="updatePatient()">Update</button>
-              </div>
+            <div class="mt-3">
+              <button *ngIf="selectedPatientId" type="button" class="btn btn-success"
+                (click)="updatePatient()">{{'Update' | translate}}</button>
+            </div>
 
-            </form>
-          </div>
+          </form>
         </div>
+      </div>
 
-      </app-card>
-    </div>
+    </app-card>
+  </div>
 
 
   }

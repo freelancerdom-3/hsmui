@@ -1,4 +1,4 @@
-import { Component,inject, OnInit } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { SharedModule } from 'src/app/theme/shared/shared.module';
 import { BaseService } from 'src/app/services/base.service';
 import { HttpClient } from '@angular/common/http';
@@ -54,7 +54,7 @@ export class feedbackComponent implements OnInit {
     private baseService: BaseService,
     private toastr: ToastrService,
     private route: ActivatedRoute
-  ) {}
+  ) { }
 
   ngOnInit() {
     this.getfeedback();

@@ -47,16 +47,16 @@
         <div class="mb-4">
           <i class="feather icon-unlock auth-icon"></i>
         </div>
-        
+
 
         <!-- IF OTP SCREEN IS FALSE -->
         <ng-container *ngIf="!isOtpScreen">
           <h3 class="mb-4">Login</h3>
           <div class="input-group mb-3">
-            <input type="email" class="form-control" placeholder="Email" [(ngModel)]="email" />
+            <input type="email" class="form-control" placeholder='Email' [(ngModel)]="email" />
           </div>
           <div class="input-group mb-4">
-            <input type="password" class="form-control" placeholder="Password" [(ngModel)]="password" />
+            <input type="password" class="form-control" placeholder='Password' [(ngModel)]="password" />
           </div>
           <button (click)="onNext()" class="btn btn-primary mb-4">Next</button>
           <p class="mb-2 text-muted">
@@ -72,15 +72,15 @@
         <!-- IF OTP SCREEN IS TRUE -->
         <ng-container *ngIf="isOtpScreen">
           <div class="input-group mb-3">
-            <input type="text" class="form-control" placeholder="Enter OTP" [(ngModel)]="otp" />
+            <input type="text" class="form-control" placeholder='Enter OTP' [(ngModel)]="otp" />
           </div>
-          
+
           <!-- <button *ngIf="showResend" (click)="onResendOtp()" class="btn btn-warning mb-2">Resend OTP</button> -->
           <!-- <a *ngIf="showResend" (click)="onResendOtp()" class="resend-link">Resend OTP</a> -->
           <button (click)="OnLogin()" class="btn btn-success mb-2">Login</button>
           <button (click)="onCancel()" class="btn btn-secondary">Cancel</button>
           <div class="text-center mb-3">
-            <p *ngIf="!showResend" class="mb-0">Time Remaining: {{ timerDisplay }}</p>
+            <p *ngIf="!showResend" class="mb-0">'Time Remaining': {{ timerDisplay }}</p>
             <a *ngIf="showResend" (click)="onResendOtp()" class="resend-link">Resend OTP</a>
           </div>
         </ng-container>

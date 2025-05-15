@@ -1,12 +1,12 @@
-/* eslint-disable no-debugger */
+/* eslint-disable no- */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators, ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
-import * as CryptoJS from 'crypto-js';
-//import CryptoJS = require('crypto-js');
+import { EncryptionService } from 'src/app/services/encryption.service';
+
 
 @Component({
   selector: 'app-signup',
@@ -18,7 +18,7 @@ import * as CryptoJS from 'crypto-js';
     FormsModule,
     CommonModule,
     RouterModule,
-    HttpClientModule,
+    HttpClientModule
   ],
 })
 export class SignupComponent implements OnInit {
@@ -26,7 +26,7 @@ export class SignupComponent implements OnInit {
   showPassword = false;
   showConfirmPassword = false;
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private encryptionService: EncryptionService) { }
 
   ngOnInit(): void {
     this.createFormGroup();
@@ -104,16 +104,15 @@ export class SignupComponent implements OnInit {
   signup() {
     if (this.signupForm.valid) {
 
-      debugger;
-      const key = CryptoJS.enc.Utf8.parse('12345678901234567890123456789012');
-      const iv = CryptoJS.enc.Utf8.parse('1234567890123456');
+
+
 
       const password = this.signupForm.get('Password')?.value;
       const confirmPassword = this.signupForm.get('ConfirmPassword')?.value;
 
 
-      const encryptedPassword = CryptoJS.AES.encrypt(password, key, { iv }).toString();
-      const encryptedConfirmPassword = CryptoJS.AES.encrypt(confirmPassword, key, { iv }).toString();
+      const encryptedPassword = this.encryptionService.getEncryptedData(password);
+      const encryptedConfirmPassword = this.encryptionService.getEncryptedData(confirmPassword);
 
       const encryptedData = {
         ...this.signupForm.value,
@@ -125,7 +124,7 @@ export class SignupComponent implements OnInit {
       console.log('Encrypted Form Data:', this.signupForm.value);
 
       // Send POST request with encrypted password
-      this.http.post('https://localhost:7272/api/TblPatient/Add',encryptedData).subscribe({
+      this.http.post('https://localhost:7272/api/TblPatient/Add', encryptedData).subscribe({
         next: (response) => {
           this.signupForm.reset();
           alert('Signup successful!');

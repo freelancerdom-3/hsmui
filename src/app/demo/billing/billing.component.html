@@ -1,21 +1,18 @@
 <div class="row" *ngIf="billings">
-    @if(isShowList){
-    <div class="col-xl-12">
-        <!-- <div class="d-flex justify-content-end mb-3 position-relative">
+  @if(isShowList){
+  <div class="col-xl-12">
+    <!-- <div class="d-flex justify-content-end mb-3 position-relative">
             <button type="button" (click)="isShowList=false;" class="btn btn-primary">Add bill</button>
         </div> -->
-        <app-card cardTitle="Striped Table" [options]="false" blockClass="table-border-style">
-          <div class="table-responsive">
-            <table class="table table-striped">
-          <app-datatable
-          [tableHeaders]="tableHeaders"
-          [tableData]="paginatedList"
-          [actionButtons]="['download']"
-          (actionClicked)="onTableAction($event)">
+    <app-card cardTitle="Striped Table" [options]="false" blockClass="table-border-style">
+      <div class="table-responsive">
+        <table class="table table-striped">
+          <app-datatable [tableHeaders]="tableHeaders" [tableData]="paginatedList"
+            [actionButtons]="['download', 'email']" (actionClicked)="onTableAction($event)">
           </app-datatable>
-            </table>
-          </div>
-            <!-- <div class="table-responsive">
+        </table>
+      </div>
+      <!-- <div class="table-responsive">
                 <table class="table table-striped">
                     <thead>
                         <tr>
@@ -53,85 +50,84 @@
                     </tbody>
                 </table>
             </div> -->
-            <nav aria-label="Page navigation">
-              <ul class="pagination justify-content-end">
-                  <li class="page-item" [class.disabled]="currentPage === 1">
-                      <a class="page-link" href="javascript:void(0)" (click)="nextpage(currentPage - 1)">Previous</a>
-                  </li>
+      <nav aria-label="Page navigation">
+        <ul class="pagination justify-content-end">
+          <li class="page-item" [class.disabled]="currentPage === 1">
+            <a class="page-link" href="javascript:void(0)" (click)="nextpage(currentPage - 1)">{{'Previous' |
+              translate}}</a>
+          </li>
 
-                <li class="page-item" *ngFor="let page of pageNumbers">
-                    <a class="page-link" href="javascript:void(0)" (click)="nextpage(page)" [class.active]="currentPage === page">{{ page }}</a>
-                </li>
+          <li class="page-item" *ngFor="let page of pageNumbers">
+            <a class="page-link" href="javascript:void(0)" (click)="nextpage(page)"
+              [class.active]="currentPage === page">{{ page }}</a>
+          </li>
 
-                <li class="page-item" [class.disabled]="currentPage === totalPages">
-                    <a class="page-link" href="javascript:void(0)" (click)="nextpage(currentPage + 1)">Next</a>
-                </li>
-            </ul>
-        </nav>
-      </app-card>
+          <li class="page-item" [class.disabled]="currentPage === totalPages">
+            <a class="page-link" href="javascript:void(0)" (click)="nextpage(currentPage + 1)">{{'Next' |
+              translate}}</a>
+          </li>
+        </ul>
+      </nav>
+    </app-card>
   </div>
   } @if(!isShowList){
-    <div class="col-sm-12">
-      <app-card cardTitle="Basic Component" [options]="false">
-        <h5>Form</h5>
-        <hr />
-        <div class="row">
-          <div class="col-md-6">
-            <form [formGroup]="billingfmGroup" action="javascript:">
+  <div class="col-sm-12">
+    <app-card cardTitle="Basic Component" [options]="false">
+      <h5>{{'Form' | translate}}</h5>
+      <hr />
+      <div class="row">
+        <div class="col-md-6">
+          <form [formGroup]="billingfmGroup" action="javascript:">
 
             <!-- Auto-selected Treatment ID (readonly) -->
-<div class="form-group mb-3">
-<!-- <label for="treatmentid">Treatment Id</label>
+            <div class="form-group mb-3">
+              <!-- <label for="treatmentid">Treatment Id</label>
 <input
   type="text"
   class="form-control" formControlName="treatmentDetailsId" /> -->
-<!-- </div>
+              <!-- </div>
 <div> -->
-  <label for="treatmentDetailsId">Treatmentdetails</label>
-  <select id="treatmentDetailsId" formControlName="treatmentDetailsId" class="form-control">
-    <option value="" disabled>Select TreatmentdetailsId</option>
-    <option *ngFor="let medicine of treatmentdetailsidwithnamelist" [value]="medicine.id">{{medicine.name}}</option>
-  </select>
-</div>
+              <label for="treatmentDetailsId">{{'Treatmentdetails' | translate}}</label>
+              <select id="treatmentDetailsId" formControlName="treatmentDetailsId" class="form-control">
+                <option value="" disabled>{{'SelectTreatmentdetailsId' | translate}}</option>
+                <option *ngFor="let medicine of treatmentdetailsidwithnamelist" [value]="medicine.id">{{medicine.name}}
+                </option>
+              </select>
+            </div>
 
-             <!-- Total Amount -->
-             <input
-type="number"
-class="form-control"
-formControlName="totalAmount"
-placeholder="Enter amount"
-step="0.01"
-(input)="limitTotalAmount($event)"
-/>
+            <!-- Total Amount -->
+            <input type="number" class="form-control" formControlName="totalAmount" placeholder="Enter amount"
+              step="0.01" (input)="limitTotalAmount($event)" />
 
 
 
 
-              <!-- Payment Method Dropdown -->
-              <div class="form-group mb-3">
-                <label for="paymentMethod">Select Payment Method</label>
-                <select class="form-control" formControlName="paymentMethod">
-                  <option value="">Select Payment Method</option>
-                  <option value="Cash">Cash</option>
-                  <option value="Card">Card</option>
-                  <option value="UPI">UPI</option>
-                </select>
-              </div>
+            <!-- Payment Method Dropdown -->
+            <div class="form-group mb-3">
+              <label for="paymentMethod">{{'SelectPaymentMethod' | translate}}</label>
+              <select class="form-control" formControlName="paymentMethod">
+                <option value="">{{'SelectPaymentMethod' | translate}}</option>
+                <option value="Cash">{{'Cash' | translate}}</option>
+                <option value="Card">{{'Card' | translate}}</option>
+                <option value="UPI">{{'UPI' | translate}}</option>
+              </select>
+            </div>
 
 
 
-              <div class="text-center mt-4">
-                <button *ngIf="!selectedbillingId" type="button" class="btn btn-primary" (click)="addbilling()">Add</button>
+            <div class="text-center mt-4">
+              <button *ngIf="!selectedbillingId" type="button" class="btn btn-primary" (click)="addbilling()">{{'Add' |
+                translate}}</button>
 
-                 <!-- <button *ngIf="!selectedbillingId" type="button" class="btn btn-primary" [disabled]="billingfmGroup.invalid" (click)="addbilling()">Add</button> -->
-              </div>
+              <!-- <button *ngIf="!selectedbillingId" type="button" class="btn btn-primary" [disabled]="billingfmGroup.invalid" (click)="addbilling()">Add</button> -->
+            </div>
 
 
 
-            </form>
-          </div>
+          </form>
         </div>
-      </app-card>
-    </div>
+      </div>
+    </app-card>
+  </div>
 
   }

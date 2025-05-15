@@ -1,81 +1,87 @@
 <div class="row" *ngIf="hospitallist">
 
-    <!-- Check if we are in the list view and user has permission to view -->
+  <!-- Check if we are in the list view and user has permission to view -->
 
-    <div class="col-xl-12" *ngIf="isShowList">
-      <div class="d-flex justify-content-end mb-3 position-relative">
+  <div class="col-xl-12" *ngIf="isShowList">
+    <div class="d-flex justify-content-end mb-3 position-relative">
 
-        <!-- Add Hospital Button: Only show if user has permission to add -->
+      <!-- Add Hospital Button: Only show if user has permission to add -->
 
-        <button *ngIf="permission.isAdd" (click)="isShowList=false;" class="btn btn-primary add-master-button">
-          ADD
-        </button>
+      <button *ngIf="permission.isAdd" (click)="isShowList=false;" class="btn btn-primary add-master-button">
+        {{'ADD' | translate}}
+      </button>
+    </div>
+
+    <app-card cardTitle="Striped Table" [options]="false" blockClass="table-border-style">
+      <div class="table-responsive">
+        <table class="table table-striped">
+          <app-datatable [tableHeaders]="tableHeaders" [tableData]="paginatedList" [actionButtons]="actionButtons"
+            (actionClicked)="onTableAction($event)">
+          </app-datatable>
+        </table>
       </div>
-  
-      <app-card cardTitle="Striped Table" [options]="false" blockClass="table-border-style">
-        <div class="table-responsive">
-          <table class="table table-striped">
-            <app-datatable
-              [tableHeaders]="tableHeaders"
-              [tableData]="paginatedList"
-              [actionButtons]="actionButtons"
-              (actionClicked)="onTableAction($event)">
-            </app-datatable>
-          </table>
-        </div>
-        
-        <nav aria-label="Page navigation">
-          <ul class="pagination justify-content-end">
-            <li class="page-item" [class.disabled]="currentPage === 1">
-              <a class="page-link" href="javascript:void(0)" (click)="nextpage(currentPage - 1)">Previous</a>
-            </li>
-  
-            <li class="page-item" *ngFor="let page of pageNumbers">
-              <a class="page-link" href="javascript:void(0)" (click)="nextpage(page)" [class.active]="currentPage === page">{{ page }}</a>
-            </li>
-  
-            <li class="page-item" [class.disabled]="currentPage === totalPages">
-              <a class="page-link" href="javascript:void(0)" (click)="nextpage(currentPage + 1)">Next</a>
-            </li>
-          </ul>
-        </nav>
-      </app-card>
-    </div>
-  
-    <!-- Hospital Form Section: Show form when isShowList is false -->
+      <app-pop-up *ngIf="showPopup" [message]="'Areyousureyouwanttodeletethis' | translate" [show]="showPopup"
+        (confirmDelete)="confirmDelete()" (cancelDelete)="cancelDelete()">
+      </app-pop-up>
+      <nav aria-label="Page navigation">
+        <ul class="pagination justify-content-end">
+          <li class="page-item" [class.disabled]="currentPage === 1">
+            <a class="page-link" href="javascript:void(0)" (click)="nextpage(currentPage - 1)">{{'Previous' |
+              translate}}</a>
+          </li>
 
-    <div class="col-sm-12" *ngIf="!isShowList">
-      <app-card cardTitle="Basic Component" [options]="false">
-        <h5>Form controls</h5>
-        <hr />
-        <div class="row">
-          <div class="col-md-6">
-            <form [formGroup]="hospitalTypefmGroup">
-  
-              <div class="form-group">
-                <label for="hospitalType">Hospital Type</label>
-                <input type="text" formControlName="HospitalType" class="form-control" placeholder="Enter Hospital Type" required />
-                <span *ngIf="checkRequired('HospitalType')" class="error-span">This Field Is Required</span><br>
-                <span *ngIf="checkminlength('HospitalType')" class="error-span">Minimum 3 characters required</span>
-              </div>
-  
-              <div class="mt-3">
-                <!-- Submit Button: Only show if user has permission to add -->
+          <li class="page-item" *ngFor="let page of pageNumbers">
+            <a class="page-link" href="javascript:void(0)" (click)="nextpage(page)"
+              [class.active]="currentPage === page">{{ page }}</a>
+          </li>
 
-                <button *ngIf="canAdd && !selectedHospitalId" type="button" class="btn btn-primary" [disabled]="hospitalTypefmGroup.invalid" (click)="addHospital()">Submit</button>
-                
-                <!-- Update Button: Only show if user has permission to edit -->
-                 
-                <button *ngIf="selectedHospitalId" type="button" class="btn btn-primary" [disabled]="hospitalTypefmGroup.invalid" (click)="updateHospital()">Update</button>
-
-                
-              </div>
-  
-            </form>
-          </div>
-        </div>
-      </app-card>
-    </div>
-  
+          <li class="page-item" [class.disabled]="currentPage === totalPages">
+            <a class="page-link" href="javascript:void(0)" (click)="nextpage(currentPage + 1)">{{'Next' |
+              translate}}</a>
+          </li>
+        </ul>
+      </nav>
+    </app-card>
   </div>
-  
+
+  <!-- Hospital Form Section: Show form when isShowList is false -->
+
+  <div class="col-sm-12" *ngIf="!isShowList">
+    <app-card cardTitle="Basic Component" [options]="false">
+      <h5>{{'Formcontrols' | translate}}</h5>
+      <hr />
+      <div class="row">
+        <div class="col-md-6">
+          <form [formGroup]="hospitalTypefmGroup">
+
+            <div class="form-group">
+              <label for="hospitalType">{{'HospitalType' | translate}}</label>
+              <input type="text" formControlName="HospitalType" class="form-control"
+                [attr.placeholder]='"EnterHospitalType" | translate' required />
+              <span *ngIf="checkRequired('HospitalType')" class="error-span">{{'ThisFieldIsRequired' |
+                translate}}</span><br>
+              <span *ngIf="checkminlength('HospitalType')" class="error-span">{{'Minimum3charactersarerequired' |
+                translate}}</span>
+            </div>
+
+            <div class="mt-3">
+              <!-- Submit Button: Only show if user has permission to add -->
+
+              <button *ngIf="!selectedHospitalId" type="button" class="btn btn-primary"
+                [disabled]="hospitalTypefmGroup.invalid" (click)="addHospital()">{{'Submit' | translate}}</button>
+
+              <!-- Update Button: Only show if user has permission to edit -->
+
+              <button *ngIf="selectedHospitalId" type="button" class="btn btn-primary"
+                [disabled]="hospitalTypefmGroup.invalid" (click)="updateHospital()">{{'Update' | translate}}</button>
+
+
+            </div>
+
+          </form>
+        </div>
+      </div>
+    </app-card>
+  </div>
+
+</div>

@@ -144,6 +144,11 @@ const routes: Routes = [
        canActivate: [AuthGuard]
       },
       {
+        path: 'facility',
+       loadComponent : () => import('./demo/facility/facility.component').then((c) => c.facility),
+       canActivate: [AuthGuard]
+      },
+      {
         path: 'basic',
         loadChildren: () => import('./demo/ui-elements/ui-basic/ui-basic.module').then((m) => m.UiBasicModule),
         canActivate: [AuthGuard]
@@ -175,6 +180,12 @@ const routes: Routes = [
       {
         path: 'MenuPermissionModel',
         loadComponent: () => import('./demo/MenuPermission/MenuPermission.component').then((c) => c.MenuPermission),
+        canActivate: [AuthGuard]
+
+      },
+      {
+        path: 'UserPermissoin',
+        loadComponent: () => import('./demo/user/user.component').then((c) =>c.userComponent ),
         canActivate: [AuthGuard]
 
       }

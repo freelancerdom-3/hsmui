@@ -4,31 +4,34 @@
     <div class="d-flex justify-content-end mb-3 position-relative">
       <!-- Add Shift Button -->
       <button *ngIf="permission.isAdd" (click)="isShowList = false;" class="btn btn-primary add-shift-button">
-        ADD 
+        {{'ADD' | translate}}
       </button>
-     
+
     </div>
     <app-card cardTitle="Striped Table" [options]="false" blockClass="table-border-style">
       <div class="table-responsive">
         <table class="table table-striped">
-          <app-datatable
-            [tableHeaders]="tableHeaders"
-            [tableData]="paginatedList"
-            [actionButtons]="actionButtons"
+          <app-datatable [tableHeaders]="tableHeaders" [tableData]="paginatedList" [actionButtons]="actionButtons"
             (actionClicked)="onTableAction($event)">
           </app-datatable>
         </table>
       </div>
+      <app-pop-up *ngIf="showPopup" [message]="'Areyousureyouwanttodeletethis' | translate" [show]="showPopup"
+        (confirmDelete)="confirmDelete()" (cancelDelete)="cancelDelete()">
+      </app-pop-up>
       <nav aria-label="Page navigation">
         <ul class="pagination justify-content-end">
           <li class="page-item" [class.disabled]="currentPage === 1">
-            <a class="page-link" href="javascript:void(0)" (click)="nextpage(currentPage - 1)">Previous</a>
+            <a class="page-link" href="javascript:void(0)" (click)="nextpage(currentPage - 1)">{{'Previous' |
+              translate}}</a>
           </li>
           <li class="page-item" *ngFor="let page of pageNumbers">
-            <a class="page-link" href="javascript:void(0)" (click)="nextpage(page)" [class.active]="currentPage === page">{{ page }}</a>
+            <a class="page-link" href="javascript:void(0)" (click)="nextpage(page)"
+              [class.active]="currentPage === page">{{ page }}</a>
           </li>
           <li class="page-item" [class.disabled]="currentPage === totalPages">
-            <a class="page-link" href="javascript:void(0)" (click)="nextpage(currentPage + 1)">Next</a>
+            <a class="page-link" href="javascript:void(0)" (click)="nextpage(currentPage + 1)">{{'Next' |
+              translate}}</a>
           </li>
         </ul>
       </nav>
@@ -38,46 +41,62 @@
   <!-- Form View (if isShowList is false) -->
   <div class="col-sm-12" *ngIf="!isShowList">
     <app-card cardTitle="Basic Component" [options]="false">
-      <h5>Form controls</h5>
+      <h5>{{'Formcontrols' | translate}}</h5>
       <hr />
       <div class="row">
         <div class="col-md-6">
           <form [formGroup]="shiftfmGroup" (ngSubmit)="submitForm()">
             <div class="form-group">
-              <label for="shiftname">Shift Name</label>
-              <input type="text" formControlName="Shiftname" name="shiftname" class="form-control" placeholder="Enter Shift" required pattern="^[A-Za-z ]+$" title="Only letters are allowed"
+              <label for="shiftname">{{'ShiftName' | translate}}</label>
+              <input type="text" formControlName="Shiftname" name="shiftname" class="form-control"
+                [attr.placeholder]="'EnterShift' | translate" required pattern="^[A-Za-z ]+$"
+                title="Only letters are allowed"
                 [ngClass]="{'is-invalid': shiftfmGroup.get('Shiftname').touched && (shiftfmGroup.get('Shiftname').invalid)}" />
               <div *ngIf="shiftfmGroup.get('Shiftname').touched">
-                <span *ngIf="shiftfmGroup.get('Shiftname').hasError('required')" class="error-span">This Field Is Required</span><br>
-                <span *ngIf="shiftfmGroup.get('Shiftname').hasError('pattern')" class="error-span">Only alphabets are allowed</span><br>
-                <span *ngIf="shiftfmGroup.get('Shiftname').hasError('minlength')" class="error-span">Minimum 3 characters required</span>
+                <span *ngIf="shiftfmGroup.get('Shiftname').hasError('required')"
+                  class="error-span">{{'ThisFieldIsRequired' | translate}}</span><br>
+                <span *ngIf="shiftfmGroup.get('Shiftname').hasError('pattern')"
+                  class="error-span">{{'OnlyAlphabetsareallowed' | translate}}</span><br>
+                <span *ngIf="shiftfmGroup.get('Shiftname').hasError('minlength')"
+                  class="error-span">{{'Minimum3charactersarerequired' | translate}}</span>
               </div>
             </div>
 
             <div class="form-group">
-              <label for="starttime">Start Time</label>
+              <label for="starttime">{{'StartTime' | translate}}</label>
               <input type="time" formControlName="StartTime" name="starttime" class="form-control" required />
               <div *ngIf="shiftfmGroup.get('StartTime').touched">
-                <span *ngIf="shiftfmGroup.get('StartTime').hasError('required')" class="error-span">This Field Is Required</span>
+                <span *ngIf="shiftfmGroup.get('StartTime').hasError('required')"
+                  class="error-span">{{'ThisFieldIsRequired' | translate}}</span>
               </div>
             </div>
 
             <div class="form-group">
-              <label for="endtime">End Time</label>
+              <label for="endtime">{{'EndTime' | translate}}</label>
               <input type="time" formControlName="EndTime" name="endtime" class="form-control" required />
               <div *ngIf="shiftfmGroup.get('EndTime').touched">
-                <span *ngIf="shiftfmGroup.get('EndTime').hasError('required')" class="error-span">This Field Is Required</span>
+                <span *ngIf="shiftfmGroup.get('EndTime').hasError('required')"
+                  class="error-span">{{'ThisFieldIsRequired' | translate}}</span>
               </div>
             </div>
 
             <div class="mt-3">
               <!-- Submit/Update Buttons based on permissions -->
-              <button *ngIf="canAdd && !selectedshiftId" type="submit" class="btn btn-primary" [disabled]="shiftfmGroup.invalid">Submit</button>
-              <button *ngIf="permission.isedit && selectedshiftId" type="submit" class="btn btn-success" [disabled]="shiftfmGroup.invalid">Update</button>
+              <!-- <button *ngIf="canAdd && !selectedshiftId" type="submit" class="btn btn-primary"
+                [disabled]="shiftfmGroup.invalid">Submit</button>
+              <button *ngIf="permission.isedit && selectedshiftId" type="submit" class="btn btn-success"
+                [disabled]="shiftfmGroup.invalid">Update</button> -->
+              <button *ngIf="!selectedshiftId" type="button" class="btn btn-primary" [disabled]="shiftfmGroup.invalid"
+                (click)="addShifts()">Submit</button>
+              <button *ngIf="selectedshiftId" type="button" class="btn btn-success" [disabled]="shiftfmGroup.invalid"
+                (click)="updateshift()">Update</button>
 
               <!-- Message if no permission for submit/update -->
-              <span *ngIf="!selectedshiftId" class="no-permission-message">You don't have permission to add shifts</span>
-              <span *ngIf="selectedshiftId" class="no-permission-message">You don't have permission to edit this shift</span>
+              <!-- <span *ngIf="!selectedshiftId" class="no-permission-message">{{"You don't have permission to add shifts" |
+                translate}} -->
+              <!-- </span>
+              <span *ngIf="selectedshiftId" class="no-permission-message">{{"You don't have permission to edit this
+                shift" | translate}}</span> -->
             </div>
           </form>
         </div>

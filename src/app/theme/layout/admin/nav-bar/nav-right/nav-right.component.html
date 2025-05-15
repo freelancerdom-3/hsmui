@@ -1,5 +1,5 @@
 <ul class="navbar-nav">
-  <li>
+  <!-- <li>
     <div class="dropdown" style="display: none;" ngbDropdown placement="auto">
       <a ngbDropdownToggle href="javascript:" data-toggle="dropdown"><i class="icon feather icon-bell"></i></a>
       <div ngbDropdownMenu class="dropdown-menu dropdown-menu-end notification">
@@ -68,7 +68,27 @@
         </div>
       </div>
     </div>
-  </li>
+  </li> -->
+  <!-- <li class="nav-item w-100 d-flex justify-content-center">
+    <div ngbDropdown class="d-inline-block">
+      <button class="btn btn-outline-light" ngbDropdownToggle>
+        {{ selectedLang | translate }}
+      </button>
+      <div ngbDropdownMenu>
+        <button class="dropdown-item" *ngFor="let lang of languages" (click)="onLanguageChange(lang.code)">
+          {{ lang.label }}
+        </button>
+      </div>
+    </div>
+  </li>   -->
+
+  <!-- <li class="nav-item w-100 d-flex justify-content-center align-items-center">
+    <select (change)="changeLanguage($any($event.target).value)">
+      <option *ngFor="let lang of languages" [value]="lang.code">{{ lang.label }}</option>
+    </select>
+  </li> -->
+
+  
   <!-- <li>
     <div class="dropdown drp-user"  ngbDropdown placement="auto">
       <a href="javascript:" ngbDropdownToggle data-toggle="dropdown">
@@ -111,10 +131,14 @@
       </div>
     </div>
   </li> -->
-  <li class="nav-item" style="line-height: 45px; padding-right: 40px;">
+  
+
+  <!-- <li class="nav-item" style="line-height: 45px; padding-right: 40px;">
     <div class="d-flex align-items-center bg-primary text-black rounded px-3 py-2" style="gap: 10px;">
       <img src="assets/images/user/avatar-2.jpg" alt="User" class="rounded-circle" style="width: 35px; height: 35px;">
       <span class="fw-semibold">{{ userName }}</span>
+
+
     <a href="javascript:" (click)="openLogoutModal()" title="Logout" class="text-white d-flex align-items-center" style="cursor: pointer;">
         <i class="feather icon-log-out"></i>
     </a>
@@ -131,5 +155,63 @@
 </app-pop-up>
 
     </div>
+  </li> -->
+
+  <ul class="nav d-flex align-items-center gap-3">
+  <!-- Language Dropdown -->
+  <li class="nav-item">
+    <div class="language-dropdown">
+      <select 
+        class="form-select custom-language-select"
+        (change)="changeLanguage($any($event.target).value)" [(ngModel)]="selectedLang">
+        <option *ngFor="let lang of languages" [value]="lang.code" [selected]="lang.code === selectedLang">{{ lang.label }}</option>
+      </select>
+    </div>
   </li>
+
+  <!-- Logout/User Section -->
+  <li class="nav-item">
+    <div class="user-box d-flex align-items-center" style="gap: 10px;">
+      <img [src]="profileImage" alt="User" class="rounded-circle" style="width: 35px; height: 35px;">
+      <span class="fw-semibold">{{ userName }}</span>
+    <a href="javascript:" (click)="logout()" title="Logout" class="text-white d-flex align-items-center" style="cursor: pointer;">
+        <i class="feather icon-log-out"></i>
+    </a>
+    </div>
+    <div>
+      <label for="profileImage"></label>
+    </div>
+      <label for="profileInput" style="
+          position: absolute;
+          bottom: 2px;
+          right: 2px;
+          background: #ffffff;
+          border-radius: 50%;
+          padding: 4px;
+          cursor: pointer;
+        ">
+        <i class="bi bi-pencil-fill"></i> 
+      </label>
+    
+      <input
+        type="file"
+        id="profileInput"
+        (change)="onFileSelected($event)"
+        accept="image/*"
+        style="display: none;"
+      />   
+  </li>
+</ul>
+
+
+      <app-pop-up 
+        *ngIf="showLogoutPopup"
+        [title]="'Confirm Logout'"
+        [message]="'Are you sure you want to logout?'"
+        [ButtonText]="'Logout'"
+        [show]="showLogoutPopup"
+        (confirmDelete)="confirmLogout()"
+        (cancelDelete)="cancelLogout()">
+      </app-pop-up>
+    
 </ul>

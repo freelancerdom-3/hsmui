@@ -3,6 +3,11 @@
 // angular import
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { Chart, registerables, LinearScale, CategoryScale, BarController, BarElement, Tooltip, Legend } from 'chart.js';
+
+Chart.register(...registerables); // or manually register only the required ones:
+Chart.register(LinearScale, CategoryScale, BarController, BarElement, Tooltip, Legend);
+
 
 // project import
 import { SharedModule } from 'src/app/theme/shared/shared.module';
@@ -23,18 +28,26 @@ import dataJson from 'src/fake-data/map_data';
 import mapColor from 'src/fake-data/map-color-data.json';
 import { BaseService } from 'src/app/services/base.service';
 import { AppConstant } from 'src/app/demo/baseservice/baseservice.service';
-
+import { DatePipe } from '@angular/common';
+import { ToastrService } from 'ngx-toastr';
+import { Router, RouterModule } from '@angular/router';
+import { DatatableComponent } from 'src/app/Common/datatable/datatable.component';
+import * as jsPDF from 'jspdf';
 
 @Component({
   selector: 'app-dashboard',
-  imports: [CommonModule, SharedModule],
+  imports: [CommonModule, SharedModule, RouterModule, DatatableComponent],
+  providers: [DatePipe],
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.scss']
 })
 export class DashboardComponent implements OnInit {
-  constructor(private baseService: BaseService) {
+  tableData: any[] = [];
+  constructor(private baseService: BaseService, private datePipe: DatePipe, private router: Router, private toastr: ToastrService) {
 
   }
+  lstDaysAmount: any[] = [];
+  lstWeekAmount: any[] = [];
   URL = AppConstant.url;
   globalVarTotalPatientsVisitedToday: number = 100;
   globalVarTotalMedicineStock: number = 100;
@@ -42,11 +55,15 @@ export class DashboardComponent implements OnInit {
   sales: any[] = [];
   lstFeedback: any[] = [];
 
+  totalWeekAmount: number = 0;
   // life cycle event
   ngOnInit() {
 
     this.getAllDashboardCardDetails();
-    this. getGetFeedbackCardDetails();
+    this.getPatientTableDetails();
+    this.gettotaldays();
+    this.getTotalWeekAmount();
+    this.getGetFeedbackCardDetails();
     this.getallforcountlist();
 
     // this.baseService.GET("https://jsonplaceholder.typicode.com/todos/1").subscribe(response => {
@@ -90,6 +107,8 @@ export class DashboardComponent implements OnInit {
         }
       }
 
+
+
       const maxSquare = maxBulletSize * maxBulletSize * 2 * Math.PI;
       const minSquare = minBulletSize * minBulletSize * 2 * Math.PI;
 
@@ -117,162 +136,59 @@ export class DashboardComponent implements OnInit {
           value: value
         });
       }
+      const chartLabels = this.lstDaysAmount.map(x => x.day);
+      const chartData = this.lstDaysAmount.map(x => x.value);
 
-      //world-low chart
-      AmCharts.makeChart('world-low', {
-        type: 'map',
-        projection: 'eckert6',
-
-        dataProvider: {
-          map: 'worldLow',
-          images: images
+      new Chart('myBarChart', {
+        type: 'bar',
+        data: {
+          labels: chartLabels,
+          datasets: [{
+            label: 'Daily Earnings',
+            data: chartData,
+            backgroundColor: 'white',
+            borderColor: 'rgb(230, 234, 240)',
+            borderWidth: 1
+          }]
         },
-        export: {
-          enabled: true
+        options: {
+          animation: false,
+          responsive: true,
+          maintainAspectRatio: false, // Set this carefully based on your layout
+          scales: {
+            y: {
+              type: 'linear',
+              beginAtZero: true
+            }
+          }
         }
       });
 
-      const chartDatac = [
-        {
-          day: 'Mon',
-          value: 60
-        },
-        {
-          day: 'Tue',
-          value: 45
-        },
-        {
-          day: 'Wed',
-          value: 70
-        },
-        {
-          day: 'Thu',
-          value: 55
-        },
-        {
-          day: 'Fri',
-          value: 70
-        },
-        {
-          day: 'Sat',
-          value: 55
-        },
-        {
-          day: 'Sun',
-          value: 70
-        }
-      ];
-
-      // widget-line-chart
-      AmCharts.makeChart('widget-line-chart', {
-        type: 'serial',
-        addClassNames: true,
-        defs: {
-          filter: [
-            {
-              x: '-50%',
-              y: '-50%',
-              width: '200%',
-              height: '200%',
-              id: 'blur',
-              feGaussianBlur: {
-                in: 'SourceGraphic',
-                stdDeviation: '30'
-              }
-            },
-            {
-              id: 'shadow',
-              x: '-10%',
-              y: '-10%',
-              width: '120%',
-              height: '120%',
-              feOffset: {
-                result: 'offOut',
-                in: 'SourceAlpha',
-                dx: '0',
-                dy: '20'
-              },
-              feGaussianBlur: {
-                result: 'blurOut',
-                in: 'offOut',
-                stdDeviation: '10'
-              },
-              feColorMatrix: {
-                result: 'blurOut',
-                type: 'matrix',
-                values: '0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 .2 0'
-              },
-              feBlend: {
-                in: 'SourceGraphic',
-                in2: 'blurOut',
-                mode: 'normal'
-              }
-            }
-          ]
-        },
-        fontSize: 15,
-        dataProvider: chartDatac,
-        autoMarginOffset: 0,
-        marginRight: 0,
-        categoryField: 'day',
-        categoryAxis: {
-          color: '#fff',
-          gridAlpha: 0,
-          axisAlpha: 0,
-          lineAlpha: 0,
-          offset: -20,
-          inside: true
-        },
-        valueAxes: [
-          {
-            fontSize: 0,
-            inside: true,
-            gridAlpha: 0,
-            axisAlpha: 0,
-            lineAlpha: 0,
-            minimum: 0,
-            maximum: 100
-          }
-        ],
-        chartCursor: {
-          valueLineEnabled: false,
-          valueLineBalloonEnabled: false,
-          cursorAlpha: 0,
-          zoomable: false,
-          valueZoomable: false,
-          cursorColor: '#fff',
-          categoryBalloonColor: '#51b4e6',
-          valueLineAlpha: 0
-        },
-        graphs: [
-          {
-            id: 'g1',
-            type: 'line',
-            valueField: 'value',
-            lineColor: '#ffffff',
-            lineAlpha: 1,
-            lineThickness: 3,
-            fillAlphas: 0,
-            showBalloon: true,
-            balloon: {
-              drop: true,
-              adjustBorderColor: false,
-              color: '#222',
-              fillAlphas: 0.2,
-              bullet: 'round',
-              bulletBorderAlpha: 1,
-              bulletSize: 5,
-              hideBulletsCount: 50,
-              lineThickness: 2,
-              useLineColorForBulletBorder: true,
-              valueField: 'value',
-              balloonText: '<span style="font-size:18px;">[[value]]</span>'
-            }
-          }
-        ]
-      });
     }, 1000);
+
   }
+
+
+
+
+
+  gettotaldays() {
+    this.baseService.GET<any>(this.URL + "DashboardCardDetail/GetTotalEarningsByDate").subscribe(response => {
+      console.log("Days Amount", response);
+      this.lstDaysAmount = response.data;
+    });
+  }
+
+
+  getTotalWeekAmount() {
+    this.baseService.GET<any>(this.URL + "DashboardCardDetail/GetTotalEarningsWeek").subscribe(response => {
+      console.log("Total Week Amount", response);
+      this.lstWeekAmount = response.data;
+    })
+  }
+
+
+
 
 
   dashboardCarDetailsArray: any[] = [];
@@ -294,10 +210,40 @@ export class DashboardComponent implements OnInit {
       });
   }
 
+
+  getPatientTableDetails(): void {
+    this.baseService.GET<any>('https://localhost:7272/api/DashboardCardDetail/GetPatientTableDetails')
+      .subscribe({
+        next: (response: any) => {
+          console.log('API Response:', response);
+          if (Array.isArray(response.data)) {
+            this.tableData = response.data.map((item: any) => ({
+              treatmentDetailsId: item.treatmentDetailsId,
+              totalAmount: item.totalAmount,
+              paymentMethod: item.paymentMethod,
+              src: item.gender === 'F'
+                ? 'assets/images/user/avatar-1.jpg' : 'assets/images/user/avatar-2.jpg',
+              title: item.patientName,
+              text: item.docterName,
+              time: this.datePipe.transform(item.finalDate, 'dd-MM-yyyy'),
+              color: item.dateSource === 0
+                ? 'text-c-green' : 'text-c-red'
+            }));
+          } else {
+            console.error('Data is not an array:', response.data);
+          }
+        },
+        error: (err) => {
+          console.error('Error fetching patient table data:', err);
+        }
+      });
+  }
+
+
   updateSalesArrayData() {
     this.sales = [
       {
-        title: 'Patients paid vist today',
+        title: 'Patientspaidvisittoday',
         icon: 'icon-arrow-up text-c-green',
         amount: this.globalVarTotalPatientsVisitedToday,
         percentage: '67%',
@@ -306,7 +252,7 @@ export class DashboardComponent implements OnInit {
         progress_bg: 'progress-c-theme'
       },
       {
-        title: 'Medicine stock',
+        title: 'Medicinestock',
         icon: 'icon-arrow-down text-c-red',
         amount: this.globalVarTotalMedicineStock,
         percentage: '36%',
@@ -315,7 +261,7 @@ export class DashboardComponent implements OnInit {
         progress_bg: 'progress-c-theme2'
       },
       {
-        title: 'Total amount of bills generated today',
+        title: 'Totalamountofbillgeneratedtoday',
         icon: 'icon-arrow-up text-c-green',
         amount: this.globalVarTotalAmountOfBillGeneratedToday,
         percentage: '80%',
@@ -325,29 +271,17 @@ export class DashboardComponent implements OnInit {
       }
     ];
   }
-
-  // // for DoctorCount
-
-  // getallforcountlist() {
-  //   this.baseService.GET<any>(this.URL+"DashboardCardDetail/GetAllforcount").subscribe(response => {
-  //     this.countoftotaldoctorlist = response.data || [];
-  //   });
-
-  // }
-
   getallforcountlist() {
     this.baseService.GET<any>(this.URL + "DashboardCardDetail/GetAllforcount").subscribe(response => {
-      //this.card[0].number= response.data?.[0]?.countofdoctor;
-
-this.card[0].number=response.data?.[0]?.totalDoctorCount;
-this.card[1].number=response.data?.[1]?.totalDoctorCount;
+      this.card[0].number = response.data?.[0]?.totalDoctorCount;
+      this.card[1].number = response.data?.[1]?.totalDoctorCount;
     });
   }
 
   card = [
     {
       design: 'border-bottom',
-      number:1233333333333333,
+      number: 1233333333333333,
       text: 'Total Doctor',
       icon: 'icon-zap text-c-green'
 
@@ -355,7 +289,7 @@ this.card[1].number=response.data?.[1]?.totalDoctorCount;
     },
     {
       number: '26',
-      text: 'TOTAL LOCATIONS',
+      text: 'Available Doctor',
       icon: 'icon-map-pin text-c-blue'
     }
   ];
@@ -449,41 +383,78 @@ this.card[1].number=response.data?.[1]?.totalDoctorCount;
     }
   ];
 
-  tables = [
-    {
-      src: 'assets/images/user/avatar-1.jpg',
-      title: 'Isabella Christensen',
-      text: 'Requested account activation',
-      time: '11 MAY 12:56',
-      color: 'text-c-green'
-    },
-    {
-      src: 'assets/images/user/avatar-2.jpg',
-      title: 'Ida Jorgensen',
-      text: 'Pending document verification',
-      time: '11 MAY 10:35',
-      color: 'text-c-red'
-    },
-    {
-      src: 'assets/images/user/avatar-3.jpg',
-      title: 'Mathilda Andersen',
-      text: 'Completed profile setup',
-      time: '9 MAY 17:38',
-      color: 'text-c-green'
-    },
-    {
-      src: 'assets/images/user/avatar-1.jpg',
-      title: 'Karla Soreness',
-      text: 'Requires additional information',
-      time: '19 MAY 12:56',
-      color: 'text-c-red'
-    },
-    {
-      src: 'assets/images/user/avatar-2.jpg',
-      title: 'Albert Andersen',
-      text: 'Approved and verified account',
-      time: '21 July 12:56',
-      color: 'text-c-green'
+  // tables = [
+  //   {
+  //     src: 'assets/images/user/avatar-1.jpg',
+  //     title: 'Isabella Christensen',
+  //     text: 'Requested account activation',
+  //     time: '11 MAY 12:56',
+  //     color: 'text-c-green'
+  //   },
+  //   {
+  //     src: 'assets/images/user/avatar-2.jpg',
+  //     title: 'Ida Jorgensen',
+  //     text: 'Pending document verification',
+  //     time: '11 MAY 10:35',
+  //     color: 'text-c-red'
+  //   },
+  //   {
+  //     src: 'assets/images/user/avatar-3.jpg',
+  //     title: 'Mathilda Andersen',
+  //     text: 'Completed profile setup',
+  //     time: '9 MAY 17:38',
+  //     color: 'text-c-green'
+  //   },
+  //   {
+  //     src: 'assets/images/user/avatar-1.jpg',
+  //     title: 'Karla Soreness',
+  //     text: 'Requires additional information',
+  //     time: '19 MAY 12:56',
+  //     color: 'text-c-red'
+  //   },
+  //   {
+  //     src: 'assets/images/user/avatar-2.jpg',
+  //     title: 'Albert Andersen',
+  //     text: 'Approved and verified account',
+  //     time: '21 July 12:56',
+  //     color: 'text-c-green'
+  //   }
+  // ];
+
+
+  onTableAction(event: { action: string, row: any }) {
+    const actionHandlers: { [key: string]: () => void } = {
+      bill: () => this.router.navigate(['/billing', event.row.treatmentDetailsId]),
+      download: () => this.downloadRowAsPDF(event.row),
+    };
+
+    const actionKey = event.action.toLowerCase();
+
+    if (actionHandlers[actionKey]) {
+      actionHandlers[actionKey]();
+    } else {
+      this.toastr.warning('Unknown action', 'Warning');
     }
-  ];
+  }
+
+
+  downloadRowAsPDF(row: any) {
+    const doc = new jsPDF('p', 'pt', 'a4');
+
+    const data = [
+      `Full Name: ${row.title || 'N/A'}`,
+      `Total Amount: ${row.totalAmount || 'N/A'}`,
+      `Payment Method: ${row.paymentMethod || 'N/A'}`,
+      `Bill Date: ${row.time || 'N/A'}`
+    ];
+
+    let y = 40;
+    doc.setFontSize(12);
+    data.forEach(line => {
+      doc.text(line, 40, y);
+      y += 20;
+    });
+
+    doc.save(`${row.patientName || 'Bill'}.pdf`);
+  }
 }

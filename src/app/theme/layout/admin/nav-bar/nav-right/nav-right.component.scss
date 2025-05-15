@@ -1,0 +1,52 @@
+.language-dropdown {
+  background-color: #0cc7e3;
+  padding: 4px 12px;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  transition: box-shadow 0.3s ease;
+  display: inline-block;
+}
+
+.language-dropdown:hover {
+  box-shadow: 0 6px 16px rgba(40, 38, 40, 0.87);
+}
+
+.custom-language-select {
+  border: none;
+  background-color: transparent;
+  font-weight: 600;
+  font-size: 0.95rem;
+  color: #0a0a0a;
+  cursor: pointer;
+  box-shadow: none;
+  outline: none;
+}
+
+.custom-language-select:focus {
+  box-shadow: none;
+  outline: none;
+}
+
+.user-box {
+  background: linear-gradient(135deg, #0cc7e3, #0cc7e3); /* Same gradient as dropdown */
+  padding: 6px 16px;
+  border-radius: 16px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  color: #000;
+  transition: box-shadow 0.3s ease;
+}
+
+.user-box:hover {
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.15);
+}
+
+.logout-icon {
+  color: #000;
+  padding-left: 5px;
+  cursor: pointer;
+  transition: color 0.2s ease;
+}
+
+.logout-icon:hover {
+  color: #333;
+}

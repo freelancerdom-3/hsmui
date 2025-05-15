@@ -12,10 +12,12 @@ import { NgbCollapseModule } from '@ng-bootstrap/ng-bootstrap';
 
 // third party
 import { NgScrollbarModule } from 'ngx-scrollbar';
+import { TranslatePipe } from 'src/app/translate.pipe';
+import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
   declarations: [],
-  imports: [CommonModule, FormsModule, ReactiveFormsModule, CardComponent, NgbModule, NgScrollbarModule, NgbCollapseModule],
-  exports: [CommonModule, FormsModule, ReactiveFormsModule, CardComponent, NgbModule, NgScrollbarModule, NgbCollapseModule]
+  imports: [CommonModule, FormsModule, ReactiveFormsModule, CardComponent, NgbModule, NgScrollbarModule, NgbCollapseModule,TranslatePipe,NgbDropdownModule],
+  exports: [CommonModule, FormsModule, ReactiveFormsModule, CardComponent, NgbModule, NgScrollbarModule, NgbCollapseModule,TranslatePipe,NgbDropdownModule]
 })
 export class SharedModule {}

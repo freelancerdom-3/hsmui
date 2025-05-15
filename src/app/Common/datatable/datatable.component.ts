@@ -1,11 +1,12 @@
 import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, input, Input, Output, SimpleChanges } from '@angular/core';
 import { CardComponent } from 'src/app/theme/shared/components/card/card.component';
+import { SharedModule } from 'src/app/theme/shared/shared.module';
 
 @Component({
   selector: 'app-datatable',
   standalone: true,
-  imports: [CommonModule,CardComponent],
+  imports: [CommonModule, CardComponent, SharedModule],
   templateUrl: './datatable.component.html',
   styleUrl: './datatable.component.scss'
 })
@@ -18,6 +19,8 @@ export class DatatableComponent {
   //@Output() edit = new EventEmitter<any>();
   //@Output() delete = new EventEmitter<any>();
   @Output() actionClicked = new EventEmitter<{ action: string, row: any }>();
+  @Input() showOnlyButtons: boolean = false;
+
 
 
   displayedColumns: string[] = [];

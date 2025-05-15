@@ -1,0 +1,550 @@
+{
+  "label": [
+    {
+      "key": "Login",
+      "EK": "Login",
+      "GK": "લૉગિન",
+      "HK": "लॉगिन"
+    },
+    {
+      "key": "Email",
+      "EK": "Email",
+      "GK": "ઇમેઇલ",
+      "HK": "ईमेल"
+    },
+    {
+      "key": "Password",
+      "EK": "Password",
+      "GK": "પાસવર્ડ",
+      "HK": "पासवर्ड"
+    },
+    {
+      "key": "PleaseEnterEmailPassword",
+      "EK": "Please enter email and password.",
+      "GK": "કૃપા કરીને ઇમેલ અને પાસવર્ડ દાખલ કરો.",
+      "HK": "कृपया ईमेल और पासवर्ड दर्ज करें।"
+    },
+    {
+      "key": "Next",
+      "EK": "Next",
+      "GK": "આગળ.",
+      "HK": "अगला।"
+    },
+    {
+      "key": "ForgotPassword",
+      "EK": "Forgot password",
+      "GK": "પાસવર્ડ ભૂલી ગયા?",
+      "HK": "पासवर्ड भूल गए?"
+    },
+    {
+      "key": "Reset",
+      "EK": "Reset",
+      "GK": "રીસેટ કરો",
+      "HK": "रीसेट करें"
+    },
+    {
+      "key": "DontHaveAnAccount?",
+      "EK": "Dont have an account?",
+      "GK": "ખાતું નથી?",
+      "HK": "क्या आपके पास खाता नहीं है?"
+    },
+    {
+      "key": "SignUp",
+      "EK": "Sign Up",
+      "GK": "સાઇન અપ",
+      "HK": "साइन अप करें"
+    },
+    {
+      "key": "AlreadyHaveAnAccount?",
+      "EK": "Already have an account?",
+      "GK": "પહેલેથી ખાતું છે?",
+      "HK": "क्या आपके पास पहले से एक खाता मौजूद है?"
+    },
+    {
+      "key": "EnterOtp",
+      "EK": "Enter OTP",
+      "GK": "ઓટીપી દાખલ કરો",
+      "HK": "ओटीपी दर्ज करें"
+    },
+    {
+      "key": "Cancel",
+      "EK": "Cancel",
+      "GK": "રદ કરો",
+      "HK": "रद्द करें"
+    },
+    {
+      "key": "TimeRemaining",
+      "EK": "Time Remaining",
+      "GK": "બાકીનો સમય",
+      "HK": "समय बचा है"
+    },
+    {
+      "key": "ResendOtp",
+      "EK": "Resend OTP",
+      "GK": "ઓટીપી ફરી મોકલો",
+      "HK": "ओटीपी फिर से भेजें"
+    },
+    {
+      "key": "Dashboard",
+      "EK": "Dashboard",
+      "GK": "ડેશબોર્ડ",
+      "HK": "डैशबोर्ड"
+    },
+    {
+      "key": "Navigation",
+      "EK": "Navigation",
+      "GK": "માર્ગદર્શન",
+      "HK": "मार्गदर्शन"
+    },
+    {
+      "key": "MenuPermission",
+      "EK": "Menu Permission",
+      "GK": "મેનુ પરવાનગી",
+      "HK": "मेनू अनुमति"
+    },
+    {
+      "key": "Menu Permission",
+      "EK": "Menu Permission",
+      "GK": "મેનુ પરવાનગી",
+      "HK": "मेनू अनुमति"
+    },
+    {
+      "key": "SubmitAll",
+      "EK": "Submit All",
+      "GK": "બધું સબમિટ કરો",
+      "HK": "सभी को प्रस्तुत करें"
+    },
+    {
+      "key": "ShiftType",
+      "EK": "Shift Type",
+      "GK": "શિફ્ટ પ્રકાર",
+      "HK": "शिफ्ट प्रकार"
+    },
+    {
+      "key": "ADD",
+      "EK": "ADD",
+      "GK": "ઉમેરો",
+      "HK": "इसे जोड़ें"
+    },
+    {
+      "key": "Master",
+      "EK": "Master",
+      "GK": "માસ્ટર",
+      "HK": "मास्टर"
+    },
+    {
+      "key": "Previous",
+      "EK": "Previous",
+      "GK": "પાછલું",
+      "HK": "पहले का"
+    },
+    {
+      "key": "Next",
+      "EK": "Next",
+      "GK": "આગળ",
+      "HK": "अगला"
+    },
+    {
+      "key": "HospitalType",
+      "EK": "Hospital Type",
+      "GK": "હોસ્પિટલનો પ્રકાર",
+      "HK": "अस्पताल का प्रकार"
+    },
+    {
+      "key": "MedicineType",
+      "EK": "Medicine Type",
+      "GK": "દવાનો પ્રકાર",
+      "HK": "दवा का प्रकार"
+    },
+    {
+      "key": "HospitalDepartment",
+      "EK": "Hospital Department",
+      "GK": "હોસ્પિટલ વિભાગ",
+      "HK": "अस्पताल विभाग"
+    },
+    {
+      "key": "RoomType",
+      "EK": "Room Type",
+      "GK": "રૂમનો પ્રકાર",
+      "HK": "कमरे के प्रकार"
+    },
+    {
+      "key": "Room",
+      "EK": "Room",
+      "GK": "રૂમ",
+      "HK": "कमरा"
+    },
+    {
+      "key": "Roles",
+      "EK": "Roles",
+      "GK": "ભૂમિકાઓ",
+      "HK": "भूमिकाएँ"
+    },
+    {
+      "key": "FacilityType",
+      "EK": "Facility Type",
+      "GK": "સુવિધાનો પ્રકાર",
+      "HK": "सुविधा का प्रकार"
+    },
+    {
+      "key": "DiseaseType",
+      "EK": "Disease Type",
+      "GK": "રોગનો પ્રકાર",
+      "HK": "रोग का प्रकार"
+    },
+    {
+      "key": "Facility",
+      "EK": "Facility",
+      "GK": "સુવિધા",
+      "HK": "सुविधा"
+    },
+    {
+      "key": "PatientData",
+      "EK": "Patient Data",
+      "GK": "દર્દીનો ડેટા",
+      "HK": "रोगी डेटा"
+    },
+    {
+      "key": "Data",
+      "EK": "Data",
+      "GK": "ડેટા",
+      "HK": "डेटा"
+    },
+    {
+      "key": "EmployeeShiftMapping",
+      "EK": "Employee Shift Mapping",
+      "GK": "કર્મચારી શિફ્ટ મેપિંગ",
+      "HK": "कर्मचारी शिफ्ट मैपिंग"
+    },
+    {
+      "key": "EmployeeDepartment",
+      "EK": "Employee Department",
+      "GK": "કર્મચારી વિભાગ",
+      "HK": "कर्मचारी विभाग"
+    },
+    {
+      "key": "PatientDoctorMapping",
+      "EK": "Patient Doctor Mapping",
+      "GK": "દર્દી ડોક્ટર મેપિંગ",
+      "HK": "मरीज़ डॉक्टर मैपिंग"
+    },
+    {
+      "key": "MedicineDetails",
+      "EK": "Medicine Details",
+      "GK": "દવાની વિગતો",
+      "HK": "दवा विवरण"
+    },
+    {
+      "key": "RoomtypeFacility",
+      "EK": "Roomtype Facility",
+      "GK": "રૂમ પ્રકારની સુવિધા",
+      "HK": "सुविकमरे का प्रकार सुविधाधा"
+    },
+    {
+      "key": "PatientAdmitionDetails",
+      "EK": "Patient Admition Details",
+      "GK": "દર્દી પ્રવેશ વિગતો",
+      "HK": "मरीज़ भर्ती विवरण"
+    },
+    {
+      "key": "TreatmentDetails",
+      "EK": "Treatment Details",
+      "GK": "સારવારની વિગતો",
+      "HK": "उपचार विवरण"
+    },
+    {
+      "key": "MedicineDieseaseMapping",
+      "EK": "Medicine Diesease Mapping",
+      "GK": "મેડિસિન ડીસીઝ મેપિંગ",
+      "HK": "चिकित्सा रोग मानचित्रण"
+    },
+    {
+      "key": "Billing",
+      "EK": "Billing",
+      "GK": "રસીદ",
+      "HK": "रसीद"
+    },
+    {
+      "key": "Feedback",
+      "EK": "Feedback",
+      "GK": "પ્રતિસાદ",
+      "HK": "प्रतिक्रिया"
+    },
+    {
+      "key": "You don't have permission to add shifts",
+      "EK": "You don't have permission to add shifts",
+      "GK": "તમને શિફ્ટ ઉમેરવાની પરવાનગી નથી.",
+      "HK": "आपको शिफ्ट जोड़ने की अनुमति नहीं है"
+    },
+    {
+      "key": "ShiftName",
+      "EK": "Shift Name",
+      "GK": "શિફ્ટ નામ",
+      "HK": "शिफ्ट का नाम"
+    },
+    {
+      "key": "StartTime",
+      "EK": "Start Time",
+      "GK": "પ્રારંભ સમય",
+      "HK": "प्रारंभ का समय"
+    },
+    {
+      "key": "EndTime",
+      "EK": "End Time",
+      "GK": "સમાપ્તિ સમય",
+      "HK": "अंत समय"
+    },
+    {
+      "key": "EnterShift",
+      "EK": "Enter Shift",
+      "GK": "શિફ્ટ દાખલ કરો",
+      "HK": "शिफ्ट दर्ज करें"
+    },
+    {
+      "key": "Formcontrols",
+      "EK": "Form controls",
+      "GK": "ફોર્મ નિયંત્રણો",
+      "HK": "प्रपत्र नियंत्रण"
+    },
+    {
+      "key": "CreatedBy",
+      "EK": "Created By",
+      "GK": "દ્વારા બનાવવામાં આવેલ",
+      "HK": "के द्वारा बनाई गई"
+    },
+    {
+      "key": "CreatedOn",
+      "EK": "Created On",
+      "GK": "ના રોજ બનાવ્યું",
+      "HK": "पर बनाया"
+    },
+    {
+      "key": "UpdatedBy",
+      "EK": "Updated By",
+      "GK": "દ્વારા અપડેટ કરાયેલ",
+      "HK": "द्वारा अद्यतन किया गया"
+    },
+    {
+      "key": "UpdatedOn",
+      "EK": "Updated On",
+      "GK": "પર અપડેટ કર્યું",
+      "HK": "को अपडेट"
+    },
+    {
+      "key": "IsActive",
+      "EK": "Is Active",
+      "GK": "સક્રિય છે",
+      "HK": "सक्रिय है"
+    },
+    {
+      "key": "Actions",
+      "EK": "Actions",
+      "GK": "ક્રિયાઓ",
+      "HK": "कार्रवाई"
+    },
+    {
+      "key": "ThisFieldIsRequired",
+      "EK": "This Field Is Required",
+      "GK": "આ ક્ષેત્ર જરૂરી છે",
+      "HK": "यह फ़ील्ड आवश्यक है"
+    },
+    {
+      "key": "OnlyAlphabetsareallowed",
+      "EK": "Olny Alphabets are allowed",
+      "GK": "માત્ર મૂળાક્ષરોની મંજૂરી છે",
+      "HK": "केवल अक्षर अनुमत हैं"
+    },
+    {
+      "key": "Minimum3charactersarerequired",
+      "EK": "Minimum 3 characters are required",
+      "GK": "ઓછામાં ઓછા 3 અક્ષરો જરૂરી છે",
+      "HK": "न्यूनतम 3 अक्षर आवश्यक"
+    },
+    {
+      "key": "You don't have permission to edit this shift",
+      "EK": "You don't have permission to edit this shift",
+      "GK": "તમને આ શિફ્ટમાં ફેરફાર કરવાની પરવાનગી નથી.",
+      "HK": "आपको इस बदलाव को संपादित करने की अनुमति नहीं है"
+    },
+    {
+      "key": "EnterHospitalType",
+      "EK": "Enter Hospital Type",
+      "GK": "હોસ્પિટલનો પ્રકાર દાખલ કરો",
+      "HK": "अस्पताल का प्रकार दर्ज करें"
+    },
+    {
+      "key": "Areyousureyouwanttodeletethis",
+      "EK": "Are you sure you want to delete this",
+      "GK": "શું તમે ખરેખર આ કાઢી નાખવા માંગો છો?",
+      "HK": "क्या आप वाकई इसे हटाना चाहते हैं"
+    },
+    {
+      "key": "Update",
+      "EK": "Update",
+      "GK": "સુધારો",
+      "HK": "अद्यतन"
+    },
+    {
+      "key": "Maximum50charactersAllowed",
+      "EK": "Maximum 50 characters Allowed",
+      "GK": "મહત્તમ ૫૦ અક્ષરોની મંજૂરી છે.",
+      "HK": "अधिकतम 50 अक्षर अनुमत हैं"
+    },
+    {
+      "key": "Patientspaidvisittoday",
+      "EK": "Patients paid visit today",
+      "GK": "દરદીયો ની મુલકત.",
+      "HK": "आज मरीज आये"
+    },
+    {
+      "key": "Medicinestock",
+      "EK": "Medicine Stock",
+      "GK": "દવા ભંડાર.",
+      "HK": "औषधि भण्डार"
+    },
+    {
+      "key": "Totalamountofbillgeneratedtoday",
+      "EK": "Total amount of bill generated today",
+      "GK": "આજે જનરેટ થયેલ બિલની કુલ રકમ",
+      "HK": "आज जनरेट किए गए बिल की कुल राशि"
+    },
+    {
+      "key": "DepartmentName",
+      "EK": "Department Name",
+      "GK": "વિભાગનું નામ",
+      "HK": "विभाग का नाम"
+    },
+    {
+      "key": "Minimum3charactersrequired",
+      "EK": "Minimum 3 characters required",
+      "GK": "ઓછામાં ઓછા 3 અક્ષરો જરૂરી છે",
+      "HK": "न्यूनतम 3 अक्षर आवश्यक"
+    },
+    {
+      "key": "Maximum15charactersallowed",
+      "EK": "Maximum 15 characters allowed",
+      "GK": "મહત્તમ ૧૫ અક્ષરોની મંજૂરી છે",
+      "HK": "न्अधिकतम 15 अक्षर अनुमत हैं"
+    },
+    {
+      "key": "Submit",
+      "EK": "Submit",
+      "GK": "સબમિટ કરો",
+      "HK": "जमा करना"
+    },
+    {
+      "key": "EnterHospitaldepartment",
+      "EK": "Enter Hospital department",
+      "GK": "દવાખાના વિભાગ દર્જ કરો",
+      "HK": "अस्पताल विभाग दर्ज करें"
+    },
+    {
+      "key": "FacilityName",
+      "EK": "Facility Name",
+      "GK": "સુવિધાનું નામ",
+      "HK": "सुविधा का नाम"
+    },
+    {
+      "key": "SelectRoom",
+      "EK": "Select Room",
+      "GK": "રૂમ પસંદ કરો",
+      "HK": "कक्ष का चयन करें"
+    },
+    {
+      "key": "RoomNumber",
+      "EK": "Room Number",
+      "GK": "રૂમ નંબર",
+      "HK": "रूम नंबर"
+    },
+    {
+      "key": "RoomTypename",
+      "EK": "Room type name",
+      "GK": "રૂમના પ્રકારનું નામ",
+      "HK": "कमरे के प्रकार का नाम"
+    },
+    {
+      "key": "RoleName",
+      "EK": "Role Name",
+      "GK": "ભૂમિકાનું નામ",
+      "HK": "भूमिका का नाम"
+    },
+    {
+      "key": "SelectFacilityName",
+      "EK": "Select Facility Name",
+      "GK": "સુવિધાનું નામ પસંદ કરો",
+      "HK": "सुविधा का नाम चुनें"
+    },
+    {
+      "key": "Selectfacilitytype",
+      "EK": "Select facility type",
+      "GK": "સુવિધાનો પ્રકાર પસંદ કરો",
+      "HK": "सुविधा प्रकार का चयन करें"
+    },
+    {
+      "key": "DieseaseName",
+      "EK": "Disease Name",
+      "GK": "રોગનું નામ",
+      "HK": "रोग का नाम"
+    },
+    {
+      "key": "PatientID",
+      "EK": "Patient ID",
+      "GK": "દર્દી ID",
+      "HK": "मरीज आईडी"
+    },
+    {
+      "key": "FullName",
+      "EK": "Full Name",
+      "GK": "પૂરું નામ",
+      "HK": "पूरा नाम"
+    },
+    {
+      "key": "DateOfBirth",
+      "EK": "Date Of Birth",
+      "GK": "જન્મ તારીખ",
+      "HK": "जन्म तिथि"
+    },
+    {
+      "key": "Gender",
+      "EK": "Gender",
+      "GK": "જાતિ",
+      "HK": "जाती"
+    },
+    {
+      "key": "Address",
+      "EK": "Address",
+      "GK": "સરનામું",
+      "HK": "पता"
+    },
+    {
+      "key": "UserPermission",
+      "EK": "User Permission",
+      "GK": "ઉપયોગકાર્તા પરવાનગી",
+      "HK": "उपयोगकर्ता की अनुमति"
+    },
+    {
+      "key": "Total Earnings of this week",
+      "EK": "Total Earnings of this week",
+      "GK": "આ અઠવાડિયાની કુલ કમાણી",
+      "HK": "सप्ताह की कुल कमाई"
+    },
+    {
+      "key": "PatientFeedback",
+      "EK": "Patient Feedback",
+      "GK": "દર્દી પ્રતિભાવ",
+      "HK": "मरीज प्रतिक्रिया"
+    },
+    {
+      "key": "Bill",
+      "EK": "Bill",
+      "GK": "રસીદ",
+      "HK": "रसीद"
+    },
+    {
+      "key": "Download",
+      "EK": "Download",
+      "GK": "ડાઉનલોડ કરો",
+      "HK": "डाउनलोड करें"
+    }
+  ]
+}

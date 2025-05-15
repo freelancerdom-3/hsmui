@@ -90,7 +90,7 @@ export class medicinedetails implements OnInit{
   medicineDetailsIDDelete: number | null = null;
 
 
-  //constructor(private baseService: BaseService,private toastr: ToastrService, private router: Router) {}
+
 
 
   // life cycle event

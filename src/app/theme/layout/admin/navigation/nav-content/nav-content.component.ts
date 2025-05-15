@@ -1,8 +1,8 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-/* eslint-disable no-debugger */
+/* eslint-disable no- */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 // angular import
-import { Component, inject, output, OnInit, OnChanges, SimpleChange, SimpleChanges, Input} from '@angular/core';
+import { Component, inject, output, OnInit, OnChanges, SimpleChange, SimpleChanges, Input } from '@angular/core';
 import { Location } from '@angular/common';
 
 // project import
@@ -36,16 +36,16 @@ export class NavContentComponent implements OnInit, OnChanges {
   // constructor
 
   @Input() menuPermissions: any[] = [];
-@Input() navigations: NavigationItem[] = [];
+  @Input() navigations: NavigationItem[] = [];
 
   // ngOnInit() {
-  //   debugger
+  //   
   //   this.permissionbasedonIsview(this.navigations);
 
   // }
 
   // ngOnChanges(changes: SimpleChanges) {
-  //   debugger
+  //   
   //   const Permissionforviwe = localStorage.getItem('MenuPermission');
   //   this.menuPermissions = Permissionforviwe ? JSON.parse(Permissionforviwe) : [];
   //   this.navigations = NavigationItems;
@@ -53,7 +53,7 @@ export class NavContentComponent implements OnInit, OnChanges {
   // }
 
   ngOnChanges(changes: SimpleChanges) {
-    debugger;
+    ;
     if (changes['menuPermissions'] || changes['navigations']) {
       this.permissionbasedonIsview(this.navigations);
     }
@@ -68,14 +68,14 @@ export class NavContentComponent implements OnInit, OnChanges {
   // }
 
   constructor() {
-    // debugger;
+    // ;
     // const Permissionforviwe = localStorage.getItem('MenuPermission');
     // this.menuPermissions = Permissionforviwe ? JSON.parse(Permissionforviwe) : [];
     // this.navigations = NavigationItems;
     // this.permissionbasedonIsview(this.navigations);
   }
   ngOnInit() {
-    debugger;
+    ;
     const Permissionforviwe = localStorage.getItem('MenuPermission');
     this.menuPermissions = Permissionforviwe ? JSON.parse(Permissionforviwe) : [];
     this.navigations = NavigationItems;
@@ -83,10 +83,10 @@ export class NavContentComponent implements OnInit, OnChanges {
   }
   permissionbasedonIsview(items: NavigationItem[]) {
     items.forEach(item => {
-    if (item.children?.length) {
+      if (item.children?.length) {
 
-  this.permissionbasedonIsview(item.children);
-     }
+        this.permissionbasedonIsview(item.children);
+      }
 
       if (item.menuId) {
         const permission = this.menuPermissions.find(p => p.menuID === item.menuId);

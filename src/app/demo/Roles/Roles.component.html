@@ -1,23 +1,21 @@
 <div class="row" *ngIf="lstrole">
-    <!-- Displaying Role List -->
-    <div *ngIf="isShowList">
-      <div class="col-xl-12">
-        <div class="d-flex justify-content-end mb-3 position-relative">
-         <!-- <button type="button" (click)="resetForm()" class="btn btn-primary add-role-button">Add Roles</button> -->
-         <button *ngIf="permission.isAdd" (click)="isShowList=false;" class="btn btn-primary add-role-button">ADD</button>
+  <!-- Displaying Role List -->
+  <div *ngIf="isShowList">
+    <div class="col-xl-12">
+      <div class="d-flex justify-content-end mb-3 position-relative">
+        <!-- <button type="button" (click)="resetForm()" class="btn btn-primary add-role-button">Add Roles</button> -->
+        <button *ngIf="permission.isAdd" (click)="isShowList=false;" class="btn btn-primary add-role-button">{{'ADD' |
+          translate}}</button>
+      </div>
+      <app-card cardTitle="Striped Table" [options]="false" blockClass="table-border-style">
+        <div class="table-responsive">
+          <table class="table table-striped">
+            <app-datatable [tableHeaders]="tableHeaders" [tableData]="Roles" [actionButtons]="actionButtons"
+              (actionClicked)="onTableAction($event)">
+            </app-datatable>
+          </table>
         </div>
-        <app-card cardTitle="Striped Table" [options]="false" blockClass="table-border-style">
-          <div class="table-responsive">
-            <table class="table table-striped">
-          <app-datatable
-          [tableHeaders]="tableHeaders"
-          [tableData]="Roles"
-          [actionButtons]="actionButtons"
-          (actionClicked)="onTableAction($event)">
-          </app-datatable>
-            </table>
-          </div>
-          <!-- <div class="table-responsive">
+        <!-- <div class="table-responsive">
             <table class="table table-striped">
               <thead>
                 <tr>
@@ -48,46 +46,54 @@
               </tbody>
             </table>
           </div> -->
-          <nav aria-label="Page navigation">
-            <ul class="pagination justify-content-end">
-              <li class="page-item" [class.disabled]="currentPage === 1">
-                <a class="page-link" href="javascript:void(0)" (click)="nextpage(currentPage - 1)">Previous</a>
-              </li>
-              <li class="page-item" *ngFor="let page of pageNumbers">
-                <a class="page-link" href="javascript:void(0)" (click)="nextpage(page)" [class.active]="currentPage === page">{{ page }}</a>
-              </li>
-              <li class="page-item" [class.disabled]="currentPage === totalPages">
-                <a class="page-link" href="javascript:void(0)" (click)="nextpage(currentPage + 1)">Next</a>
-              </li>
-            </ul>
-          </nav>
-        </app-card>
-      </div>
+        <nav aria-label="Page navigation">
+          <ul class="pagination justify-content-end">
+            <li class="page-item" [class.disabled]="currentPage === 1">
+              <a class="page-link" href="javascript:void(0)" (click)="nextpage(currentPage - 1)">{{'Previous' |
+                translate}}</a>
+            </li>
+            <li class="page-item" *ngFor="let page of pageNumbers">
+              <a class="page-link" href="javascript:void(0)" (click)="nextpage(page)"
+                [class.active]="currentPage === page">{{ page }}</a>
+            </li>
+            <li class="page-item" [class.disabled]="currentPage === totalPages">
+              <a class="page-link" href="javascript:void(0)" (click)="nextpage(currentPage + 1)">{{'Next' |
+                translate}}</a>
+            </li>
+          </ul>
+        </nav>
+      </app-card>
     </div>
-  
-    <!-- Add/Edit Role Form -->
-    <div *ngIf="!isShowList">
-      <div class="col-sm-12">
-        <app-card cardTitle="Basic Component" [options]="false">
-          <h5>Form controls</h5>
-          <hr />
-          <div class="row">
-            <div class="col-md-6">
-              <form [formGroup]="rolesfmGroup">
-                <div class="form-group">
-                  <label for="role">Roles</label>
-                  <input type="text" formControlName="rolename" class="form-control" placeholder="Enter RoleName" required />
-                  <span *ngIf="checkRequired('rolename')" class="error-span">This Field Is Required</span><br>
-                  <span *ngIf="rolesfmGroup.controls['rolename'].errors?.['minlength']" class="error-span">Minimum 3 characters required</span>
-                </div>
-                <div class="mt-3">
-                  <button *ngIf="!selectedroleId" type="button" class="btn btn-primary" [disabled]="rolesfmGroup.invalid" (click)="AddRoles()">Submit</button>
-                  <button *ngIf="selectedroleId" type="button" class="btn btn-success" [disabled]="rolesfmGroup.invalid" (click)="updateRole()">Update</button>
-                </div>
-              </form>
-            </div>
+  </div>
+
+  <!-- Add/Edit Role Form -->
+  <div *ngIf="!isShowList">
+    <div class="col-sm-12">
+      <app-card cardTitle="Basic Component" [options]="false">
+        <h5>{{'Formcontrols' | translate}}</h5>
+        <hr />
+        <div class="row">
+          <div class="col-md-6">
+            <form [formGroup]="rolesfmGroup">
+              <div class="form-group">
+                <label for="role">{{'Roles' | translate}}</label>
+                <input type="text" formControlName="rolename" class="form-control" placeholder="Enter RoleName"
+                  required />
+                <span *ngIf="checkRequired('rolename')" class="error-span">{{'ThisFieldIsRequired' |
+                  translate}}</span><br>
+                <span *ngIf="rolesfmGroup.controls['rolename'].errors?.['minlength']"
+                  class="error-span">{{'Minimum3charactersarerequired' | translate}}</span>
+              </div>
+              <div class="mt-3">
+                <button *ngIf="!selectedroleId" type="button" class="btn btn-primary" [disabled]="rolesfmGroup.invalid"
+                  (click)="AddRoles()">{{'Submit' | translate}}</button>
+                <button *ngIf="selectedroleId" type="button" class="btn btn-success" [disabled]="rolesfmGroup.invalid"
+                  (click)="updateRole()">{{'Update' | translate}}</button>
+              </div>
+            </form>
           </div>
-        </app-card>
-      </div>
+        </div>
+      </app-card>
     </div>
-  </div> 
+  </div>
+</div>

@@ -92,37 +92,37 @@
 
 
 @for (breadcrumb of navigationList; track breadcrumb; let last = $last) {
-  @if (last && breadcrumb.breadcrumbs !== false) {
-    <div class="page-header">
-      <div class="page-block">
-        <div class="row align-items-center">
-          <div class="col-md-12">
-            <div class="page-header-title">
-              @for (breadcrumb of navigationList; track breadcrumb; let last = $last) {
-                @if (last) {
-                  <h5 class="m-b-10">
-                    {{ breadcrumb.title }}
-                  </h5>
+@if (last && breadcrumb.breadcrumbs !== false) {
+<div class="page-header">
+  <div class="page-block">
+    <div class="row align-items-center">
+      <div class="col-md-12">
+        <div class="page-header-title">
+          @for (breadcrumb of navigationList; track breadcrumb; let last = $last) {
+          @if (last) {
+          <h5 class="m-b-10">
+            {{ breadcrumb.title | translate}}
+          </h5>
+          }
+          }
+          <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+              @for (breadcrumb of navigationList.slice(-2); track breadcrumb; let last = $last) {
+              <li class="breadcrumb-item" [class.active]="last" [attr.aria-current]="last ? 'page' : null">
+                @if (!last) {
+                <a [routerLink]="breadcrumb.url">{{ breadcrumb.title | translate}}</a>
                 }
+                @if (last) {
+                {{ breadcrumb.title | translate}}
+                }
+              </li>
               }
-              <nav aria-label="breadcrumb">
-                <ol class="breadcrumb">
-                  @for (breadcrumb of navigationList.slice(-2); track breadcrumb; let last = $last) {
-                    <li class="breadcrumb-item" [class.active]="last" [attr.aria-current]="last ? 'page' : null">
-                      @if (!last) {
-                        <a [routerLink]="breadcrumb.url">{{ breadcrumb.title }}</a>
-                      }
-                      @if (last) {
-                        {{ breadcrumb.title }}
-                      }
-                    </li>
-                  }
-                </ol>
-              </nav>
-            </div>
-          </div>
+            </ol>
+          </nav>
         </div>
       </div>
     </div>
-  }
+  </div>
+</div>
+}
 }

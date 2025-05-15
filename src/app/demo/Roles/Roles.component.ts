@@ -10,7 +10,7 @@ import { DatatableComponent } from 'src/app/Common/datatable/datatable.component
 import { PermissionService } from 'src/app/services/permission.service';
 
 @Component({
-  
+
   selector: 'app-Role',
   standalone: true,
   imports: [CommonModule, SharedModule, DatatableComponent],
@@ -20,16 +20,16 @@ import { PermissionService } from 'src/app/services/permission.service';
 export class RolesComponent implements OnInit {
   submitForm() {
     throw new Error('Method not implemented.');
-    }
-      setPermissions: any;
-      canAdd: boolean = false;
-      canEdit: boolean = false;
-      canDelete: boolean = false;
-      canView : boolean = false;
-      permission :any;
-	    actionButtons = [];
-      getPermissions: any;
-      //actionButtons = ['perm'];
+  }
+  setPermissions: any;
+  canAdd: boolean = false;
+  canEdit: boolean = false;
+  canDelete: boolean = false;
+  canView: boolean = false;
+  permission: any;
+  actionButtons = [];
+  getPermissions: any;
+  //actionButtons = ['perm'];
 
   lstrole: any[] = [];
   Roles: any[] = [];
@@ -37,48 +37,47 @@ export class RolesComponent implements OnInit {
   selectedroleId: number | null = null;
   rolesfmGroup: FormGroup;
   currentPage: number = 1;
-  itemsPerPage: number =AppConstant.RecordPerPage;
+  itemsPerPage: number = AppConstant.RecordPerPage;
   totalPages: number = 0;
   pageNumbers: number[] = [];
-  URL=AppConstant.url
+  URL = AppConstant.url
 
   tableHeaders = [
-    { label: 'Role Name', key: 'roleName' },
-    { label: 'Created By', key: 'createdBy' },
-    { label: 'Created On', key: 'createdOn' },
-    { label: 'Updated By', key: 'updatedBy' },
-    { label: 'Updated On', key: 'updatedOn' },
-    { label: 'Is Active', key: 'isActive' }
+    { label: 'RoleName', key: 'roleName' },
+    { label: 'CreatedBy', key: 'createdBy' },
+    { label: 'CreatedOn', key: 'createdOn' },
+    { label: 'UpdatedBy', key: 'updatedBy' },
+    { label: 'UpdatedOn', key: 'updatedOn' },
+    { label: 'IsActive', key: 'isActive' }
   ];
 
 
 
-  roleData :any
+  roleData: any
   constructor
-  (
-    private baseService: BaseService,
-    private toastr: ToastrService,
-    private permissionService: PermissionService
-  )
- {
-  this.permission = this.permissionService.getPermissions("Role");
- }
+    (
+      private baseService: BaseService,
+      private toastr: ToastrService,
+      private permissionService: PermissionService
+    ) {
+    this.permission = this.permissionService.getPermissions("Role");
+  }
 
   ngOnInit() {
     this.createFormGroup();
     this.getRoles();
     this.setPermissions = this.permissionService.getPermissions("Role");
     //this.setPermissions.actionButtons = [this.getPermissions.isEdit];
-     //this.actionButtons = [this.getPermissions.isEdit];
-     this.actionButtons = [];
+    //this.actionButtons = [this.getPermissions.isEdit];
+    this.actionButtons = [];
 
-     if (this.setPermissions.isEdit === true) {
-       this.actionButtons.push("edit");
-     }
-   }
-    
+    if (this.setPermissions.isEdit === true) {
+      this.actionButtons.push("edit");
+    }
+  }
 
-  resetForm(){
+
+  resetForm() {
     this.isShowList = false;
     this.createFormGroup();
     this.selectedroleId = null;
@@ -117,7 +116,7 @@ export class RolesComponent implements OnInit {
   }
 
   getRoles() {
-    this.baseService.GET<any>(this.URL+"TblRole/GetAll").subscribe(response => {
+    this.baseService.GET<any>(this.URL + "TblRole/GetAll").subscribe(response => {
       this.lstrole = response.data;
       this.totalPages = Math.ceil(this.lstrole.length / this.itemsPerPage);
       this.Rolerecord();
@@ -128,7 +127,7 @@ export class RolesComponent implements OnInit {
   AddRoles() {
     this.baseService.POST(this.URL + "TblRole/Add", this.rolesfmGroup.getRawValue())
       .subscribe({
-        next: (response:any) => { // No need for ': any'
+        next: (response: any) => { // No need for ': any'
           if (response.statusCode === 200) {
             this.toastr.success(response.message, 'Success');
             console.log("POST Response:", response);
@@ -157,22 +156,22 @@ export class RolesComponent implements OnInit {
   updateRole() {
 
 
-    this.baseService.PUT(this.URL+"TblRole/Update",this.rolesfmGroup.getRawValue()) // No ID in the This.URL
+    this.baseService.PUT(this.URL + "TblRole/Update", this.rolesfmGroup.getRawValue()) // No ID in the This.URL
       .subscribe({
         next: (response: any) => {
           if (response.statusCode === 200) {
             this.toastr.success(response.message, 'Success');
-          console.log("PUT Response:", response);
-          this.getRoles();
-          this.isShowList = true;
-        } else {
-          this.toastr.error(response.message, 'Error');
+            console.log("PUT Response:", response);
+            this.getRoles();
+            this.isShowList = true;
+          } else {
+            this.toastr.error(response.message, 'Error');
+          }
+        },
+        error: () => {
+          this.toastr.error('Failed to update ', 'Error');
         }
-      },
-      error: () => {
-        this.toastr.error('Failed to update ', 'Error');
-      }
-    });
+      });
   }
 
   onTableAction(event: { action: string; row: any }) {
@@ -180,9 +179,9 @@ export class RolesComponent implements OnInit {
       edit: () => this.editRole(event.row),
       //delete: () => this.onDeletepatient(event.row.pateintDoctormappingId),
     };
-  
+
     const actionKey = event.action.toLowerCase();
-  
+
     if (actionHandlers[actionKey]) {
       actionHandlers[actionKey]();
     } else {

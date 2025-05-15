@@ -2,7 +2,7 @@ import { Component, inject, OnInit } from '@angular/core';
 import { SharedModule } from 'src/app/theme/shared/shared.module';
 import { BaseService } from 'src/app/services/base.service';
 import { HttpClient } from '@angular/common/http';
-import { FormControl, FormGroup,Validators} from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { AppConstant } from 'src/app/demo/baseservice/baseservice.service';
 import { PopUpComponent } from 'src/app/Common/pop-up/pop-up.component';
@@ -12,13 +12,13 @@ import { PermissionService } from 'src/app/services/permission.service';
 @Component({
   selector: 'app-patientdata',
   standalone: true,
-  imports: [SharedModule,PopUpComponent, DatatableComponent],
+  imports: [SharedModule, PopUpComponent, DatatableComponent],
   templateUrl: './patientdata.component.html',
   styleUrls: ['./patientdata.component.scss']
 })
 export class PatientDataComponent implements OnInit {
   patients: any[] = [];
-  patientlist :any[];
+  patientlist: any[];
   // PAGINATION
   paginatedList: any[] = [];
   currentPage: number = 1;
@@ -36,29 +36,29 @@ export class PatientDataComponent implements OnInit {
 
   submitForm() {
     throw new Error('Method not implemented.');
-    }
-      setPermissions: any;
-      canAdd: boolean = false;
-      canEdit: boolean = false;
-      canDelete: boolean = false;
-      canView : boolean = false;
-      permission :any;
-      actionButtons = [];
+  }
+  setPermissions: any;
+  canAdd: boolean = false;
+  canEdit: boolean = false;
+  canDelete: boolean = false;
+  canView: boolean = false;
+  permission: any;
+  actionButtons = [];
 
   tableHeaders = [
-    { label: 'Patient ID', key: 'patientId' },
-    { label: 'Full Name', key: 'fullName' },
-    { label: 'DOB', key: 'dob'},
+    { label: 'PatientID', key: 'patientId' },
+    { label: 'FullName', key: 'fullName' },
+    { label: 'DOB', key: 'dob' },
     { label: 'Gender', key: 'gender' },
     { label: 'Address', key: 'address' },
-    { label: 'Blood Group', key: 'blood_Group' },
-    { label: 'Emergency Contact', key: 'emergency_Contact' },
-    { label: 'Medical History', key: 'medical_History' },
-    { label: 'Created By', key: 'createdBy' },
-    { label: 'Created On', key: 'createdOn' },
-    { label: 'Updated By', key: 'updatedBy' },
-    { label: 'Updated On', key: 'updatedOn' },
-    { label: 'Is Active', key: 'isActive' }
+    { label: 'BloodGroup', key: 'blood_Group' },
+    { label: 'EmergencyContact', key: 'emergency_Contact' },
+    { label: 'MedicalHistory', key: 'medical_History' },
+    { label: 'CreatedBy', key: 'createdBy' },
+    { label: 'CreatedOn', key: 'createdOn' },
+    { label: 'UpdatedBy', key: 'updatedBy' },
+    { label: 'UpdatedOn', key: 'updatedOn' },
+    { label: 'IsActive', key: 'isActive' }
   ];
 
 
@@ -70,13 +70,12 @@ export class PatientDataComponent implements OnInit {
     private baseService: BaseService,
     private toastr: ToastrService,
     private permissionService: PermissionService
-  ) 
-  {
+  ) {
     this.permission = this.permissionService.getPermissions("PatientData");
   }
 
   ngOnInit() {
-    debugger
+
     this.getPatients();
     //this.patientFormGroup();
     this.getdropdown();
@@ -85,7 +84,7 @@ export class PatientDataComponent implements OnInit {
     if (this.setPermissions.isEdit === true) {
       this.actionButtons.push("edit");
     }
-  
+
     if (this.setPermissions.isDelete === true) {
       this.actionButtons.push("delete");
     }
@@ -105,7 +104,7 @@ export class PatientDataComponent implements OnInit {
     fullName: new FormControl(''),
     email: new FormControl(''),
     // password: new FormControl(''),
-    mobileNumber: new FormControl('',[
+    mobileNumber: new FormControl('', [
       Validators.required,
       Validators.minLength(10),
       Validators.maxLength(10),
@@ -150,21 +149,21 @@ export class PatientDataComponent implements OnInit {
       }
     });
   }
-getdropdown(){
-  this.baseService.GET<any>(this.URL + "GetDropDownList/FillPatientName").subscribe({
-    next: (response) => {
-      this.patientlist = response.data;
-    }
-  });
+  getdropdown() {
+    this.baseService.GET<any>(this.URL + "GetDropDownList/FillPatientName").subscribe({
+      next: (response) => {
+        this.patientlist = response.data;
+      }
+    });
 
-}
+  }
   editPatient(patient: any) {
     this.selectUserid = patient.userId;
     this.selectedPatientId = patient.patientId;
     console.log('UserId:', this.selectUserid); // should print number, not undefined
 
     console.log('UserId:', this.selectUserid);
-  console.log('PatientId:', this.selectedPatientId);
+    console.log('PatientId:', this.selectedPatientId);
     this.isShowList = false;
     this.patientFormGroup.patchValue(patient);
   }
@@ -198,22 +197,22 @@ getdropdown(){
   }
 
 
-  onDelete(UserId: number){
+  onDelete(UserId: number) {
     this.baseService.DELETE(this.URL + "TblPatient/Delete?UserId=" + UserId)
-    .subscribe({
-      next: (response: any) => {
-        if (response.statusCode === 200) {
-          this.toastr.success(response.message, 'Success');
-          this.getPatients();
-          this.isShowList = true;
-        } else {
-          this.toastr.error(response.message, 'Error');
+      .subscribe({
+        next: (response: any) => {
+          if (response.statusCode === 200) {
+            this.toastr.success(response.message, 'Success');
+            this.getPatients();
+            this.isShowList = true;
+          } else {
+            this.toastr.error(response.message, 'Error');
+          }
+        },
+        error: () => {
+          this.toastr.error('Failed to delete ', 'Error');
         }
-      },
-      error: () => {
-        this.toastr.error('Failed to delete ', 'Error');
-      }
-    });
+      });
   }
 
 
@@ -221,19 +220,19 @@ getdropdown(){
     this.UserIdDelete = id;
     this.showPopup = true;
   }
-  
+
   confirmDelete() {
     if (this.UserIdDelete !== null) {
       this.onDelete(this.UserIdDelete);
     }
     this.cleanupPopup();
   }
-  
-  
+
+
   cancelDelete() {
     this.cleanupPopup();
   }
-  
+
   // hide the modal  and reset the ID 
   private cleanupPopup() {
     this.UserIdDelete = null;
@@ -248,9 +247,9 @@ getdropdown(){
       edit: () => this.editPatient(event.row),
       delete: () => this.openDeleteModal(event.row.UserId),
     };
-  
+
     const actionKey = event.action.toLowerCase();
-  
+
     if (actionHandlers[actionKey]) {
       actionHandlers[actionKey]();
     } else {
@@ -259,26 +258,26 @@ getdropdown(){
   }
 
 
-//PAGINATION STOP
-Paginationrecord() {
-  const startIndex = (this.currentPage - 1) * this.itemsPerPage;
-  const endIndex = startIndex + this.itemsPerPage;
-  this.paginatedList = this.patients.slice(startIndex, endIndex);
-}
+  //PAGINATION STOP
+  Paginationrecord() {
+    const startIndex = (this.currentPage - 1) * this.itemsPerPage;
+    const endIndex = startIndex + this.itemsPerPage;
+    this.paginatedList = this.patients.slice(startIndex, endIndex);
+  }
 
-//page number
-PageNumber() {
-  this.pageNumbers = [];
-  for (let i = 1; i <= Math.min(this.totalPages, 3); i++) {
-    this.pageNumbers.push(i);
+  //page number
+  PageNumber() {
+    this.pageNumbers = [];
+    for (let i = 1; i <= Math.min(this.totalPages, 3); i++) {
+      this.pageNumbers.push(i);
+    }
   }
-}
-//change page
-nextpage(page: number) {
-  if (page >= 1 && page <= this.totalPages) {
-    this.currentPage = page;
-    this. Paginationrecord();
+  //change page
+  nextpage(page: number) {
+    if (page >= 1 && page <= this.totalPages) {
+      this.currentPage = page;
+      this.Paginationrecord();
+    }
   }
-}
 }
 
