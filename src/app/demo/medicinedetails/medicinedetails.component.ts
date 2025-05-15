@@ -20,7 +20,7 @@ import { PermissionService } from 'src/app/services/permission.service';
   imports: [SharedModule,CommonModule,RouterModule,PopUpComponent, DatatableComponent],
   templateUrl: './medicinedetails.component.html',
   styleUrls: ['./medicinedetails.component.scss']
-  
+
 })
 export class medicinedetails implements OnInit{
   submitForm() {
@@ -37,7 +37,7 @@ export class medicinedetails implements OnInit{
   medicinedetailslist:any[]=[];
   isShowList:boolean=true;
  // medicineDetailsID: number | null = null;
-  selectedMedicineID: number | null = null; 
+  selectedMedicineID: number | null = null;
   medicinetypelist:any []=[];
   diseaselist:any []=[];
   paginatedList: any[] = [];
@@ -45,7 +45,7 @@ export class medicinedetails implements OnInit{
    // Paginated data
   URL=AppConstant.url
   // selected  // Store selected hospital ID for update
-  
+
   tableHeaders = [
     { label: 'Medicine', key: 'typeName' },
     { label: 'DieseaseName', key: 'dieseaseName' },
@@ -61,7 +61,7 @@ export class medicinedetails implements OnInit{
     { label: 'Is Active', key: 'isActive' }
   ];
 
-  
+
 
 
   constructor
@@ -70,7 +70,7 @@ export class medicinedetails implements OnInit{
   private toastr: ToastrService,
    private router: Router,
    private permissionService: PermissionService
-  ) 
+  )
   {
     this.permission = this.permissionService.getPermissions("MedicineDetails");
   }
@@ -90,9 +90,9 @@ export class medicinedetails implements OnInit{
   medicineDetailsIDDelete: number | null = null;
 
 
-  constructor(private baseService: BaseService,private toastr: ToastrService, private router: Router) {}
+  //constructor(private baseService: BaseService,private toastr: ToastrService, private router: Router) {}
 
- 
+
   // life cycle event
   ngOnInit() {
      this.createFormGroup();
@@ -100,7 +100,7 @@ export class medicinedetails implements OnInit{
      this.getmedicinetype();
      this.gettreatmentdetailsidwithname();
      this.setPermissions = this.permissionService.getPermissions("MedicineDetails");
-     
+
     }
 
     medicinedetailsFormGroup:FormGroup
@@ -121,13 +121,13 @@ export class medicinedetails implements OnInit{
         duration:new FormControl(''),
         instruction:new FormControl(''),
         issudate:new FormControl(''),
-     
-     
+
+
       })
     }
     checkRequired(controlName:any)
     {
-      return this.medicinedetailsFormGroup.controls[controlName].touched && this.medicinedetailsFormGroup.controls[controlName].errors?.['required']; 
+      return this.medicinedetailsFormGroup.controls[controlName].touched && this.medicinedetailsFormGroup.controls[controlName].errors?.['required'];
     }
 
 
@@ -153,7 +153,7 @@ add(){
 
 
 Addmedicinedetails(){
-    
+
     //Medicine:any [] = [];
     this.baseService.POST(this.URL+"TblMedicineDetails/Add",this.medicinedetailsFormGroup.getRawValue())
       .subscribe({
@@ -171,20 +171,20 @@ Addmedicinedetails(){
       error:()=>{
         this.toastr.error('Failed to Add','Error');
       }
-          
-        
+
+
   //  this.currentPage = 1;
     });
 
   }
-  
+
   editmedicinedetails(medicinedetails: any) {
     this.selectedMedicineID = medicinedetails.medicineDetailsID;
     this.isShowList = false; //showList
-  
+
     this.medicinedetailsFormGroup.patchValue({
       medicinedetailsID: medicinedetails.medicineDetailsID, // Correct patching for the ID
-      treatmentDetailsId: medicinedetails.treatmentDetailsId, 
+      treatmentDetailsId: medicinedetails.treatmentDetailsId,
       medicineTypeID: medicinedetails.medicineTypeID,
         dosage: medicinedetails.dosage,
         frequency: medicinedetails.frequency,
@@ -204,7 +204,7 @@ Addmedicinedetails(){
     //   issudate: medicinedetails.issueDateTime,
 
 
-  
+
 
     });
   }
@@ -220,8 +220,8 @@ Addmedicinedetails(){
           this. getmedicinedetails();
           this.isShowList = true;
           // this.selectedMedicineID=null
-          
-        
+
+
           this.medicinedetailsFormGroup.reset({
             medicinedetailsID: 0,
             treatmentdetailsId: 0,
@@ -237,7 +237,7 @@ Addmedicinedetails(){
     this.toastr.error(response.message, 'Error');
   }
      this.currentPage = 1;
-  
+
           // this.selectedHospitalId = null;
         },
         error: () => {
@@ -274,7 +274,7 @@ getmedicinetype() {
   this.baseService.GET<any>(this.URL+"GetDropDownList/FillMedicineTypeName").subscribe(response => {
     console.log("Get response:", response);
     this.medicinetypelist=response.data;
-  
+
   });
 }
 //  getdisease() {
@@ -295,7 +295,7 @@ gettreatmentdetailsidwithname(){
     console.log("treamentdetailslistwithname", this.treatmentdetailsidwithnamelist);
   })
 }
- 
+
 
 onTableAction(event: { action: string; row: any }) {
   const actionHandlers: { [key: string]: () => void } = {
@@ -319,7 +319,7 @@ Paginationrecord() {
   const endIndex = startIndex + this.itemsPerPage;
   this.paginatedList = this.medicinedetailslist.slice(startIndex, endIndex);
 }
-  
+
 //page number
 PageNumber() {
   this.pageNumbers = [];
@@ -353,7 +353,7 @@ cancelDelete() {
   this.cleanupPopup();
 }
 
-// hide the modal  and reset the ID 
+// hide the modal  and reset the ID
 private cleanupPopup() {
   this.medicineDetailsIDDelete = null;
   this.showPopup = false;
@@ -363,6 +363,6 @@ private cleanupPopup() {
 
 
 }
-    
+
 
 

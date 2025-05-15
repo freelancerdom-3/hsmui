@@ -37,10 +37,17 @@ export class feedbackComponent implements OnInit {
 
   tableHeaders = [
     { label: 'Sr.N', key: 'srno' },
-    { label: 'Patient Name', key: 'fullName' },
+    { label: 'FullName', key: 'fullName' },
     { label: 'Comments', key: 'comments' },
     { label: 'Rating', key: 'rating' },
-    { label: 'Feedback Date', key: 'feedbackDate' }
+    { label: 'Feedback Date', key: 'feedbackDate' },
+    { label: 'Treatment Details ID', key: 'treatmentDetailsId' },
+  { label: 'Created By', key: 'createdBy' },
+  { label: 'Created On', key: 'createdOn' },
+  { label: 'Updated By', key: 'updatedBy' },
+  { label: 'Updated On', key: 'updatedOn' },
+  { label: 'Is Active', key: 'isActive' },
+  { label: 'Version No', key: 'versionNo' }
   ];
 
   constructor(
@@ -78,13 +85,23 @@ export class feedbackComponent implements OnInit {
   }
 
   getfeedback() {
-    this.baseService.GET<any>(this.URL + "TblFeedback/GetAll")
-.subscribe({
+    this.baseService.GET<any>(this.URL + "TblFeedback/GetAll").subscribe({
       next: (response) => {
         console.log("GET Response:", response);
         this.feedbacks = response.data.map((x: any, i: number) => ({
-          ...x,
-          srno: i + 1
+          srno: i + 1,
+          feedbackId: x.feedbackId,
+          fullName: x.fullName,
+          comments: x.comments,
+          rating: x.rating,
+          feedbackDate: x.feedbackDate,
+          treatmentDetailsId: x.treatmentDetailsId,
+          createdBy: x.createdBy,
+          createdOn: x.createdOn,
+          updatedBy: x.updatedBy,
+          updatedOn: x.updatedOn,
+          isActive: x.isActive,
+          versionNo: x.versionNo
         }));
         this.totalRecords = this.feedbacks.length;
         this.totalPages = Math.ceil(this.totalRecords / this.itemsPerPage);
@@ -97,6 +114,7 @@ export class feedbackComponent implements OnInit {
       }
     });
   }
+
 
   addfeedback() {
     const data = this.feedbackfmGroup.getRawValue();
