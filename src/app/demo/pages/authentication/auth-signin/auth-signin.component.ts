@@ -1,6 +1,4 @@
-/* eslint-disable no- */
-/* eslint-disable @typescript-eslint/no-explicit-any */
-//* eslint-disable @typescript-eslint/no-unused-vars */
+
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
@@ -48,18 +46,44 @@ export default class AuthSigninComponent {
         const userId = this.objlogin?.userId;
         const otpUrl = `https://localhost:7272/api/TblOTP/GenerateOtp?userId=${userId}`;
 
+        // this.baseService.GET<any>(otpUrl).subscribe(otpResponse => {
+        //   if (otpResponse.statusCode === 200) {
+        //     this.toastr.success(otpResponse.message, 'OTP Sent');
+        //     this.isOtpScreen = true;
+        //     this.startTimer();
+        //   } else {
+        //     this.toastr.error(otpResponse.message || 'Failed to send OTP');
+        //   }
+        // }, error => {
+        //   this.toastr.error('OTP API error');
+        //   console.error('OTP Error:', error);
+        // });
+
         this.baseService.GET<any>(otpUrl).subscribe(otpResponse => {
-          if (otpResponse.statusCode === 200) {
-            this.toastr.success(otpResponse.message, 'OTP Sent');
-            this.isOtpScreen = true;
-            this.startTimer();
-          } else {
-            this.toastr.error(otpResponse.message || 'Failed to send OTP');
-          }
-        }, error => {
-          this.toastr.error('OTP API error');
-          console.error('OTP Error:', error);
-        });
+  if (otpResponse.statusCode === 200) {
+    const otpCode = otpResponse.data?.otpCode || '';
+    const emailOtpPayload = {
+      ToEmail: this.email,
+      Otp: otpCode
+    };
+
+    this.baseService.POST<any>('https://localhost:7272/api/TblOTP/EmailOtpToUser', emailOtpPayload).subscribe(() => {
+      this.toastr.success(otpResponse.message, 'OTP sent to email');
+      this.isOtpScreen = true;
+      this.startTimer();
+    }, err => {
+      this.toastr.warning('OTP generated but failed to email');
+      this.isOtpScreen = true;
+      this.startTimer();
+    });
+
+  } else {
+    this.toastr.error(otpResponse.message || 'Failed to generate OTP');
+  }
+}, error => {
+  this.toastr.error('OTP API error');
+  console.error('OTP Error:', error);
+});
 
       } else {
         this.toastr.error(response.message, 'Invalid credentials');
@@ -101,35 +125,6 @@ export default class AuthSigninComponent {
       console.error('Resend OTP Error:', error);
     });
   }
-
-  // OnLogin(){
-  // const encryptedPassword = this.encryptPassword(this.password);
-  // const apiurl = this.URL + `TblUser/ValidateCredential?email=${encodeURIComponent(this.email)}&password=${encodeURIComponent(encryptedPassword)}`;
-
-
-
-  //   this.baseService.GET<any>(apiurl).subscribe(response=>{
-
-  //     console.log("GET Response:", response);
-  //     this.objlogin = response.data;
-
-
-  // if(response?.data  && response.statusCode === 200){
-  //   
-
-  //   //localStorage.setItem('data', response?.data || '');
-  //   localStorage.setItem('data',JSON.stringify(response?.data));
-  //   console.log("Token stored in localstorage:", response?.data);
-  //   this.getMenuPermissionList()
-
-
-  //       this.router.navigate(['/dashboard']);
-  //       this.toastr.success(response.message);
-  //     } else {
-  //       this.toastr.error(response.message, 'Envalid credentials');
-  //     }
-  //   })
-  // }
 
   OnLogin() {
     if (!this.otp) {
@@ -173,16 +168,9 @@ export default class AuthSigninComponent {
     });
 
 
-    // 
-  }
-  // getMenuPermissionList() {
-  //   this.baseService.GET<any>(this.URL + "TblMenuPermission/GetAll").subscribe(response => {
-  //     this.MenuPermissionList = response.data || [];
-  //     localStorage.setItem('MenuPermission', JSON.stringify(response?.data));
-  //     console.log("Token stored in localstorage:", response?.data);
 
-  //   });
-  // }
+  }
+
   getMenuPermissionList() {
 
     const userData = localStorage.getItem('data');
