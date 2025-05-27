@@ -31,69 +31,41 @@ export default class AuthSigninComponent {
 
 
   onNext() {
-    if (!this.email || !this.password) {
-      this.toastr.warning('Please enter email and password.');
-      return;
+  if (!this.email || !this.password) {
+    this.toastr.warning('Please enter email and password.');
+    return;
+  }
+
+  const apiurl = this.URL + `TblUser/ValidateCredential?email=${this.email}&password=${this.password}`;
+
+  this.baseService.GET<any>(apiurl).subscribe(response => {
+    if (response?.data && response.statusCode === 200) {
+      this.objlogin = response.data;
+      localStorage.setItem('data', JSON.stringify(this.objlogin));
+      const otpPayload = {
+        userId: this.objlogin?.userId,
+        email: this.email
+      };
+      this.baseService.POST<any>('https://localhost:7272/api/TblOTP/GenerateOtp', otpPayload).subscribe(otpResponse => {
+        if (otpResponse.statusCode === 200) {
+          this.toastr.success(otpResponse.message, 'OTP Sent');
+          this.isOtpScreen = true;
+          this.startTimer();
+        } else {
+          this.toastr.error(otpResponse.message || 'Failed to send OTP');
+        }
+      }, error => {
+        this.toastr.error('OTP API error');
+        console.error('OTP Error:', error);
+      });
+    } else {
+      this.toastr.error(response.message, 'Invalid credentials');
     }
-
-    const apiurl = this.URL + `TblUser/ValidateCredential?email=${this.email}&password=${this.password}`;
-
-    this.baseService.GET<any>(apiurl).subscribe(response => {
-      if (response?.data && response.statusCode === 200) {
-        this.objlogin = response.data;
-        localStorage.setItem('data', JSON.stringify(this.objlogin));
-
-        const userId = this.objlogin?.userId;
-        const otpUrl = `https://localhost:7272/api/TblOTP/GenerateOtp?userId=${userId}`;
-
-        // this.baseService.GET<any>(otpUrl).subscribe(otpResponse => {
-        //   if (otpResponse.statusCode === 200) {
-        //     this.toastr.success(otpResponse.message, 'OTP Sent');
-        //     this.isOtpScreen = true;
-        //     this.startTimer();
-        //   } else {
-        //     this.toastr.error(otpResponse.message || 'Failed to send OTP');
-        //   }
-        // }, error => {
-        //   this.toastr.error('OTP API error');
-        //   console.error('OTP Error:', error);
-        // });
-
-        this.baseService.GET<any>(otpUrl).subscribe(otpResponse => {
-  if (otpResponse.statusCode === 200) {
-    const otpCode = otpResponse.data?.otpCode || '';
-    const emailOtpPayload = {
-      ToEmail: this.email,
-      Otp: otpCode
-    };
-
-    this.baseService.POST<any>('https://localhost:7272/api/TblOTP/EmailOtpToUser', emailOtpPayload).subscribe(() => {
-      this.toastr.success(otpResponse.message, 'OTP sent to email');
-      this.isOtpScreen = true;
-      this.startTimer();
-    }, err => {
-      this.toastr.warning('OTP generated but failed to email');
-      this.isOtpScreen = true;
-      this.startTimer();
-    });
-
-  } else {
-    this.toastr.error(otpResponse.message || 'Failed to generate OTP');
-  }
-}, error => {
-  this.toastr.error('OTP API error');
-  console.error('OTP Error:', error);
-});
-
-      } else {
-        this.toastr.error(response.message, 'Invalid credentials');
-      }
-    }, error => {
-      this.toastr.error('Login API error');
-      console.error('Login Error:', error);
-    });
-  }
-
+  }, error => {
+    this.toastr.error('Login API error');
+    console.error('Login Error:', error);
+  });
+}
 
   startTimer() {
     this.timer = 180;
@@ -109,14 +81,17 @@ export default class AuthSigninComponent {
     }, 1000);
   }
 
-
   onResendOtp() {
-    const userId = this.objlogin?.userId;
-    const otpUrl = `https://localhost:7272/api/TblOTP/GenerateOtp?userId=${userId}`;
-    this.baseService.GET<any>(otpUrl).subscribe(otpResponse => {
+  const otpPayload = {
+    userId: this.objlogin?.userId,
+    email: this.email
+  };
+
+  this.baseService.POST<any>('https://localhost:7272/api/TblOTP/GenerateOtp', otpPayload)
+    .subscribe(otpResponse => {
       if (otpResponse.statusCode === 200) {
         this.toastr.success('OTP resent successfully');
-        this.startTimer(); // Restart timer
+        this.startTimer();
       } else {
         this.toastr.error('Failed to resend OTP');
       }
@@ -124,60 +99,55 @@ export default class AuthSigninComponent {
       this.toastr.error('Resend OTP API error');
       console.error('Resend OTP Error:', error);
     });
+}
+
+ OnLogin() {
+  if (!this.otp) {
+    this.toastr.warning('Please enter OTP.');
+    return;
   }
 
-  OnLogin() {
-    if (!this.otp) {
-      this.toastr.warning('Please enter OTP.');
-      return;
-    }
+  const validateUserUrl = this.URL + `TblUser/ValidateCredential?email=${this.email}&password=${this.password}`;
 
-    const validateUserUrl = this.URL + `TblUser/ValidateCredential?email=${this.email}&password=${this.password}`;
+  this.baseService.GET<any>(validateUserUrl).subscribe(userResponse => {
+    if (userResponse?.data && userResponse.statusCode === 200) {
+      const verifyOtpPayload = {
+        userId: userResponse.data.userId,
+        otpCode: this.otp
+      };
 
-    this.baseService.GET<any>(validateUserUrl).subscribe(userResponse => {
-      if (userResponse?.data && userResponse.statusCode === 200) {
-        const userId = userResponse.data.userId;
-        const verifyOtpUrl = `https://localhost:7272/api/TblOTP/VerifyOtp?userId=${userId}&otpCode=${this.otp}`;
-
-        // Verify OTP using POST
-        this.baseService.GET<any>(verifyOtpUrl).subscribe(otpResponse => {
+      
+console.log('Sending OTP verification with:', verifyOtpPayload);
+      this.baseService.POST<any>('https://localhost:7272/api/TblOTP/VerifyOtp', verifyOtpPayload)
+        .subscribe(otpResponse => {
           if (otpResponse.statusCode === 200) {
-            // OTP verified successfully
-           const loginData = otpResponse.data;
-             localStorage.setItem('authToken', userResponse.data.token);
-          localStorage.setItem('userData', JSON.stringify({
-            userId: userResponse.data.userId,
-            userName: userResponse.data.userName,
-            roleId: userResponse.data.roleId,
-            profileImage: userResponse.data.profileImage
-          }));
-  this.toastr.success('Login successful!');
-  this.getMenuPermissionList();
-  this.router.navigate(['/dashboard']);
-
-
+            localStorage.setItem('authToken', userResponse.data.token);
+            localStorage.setItem('userData', JSON.stringify({
+              userId: userResponse.data.userId,
+              userName: userResponse.data.userName,
+              roleId: userResponse.data.roleId,
+              profileImage: userResponse.data.profileImage
+            }));
+            this.toastr.success('Login successful!');
+            this.getMenuPermissionList();
+            this.router.navigate(['/dashboard']);
           } else {
-            // OTP verification failed
             this.toastr.error(otpResponse.message || 'Invalid OTP');
           }
         }, otpError => {
           this.toastr.error('OTP Verification failed');
+          console.error('OTP Error Details:', otpError.error);
           console.error('OTP Error:', otpError);
         });
-
-      } else {
-        // User validation failed
-        this.toastr.error(userResponse.message || 'Invalid email or password');
-      }
-    }, error => {
-      this.toastr.error('Login API error');
-      console.error('Login Error:', error);
-
-    });
-
-
-
-  }
+    } else {
+      this.toastr.error(userResponse.message || 'Invalid email or password');
+    }
+  }, error => {
+    
+    this.toastr.error('Login API error');
+    console.error('Login Error:', error);
+  });
+}
 
   getMenuPermissionList() {
 
