@@ -143,11 +143,19 @@ export default class AuthSigninComponent {
         this.baseService.GET<any>(verifyOtpUrl).subscribe(otpResponse => {
           if (otpResponse.statusCode === 200) {
             // OTP verified successfully
-            localStorage.setItem('data', JSON.stringify(userResponse.data));
-            this.toastr.success('Login successful!');
-            this.getMenuPermissionList();
+           const loginData = otpResponse.data;
+             localStorage.setItem('authToken', userResponse.data.token);
+          localStorage.setItem('userData', JSON.stringify({
+            userId: userResponse.data.userId,
+            userName: userResponse.data.userName,
+            roleId: userResponse.data.roleId,
+            profileImage: userResponse.data.profileImage
+          }));
+  this.toastr.success('Login successful!');
+  this.getMenuPermissionList();
+  this.router.navigate(['/dashboard']);
 
-             this.router.navigate(['/dashboard']);
+
           } else {
             // OTP verification failed
             this.toastr.error(otpResponse.message || 'Invalid OTP');

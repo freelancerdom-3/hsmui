@@ -1,217 +1,47 @@
 <ul class="navbar-nav">
-  <!-- <li>
-    <div class="dropdown" style="display: none;" ngbDropdown placement="auto">
-      <a ngbDropdownToggle href="javascript:" data-toggle="dropdown"><i class="icon feather icon-bell"></i></a>
-      <div ngbDropdownMenu class="dropdown-menu dropdown-menu-end notification">
-        <div class="notification-head">
-          <h6 class="d-inline-block m-b-0">Notifications</h6>
-          <div class="float-end">
-            <a href="javascript:" class="m-r-10 text-decoration-none">mark as read</a>
-            <a href="javascript:" class="text-decoration-none">clear all</a>
-          </div>
-        </div>
-        <ul class="notification-body">
-          <li class="n-title">
-            <p class="m-b-0">NEW</p>
-          </li>
-          <li class="notification">
-            <div class="d-flex">
-              <img class="img-radius" src="assets/images/user/avatar-1.jpg" alt="Generic placeholder image" />
-              <div class="flex-grow-1">
-                <p>
-                  <strong>John Doe</strong>
-                  <span class="n-time text-muted">
-                    <i class="icon feather icon-clock m-r-10"></i>
-                    now
-                  </span>
-                </p>
-                <p>New ticket Added</p>
-              </div>
-            </div>
-          </li>
-          <li class="n-title">
-            <p class="m-b-0">EARLIER</p>
-          </li>
-          <li class="notification">
-            <div class="d-flex">
-              <img class="img-radius" src="assets/images/user/avatar-2.jpg" alt="Generic placeholder image" />
-              <div class="flex-grow-1">
-                <p>
-                  <strong>Joseph William</strong>
-                  <span class="n-time text-muted">
-                    <i class="icon feather icon-clock m-r-10"></i>
-                    10 min
-                  </span>
-                </p>
-                <p>Prchace New Theme and make payment</p>
-              </div>
-            </div>
-          </li>
-          <li class="notification">
-            <div class="d-flex">
-              <img class="img-radius" src="assets/images/user/avatar-3.jpg" alt="Generic placeholder image" />
-              <div class="flex-grow-1">
-                <p>
-                  <strong>Sara Soudein</strong>
-                  <span class="n-time text-muted">
-                    <i class="icon feather icon-clock m-r-10"></i>
-                    30 min
-                  </span>
-                </p>
-                <p>currently login</p>
-              </div>
-            </div>
-          </li>
-        </ul>
-        <div class="notification-footer">
-          <a href="javascript:">show all</a>
-        </div>
-      </div>
-    </div>
-  </li> -->
-  <!-- <li class="nav-item w-100 d-flex justify-content-center">
-    <div ngbDropdown class="d-inline-block">
-      <button class="btn btn-outline-light" ngbDropdownToggle>
-        {{ selectedLang | translate }}
-      </button>
-      <div ngbDropdownMenu>
-        <button class="dropdown-item" *ngFor="let lang of languages" (click)="onLanguageChange(lang.code)">
+  <div class="nav-right-container d-flex align-items-center gap-3">
+    
+    <li class="nav-item dropdown">
+      <select class="form-select language-select"
+              (change)="changeLanguage($any($event.target).value)" 
+              [(ngModel)]="selectedLang">
+        <option *ngFor="let lang of languages" 
+                [value]="lang.code" 
+                [selected]="lang.code === selectedLang">
           {{ lang.label }}
-        </button>
-      </div>
-    </div>
-  </li>   -->
-
-  <!-- <li class="nav-item w-100 d-flex justify-content-center align-items-center">
-    <select (change)="changeLanguage($any($event.target).value)">
-      <option *ngFor="let lang of languages" [value]="lang.code">{{ lang.label }}</option>
-    </select>
-  </li> -->
-
-  
-  <!-- <li>
-    <div class="dropdown drp-user"  ngbDropdown placement="auto">
-      <a href="javascript:" ngbDropdownToggle data-toggle="dropdown">
-        <i class="icon feather icon-log-out"></i>
-      </a>
-      <div class="dropdown-menu dropdown-menu-end profile-notification" ngbDropdownMenu>
-        <div class="pro-head">
-          <img src="assets/images/user/avatar-2.jpg" class="img-radius" alt="User-Profile-Image" />
-          <span>{{userName}}</span>
-          <a href="javascript:" class="dud-logout" title="Logout" (click)="logout()">
-            <i class="feather icon-log-out"></i>
-          </a>
-        </div>
-        <ul class="pro-body">
-          <li>
-            <a href="javascript:" class="dropdown-item">
-              <i class="feather icon-settings"></i>
-              Settings
-            </a>
-          </li>
-          <li>
-            <a href="javascript:" class="dropdown-item">
-              <i class="feather icon-user"></i>
-              Profile
-            </a>
-          </li>
-          <li>
-            <a href="javascript:" class="dropdown-item">
-              <i class="feather icon-mail"></i>
-              My Messages
-            </a>
-          </li>
-          <li>
-            <a href="javascript:" class="dropdown-item">
-              <i class="feather icon-lock"></i>
-              Lock Screen
-            </a>
-          </li>
-        </ul>
-      </div>
-    </div>
-  </li> -->
-  
-
-  <!-- <li class="nav-item" style="line-height: 45px; padding-right: 40px;">
-    <div class="d-flex align-items-center bg-primary text-black rounded px-3 py-2" style="gap: 10px;">
-      <img src="assets/images/user/avatar-2.jpg" alt="User" class="rounded-circle" style="width: 35px; height: 35px;">
-      <span class="fw-semibold">{{ userName }}</span>
-
-
-    <a href="javascript:" (click)="openLogoutModal()" title="Logout" class="text-white d-flex align-items-center" style="cursor: pointer;">
-        <i class="feather icon-log-out"></i>
-    </a>
-
-     
-    <app-pop-up 
-  *ngIf="showLogoutPopup"
-  [title]="'Confirm Logout'"
-  [message]="'Are you sure you want to logout?'"
-  [ButtonText]="'Logout'"
-  [show]="showLogoutPopup"
-  (confirmDelete)="confirmLogout()"
-  (cancelDelete)="cancelLogout()">
-</app-pop-up>
-
-    </div>
-  </li> -->
-
-  <ul class="nav d-flex align-items-center gap-3">
-  <!-- Language Dropdown -->
-  <li class="nav-item">
-    <div class="language-dropdown">
-      <select 
-        class="form-select custom-language-select"
-        (change)="changeLanguage($any($event.target).value)" [(ngModel)]="selectedLang">
-        <option *ngFor="let lang of languages" [value]="lang.code" [selected]="lang.code === selectedLang">{{ lang.label }}</option>
+        </option>
       </select>
-    </div>
-  </li>
+    </li>
 
-  <!-- Logout/User Section -->
-  <li class="nav-item">
-    <div class="user-box d-flex align-items-center" style="gap: 10px;">
-      <img [src]="profileImage" alt="User" class="rounded-circle" style="width: 35px; height: 35px;">
-      <span class="fw-semibold">{{ userName }}</span>
-    <a href="javascript:" (click)="logout()" title="Logout" class="text-white d-flex align-items-center" style="cursor: pointer;">
-        <i class="feather icon-log-out"></i>
-    </a>
-    </div>
-    <div>
-      <label for="profileImage"></label>
-    </div>
-      <label for="profileInput" style="
-          position: absolute;
-          bottom: 2px;
-          right: 2px;
-          background: #ffffff;
-          border-radius: 50%;
-          padding: 4px;
-          cursor: pointer;
-        ">
-        <i class="bi bi-pencil-fill"></i> 
-      </label>
-    
-      <input
-        type="file"
-        id="profileInput"
-        (change)="onFileSelected($event)"
-        accept="image/*"
-        style="display: none;"
-      />   
-  </li>
-</ul>
+    <li class="nav-item dropdown">
+      <div class="user-box d-flex align-items-center">
+        <img [src]="profileImage" 
+             (error)="profileImage = '/default-profile.png'" 
+             alt="User" 
+             class="user-avatar" />
 
+        <span class="user-name ms-2 me-2">{{ userName }}</span>
 
-      <app-pop-up 
-        *ngIf="showLogoutPopup"
-        [title]="'Confirm Logout'"
-        [message]="'Are you sure you want to logout?'"
-        [ButtonText]="'Logout'"
-        [show]="showLogoutPopup"
-        (confirmDelete)="confirmLogout()"
-        (cancelDelete)="cancelLogout()">
-      </app-pop-up>
-    
+        <label for="profileInput" class="profile-upload-label">
+          <i class="bi bi-camera-fill"></i>
+        </label>
+        <input type="file"
+               id="profileInput"
+               class="d-none"
+               (change)="onFileSelected($event)"
+               accept="image/*" />
+
+        <i class="logout-icon feather icon-log-out ms-2" (click)="openLogoutModal()"></i>
+      </div>
+    </li>
+
+  </div>
+  <app-pop-up *ngIf="showLogoutPopup"
+              [title]="'Confirm Logout'"
+              [message]="'Are you sure you want to logout?'"
+              [ButtonText]="'Logout'"
+              [show]="showLogoutPopup"
+              (confirmDelete)="confirmLogout()"
+              (cancelDelete)="cancelLogout()">
+  </app-pop-up>
 </ul>

@@ -1,52 +1,80 @@
-.language-dropdown {
-  background-color: #0cc7e3;
-  padding: 4px 12px;
-  border-radius: 12px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  transition: box-shadow 0.3s ease;
-  display: inline-block;
-}
-
-.language-dropdown:hover {
-  box-shadow: 0 6px 16px rgba(40, 38, 40, 0.87);
-}
-
-.custom-language-select {
+.language-select {
+  background-color: #007bff;
+  padding: 4px 16px;
+  border-radius: 20px;
   border: none;
-  background-color: transparent;
   font-weight: 600;
-  font-size: 0.95rem;
-  color: #0a0a0a;
+  font-size: 14px;
+  color: #fff;
+  appearance: none; 
+  //background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg width='12' height='8' viewBox='0 0 12 8' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1L6 6L11 1' stroke='black' stroke-width='2'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+  background-size: 12px;
+  padding-right: 32px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   cursor: pointer;
-  box-shadow: none;
-  outline: none;
 }
 
-.custom-language-select:focus {
-  box-shadow: none;
+.language-select:focus {
   outline: none;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
 }
+
 
 .user-box {
-  background: linear-gradient(135deg, #0cc7e3, #0cc7e3); /* Same gradient as dropdown */
-  padding: 6px 16px;
-  border-radius: 16px;
+  background-color: #007bff;
+  color: #fff;
+  padding: 6px 14px;
+  border-radius: 22px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 42px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  color: #000;
-  transition: box-shadow 0.3s ease;
 }
 
 .user-box:hover {
-  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.15);
+  background-color: #0069d9;
 }
 
-.logout-icon {
-  color: #000;
-  padding-left: 5px;
+.user-avatar {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid white;
+}
+
+.user-name {
+  font-weight: 500;
+  font-size: 14px;
+  white-space: nowrap;
+}
+
+.profile-upload-label {
   cursor: pointer;
+  font-size: 16px;
+  color: #ffffff;
   transition: color 0.2s ease;
 }
 
+.profile-upload-label:hover {
+  color: #e0e0e0;
+}
+
+#profileInput {
+  display: none;
+}
+
+.logout-icon {
+  font-size: 16px;
+  color: #ffffff;
+  cursor: pointer;
+  transition: transform 0.2s ease, color 0.2s ease;
+}
+
 .logout-icon:hover {
-  color: #333;
+  color: #e0e0e0;
+  transform: scale(1.1);
 }
