@@ -59,7 +59,7 @@ export class NavLeftComponent implements OnInit, OnDestroy {
       console.log("input data : "+regionName);
 
       let maxrecord = 10;
-      this.baseService.GET("http://localhost:5267/api/ServiceAreaMapping/GetAreaBySearch?name="+ regionName+"&maxrecord="+maxrecord)
+      this.baseService.GET("https://localhost:7282/api/ServiceAreaMapping/GetAreaBySearch?name="+ regionName+"&maxrecord="+maxrecord)
       .subscribe(response => {
         console.log("Get area by search : "+JSON.stringify(response));
       })

@@ -47,7 +47,7 @@ export class NavSearchComponent {
         {  
         console.log("Keyborad event : "+event.key);
         console.log("input data : "+serviceName);
-      this.baseService.GET("http://localhost:5267/api/Services/GetByName?ServiceName="+serviceName)
+      this.baseService.GET("https://localhost:7282/api/Services/GetByName?ServiceName="+serviceName)
       .subscribe(response => {
         console.log("Get Servis by search : "+JSON.stringify(response));
       });
