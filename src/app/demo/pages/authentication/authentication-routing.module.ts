@@ -9,9 +9,18 @@ const routes: Routes = [
         path: 'signin',
         loadComponent: () => import('./auth-signin/auth-signin.component')
       },
+      // {
+      //   path: 'signup',
+      //   loadComponent: () => import('./auth-signup/auth-signup.component')
+      // }
       {
-        path: 'signup',
-        loadComponent: () => import('./auth-signup/auth-signup.component')
+        path: 'verifyotp',
+        loadComponent: () => import("./verifyotp/verifyotp.component").then(m => m.VerifyotpComponent)
+      },
+
+      {
+        path: 'dashboard',
+        loadComponent: () => import("../../dashboard/dashboard.component").then(m => m.DashboardComponent)
       }
     ]
   }
