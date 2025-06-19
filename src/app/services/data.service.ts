@@ -7,4 +7,5 @@ export class DataService {
 
   constructor() { }
   regionChanged:boolean;
+  serviceChanged:boolean;
 }
