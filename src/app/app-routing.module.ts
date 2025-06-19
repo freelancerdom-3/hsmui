@@ -37,6 +37,18 @@ const routes: Routes = [
       {
         path: 'sample-page',
         loadComponent: () => import('./demo/extra/sample-page/sample-page.component')
+      },
+      {
+        path: 'home',
+        loadComponent: () => import('./demo/home/home.component').then(m => m.HomeComponent)
+      },
+      {
+        path: 'beauty',
+        loadComponent: () => import('./demo/beauty/beauty.component').then(m => m.BeautyComponent)
+      },
+      {
+        path: 'native',
+        loadComponent: () => import('./demo/native/native.component').then(m => m.NativeComponent)
       }
     ]
   },

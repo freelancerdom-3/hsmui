@@ -279,6 +279,10 @@ export class DashboardComponent implements OnInit {
 		})
 	}
 
+	getServicesFromSubCategoryId(subCategoryId: number){
+		this.baseService.GET<any>("https://localhost:7282/api/")
+	}
+
 	// public method
 	sales = [
 	{

@@ -1,4 +1,4 @@
-<div class="row">
+<!-- <div class="row"> -->
   <!--
   @for (sale of sales; track sale) {
     <div class="{{ sale.design }} col-xl-4">
@@ -170,21 +170,32 @@
 <div class="card p-4 shadow-sm">
   <h5 class="mb-4">What are you looking for?</h5>
   <div class="row g-3">
-    <ng-container *ngFor="let subCategory of topTrendingSubCategories; let i = index">
-      <div
-        [ngClass]="{
-          'col-12': i === topTrendingSubCategories.length - 1 && topTrendingSubCategories.length % 2 !== 0,
-          'col-md-6': !(i === topTrendingSubCategories.length - 1 && topTrendingSubCategories.length % 2 !== 0)
-        }"
-        class="text-center"
-      >
-        <div class="border rounded p-3 h-100">
-          <img [src]="subCategory.imageName | imageurl" width="50" [alt]="subCategory.subCategoryName" />
-          <p class="mt-2 mb-0">{{ subCategory.subCategoryName }}</p>
+
+    @if (topTrendingSubCategories.length > 0) {
+      @for (subCategory of topTrendingSubCategories; track subCategory.subCategoryId; let i = $index) {
+        <div
+          [ngClass]="{
+            'col-12': i === topTrendingSubCategories.length - 1 && topTrendingSubCategories.length % 2 !== 0,
+            'col-md-6': !(i === topTrendingSubCategories.length - 1 && topTrendingSubCategories.length % 2 !== 0)
+          }"
+          class="text-center"
+        >
+          <div class="border rounded p-3 h-100 category-box"
+               (click)="getServicesFromSubCategoryId(subCategory.subCategoryId)">
+            <img [src]="subCategory.imageName | imageurl"
+                 width="50"
+                 [alt]="subCategory.subCategoryName" />
+            <p class="mt-2 mb-0">{{ subCategory.subCategoryName }}</p>
+          </div>
         </div>
-      </div>
-    </ng-container>
+      }
+    } @else {
+      <div class="text-muted text-center">Loading trending categories...</div>
+    }
+
   </div>
 </div>
+
+
 
 <!-- Adding empty section to add in future -->

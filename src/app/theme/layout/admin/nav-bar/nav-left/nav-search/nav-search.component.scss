@@ -1,0 +1,14 @@
+.nav-link {
+  cursor: pointer;
+}
+
+.nav-link:hover {
+  color: #0d6efd !important;
+  text-decoration: underline;
+}
+
+.nav-link.active {
+  color: #0d6efd !important;
+  font-weight: bold;
+  border-bottom: 2px solid #0d6efd;
+}

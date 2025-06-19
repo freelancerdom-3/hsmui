@@ -4,7 +4,17 @@
       <i class="feather" [ngClass]="screenFull ? 'icon-minimize' : 'icon-maximize'"></i>
     </a>
   </li> -->
- 
+  @for (category of categories; track category.categoryId) {
+  <li class="nav-item">
+    <a class="nav-link px-3 text-uppercase fw-medium"
+       [ngClass]="{ 'active': activeItem === category }"
+       style="transition: color 0.2s ease-in-out; cursor: pointer;"
+       (click)="navigateToSubCategory(category.categoryId)">
+      {{ category.categoryName }}
+    </a>
+  </li>
+}
+
  
 <!-- location Search -->
  <li>
