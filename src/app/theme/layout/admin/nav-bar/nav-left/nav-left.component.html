@@ -18,11 +18,24 @@
  
 <!-- location Search -->
  <li>
-<div class="input-group">
-  <input type="text" (keyup)="getRegionBySearch($event)" id="m-search" placeholder="Search Region . . ."
-   class="form-control" style="width: 210px;">
-   <span  role="none">
-  </span></div></li>
+    <div class="input-group">
+      <input type="text" (keyup)="getRegionBySearch($event)" [(ngModel)]="searchText" id="m-search" placeholder="Search Region . . ."
+        class="form-control" style="width: 100%;">
+      <span role="none">
+      </span>
+    </div>
+
+    <ul class="list-group" *ngIf="searchResult.length > 0"
+      style="position: absolute; top: 100%; left: 0; z-index: 999; background: white; border: 1px solid #ccc; width: 100%; max-height: 400px; overflow-y: auto;">
+
+      @for (region of searchResult; track region.id) {
+      <li class="list-group-item" style="cursor: pointer;"
+        (click)="selectedRegion(region)" >
+        <strong>{{ region.name }}</strong><br/>  <em>{{ region.parent }}</em>
+      </li>
+      }
+    </ul>
+  </li>
 
  <!-- <li class="nav-item show-items" ngbDropdown placement="auto">
     <a href="javascript:" ngbDropdownToggle>Dropdown</a>
