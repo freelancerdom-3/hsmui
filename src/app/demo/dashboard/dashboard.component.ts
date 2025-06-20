@@ -272,7 +272,7 @@ export class DashboardComponent implements OnInit {
 	}
 
 	getTopTrendingSubCategories(){
-		const maxTrendingRecords = 5;
+		const maxTrendingRecords = 10;
 		this.baseService.GET<any>("https://localhost:7282/api/SubCategory/GetTopTrending?maxTrendingRecords="+maxTrendingRecords).subscribe(response => {
 			console.log("top 5 services ressponse: "+response.data);
 			this.topTrendingSubCategories = response.data;

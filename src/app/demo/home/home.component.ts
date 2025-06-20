@@ -27,11 +27,12 @@ export class HomeComponent implements OnInit {
 			else{
 				console.log("Didn't received categoryId");
 			}
-		})
+		});
+		this.getHomeSubCategories();
 	}
 
 	getHomeSubCategories(){
-		this.baseService.GET<any>("https://localhost:7282/api/SubCategory/GetByCactegoryId?CatrgoryId="+this.categoryId)
+		this.baseService.GET<any>("https://localhost:7282/api/SubCategory/GetByCategoryId?CategoryId="+this.categoryId)
 		.subscribe(response => {
 			console.log("Home component response : "+response);
 			this.subCategories = response.data;
