@@ -32,7 +32,6 @@ export class NavLeftComponent implements OnInit, OnDestroy {
 	constructor(private baseService: BaseService, private router: Router, private dataService: DataService) { }
 	// life cycle hook
 	ngOnInit() {
-		this.dataService.regionChanged = true;
 		if (screenfull.isEnabled) {
 			this.screenFull = screenfull.isFullscreen; // Initialize based on current fullscreen state
 			screenfull.on('change', () => {
@@ -89,6 +88,9 @@ export class NavLeftComponent implements OnInit, OnDestroy {
 		this.selectedRegionData = region;
 		this.searchText = region.name + " " + region.parent;
 		this.searchResult = [];
+
+		this.dataService.setSelectedRegion(region); 
+		this.dataService.triggerRegionChanged();
 	}
 
 	loadCategories() {
