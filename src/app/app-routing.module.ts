@@ -49,6 +49,10 @@ const routes: Routes = [
       {
         path: 'native',
         loadComponent: () => import('./demo/native/native.component').then(m => m.NativeComponent)
+      },
+      {
+        path: 'cart',
+        loadComponent: () => import('./demo/cart/cart.component').then(m => m.CartComponent)
       }
     ]
   },
