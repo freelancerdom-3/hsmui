@@ -1,5 +1,6 @@
 // angular import
 import { Component, inject } from '@angular/core';
+import { Router } from '@angular/router';
 
 // bootstrap import
 import { NgbDropdownConfig } from '@ng-bootstrap/ng-bootstrap';
@@ -18,9 +19,13 @@ export class NavRightComponent {
   // public props
 
   // constructor
-  constructor() {
+  constructor(private router: Router) {
     const config = inject(NgbDropdownConfig);
 
     config.placement = 'bottom-right';
+  }
+
+  navigateToCart(){
+    this.router.navigate(['cart']);
   }
 }
