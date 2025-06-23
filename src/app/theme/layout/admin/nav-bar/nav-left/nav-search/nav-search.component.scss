@@ -12,3 +12,14 @@
   font-weight: bold;
   border-bottom: 2px solid #0d6efd;
 }
+
+.horizontal-group {
+  display: flex;
+  gap: 10px;
+  width: 500px;
+  height: 40px;
+}
+
+.horizontal-search .input-group {
+  flex: 1;
+}

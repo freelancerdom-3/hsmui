@@ -25,9 +25,9 @@ export class NavLeftComponent implements OnInit, OnDestroy {
 	categories: any[] = [];
 	//to denote active
 	activeItem: string = '';
-	searchResult: any[] = [];
-	searchText: string = '';
-	selectedRegionData: any = null;
+	// searchResult: any[] = [];
+	// searchText: string = '';
+	// selectedRegionData: any = null;
 
 	constructor(private baseService: BaseService, private router: Router, private dataService: DataService) { }
 	// life cycle hook
@@ -59,39 +59,39 @@ export class NavLeftComponent implements OnInit, OnDestroy {
 	}
 
 
-	getRegionBySearch(event: KeyboardEvent) {
-		const input = event.target as HTMLInputElement;
-		let regionName = input.value.trim();
-		const onlyAlphabets = /^[a-zA-Z]$/.test(event.key);
-		if (regionName.length === 0) {
-			this.searchResult = [];
-			this.selectedRegionData = null;
-			return;
-		}
-		if (event.key.length == 1 && onlyAlphabets && regionName.length >= 2) {
+	// getRegionBySearch(event: KeyboardEvent) {
+	// 	const input = event.target as HTMLInputElement;
+	// 	let regionName = input.value.trim();
+	// 	const onlyAlphabets = /^[a-zA-Z]$/.test(event.key);
+	// 	if (regionName.length === 0) {
+	// 		this.searchResult = [];
+	// 		this.selectedRegionData = null;
+	// 		return;
+	// 	}
+	// 	if (event.key.length == 1 && onlyAlphabets && regionName.length >= 2) {
 
-			console.log("Keyborad event : " + event.key);
-			console.log("input data : " + regionName);
+	// 		console.log("Keyborad event : " + event.key);
+	// 		console.log("input data : " + regionName);
 
-			let maxrecord = 10;
-			this.baseService.GET<any>("https://localhost:7282/api/ServiceAreaMapping/GetAreaBySearch?name=" + regionName + "&maxrecord=" + maxrecord)
-				.subscribe(response => {
-					console.log("Get area by search : " + JSON.stringify(response));
-					this.searchResult = response.data;
-					console.log("search result : " + this.searchResult);
-				})
-		}
-	}
+	// 		let maxrecord = 10;
+	// 		this.baseService.GET<any>("https://localhost:7282/api/ServiceAreaMapping/GetAreaBySearch?name=" + regionName + "&maxrecord=" + maxrecord)
+	// 			.subscribe(response => {
+	// 				console.log("Get area by search : " + JSON.stringify(response));
+	// 				this.searchResult = response.data;
+	// 				console.log("search result : " + this.searchResult);
+	// 			})
+	// 	}
+	// }
 
-	selectedRegion(region: any) {
-		console.log("this is selected region" + region.id);
-		this.selectedRegionData = region;
-		this.searchText = region.name + " " + region.parent;
-		this.searchResult = [];
+	// selectedRegion(region: any) {
+	// 	console.log("this is selected region" + region.id);
+	// 	this.selectedRegionData = region;
+	// 	this.searchText = region.name + " " + region.parent;
+	// 	this.searchResult = [];
 
-		this.dataService.setSelectedRegion(region); 
-		this.dataService.triggerRegionChanged();
-	}
+	// 	this.dataService.setSelectedRegion(region); 
+	// 	this.dataService.triggerRegionChanged();
+	// }
 
 	loadCategories() {
 		this.baseService.GET<any>("https://localhost:7282/api/Category").subscribe(response => {

@@ -14,17 +14,17 @@ export class DataService {
   private selectedRegionSubject = new BehaviorSubject<any>(null);
   selectedRegion$ = this.selectedRegionSubject.asObservable();
 
-  private regionChangedSubject = new BehaviorSubject<boolean>(false);
-  regionChanged$ = this.regionChangedSubject.asObservable();
+  // private regionChangedSubject = new BehaviorSubject<boolean>(false);
+  // regionChanged$ = this.regionChangedSubject.asObservable();
 
 
-  triggerRegionChanged() {
-    console.log("trigger change in dataservice");
-    this.regionChangedSubject.next(true);
-  }
+  // triggerRegionChanged() {
+  //   console.log("trigger change in dataservice");
+  //   this.regionChangedSubject.next(true);
+  // }
 
   setSelectedRegion(region: any) {
-    console.log(region);
+    console.log("this is dataservice file"+region);
     this.selectedRegionSubject.next(region);
     this.router.navigate(['dashboard']);
   }

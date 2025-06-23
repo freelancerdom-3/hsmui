@@ -1,32 +1,47 @@
- 
-  <div  id="main-search" class="main-search" >
-    <div class="input-group" >
-      <input type="text"  (keyup)="getseviceBySearch($event)" [(ngModel)]="searchText" id="m-search" class="form-control" placeholder="Search sevice . . ." [style.width]="searchWidthString" />
+<div id="main-search" class="main-search horizontal-group">
+  <div class="input-group">
+      <input type="text" (keyup)="getRegionBySearch($event)" [(ngModel)]="searchedRegion" id="m-search" placeholder="Search Region . . ."
+        class="form-control" [style.width]="searchWidthString"/>
+      <span role="none">
+      </span>
+    </div>
+  <div class="input-group">
+    <!-- <input type="text" (keyup)="getRegionBySearch($event)" [(ngModel)]="searchText" id="m-search"
+      placeholder="Search Region . . ." class="form-control" style="width: 100%;" />
+    <span role="none"> -->
+      <input type="text" (keyup)="getseviceBySearch($event)" [(ngModel)]="searchText" id="m-search" class="form-control"
+        placeholder="Search sevice . . ." [style.width]="searchWidthString" />
       <!-- <a href="javascript:" class="input-group-append search-close" (click)="searchOff()">
         
         <i class="feather icon-x input-group-text"></i>
       </a> -->
-      <span class="input-group-append search-btn btn btn-primary d-flex" (click)="searchOn()" role="none" (keypress)="searchOn()">
-      
+      <!-- <span class="input-group-append search-btn btn btn-primary d-flex" (click)="searchOn()" role="none"
+        (keypress)="searchOn()">
+
         <i class="feather icon-search input-group-text"></i>
-      </span>
-    </div>
-  </div>
+      </span> -->
+  </div> 
+</div>
 
 
 
 
-    <ul class="list-group"
-      *ngIf="searchResult.length > 0"
-      style="position: absolute; top: 100%; left: 600px; z-index: 999; background: white; border: 1px solid #ccc; width: 250px;">
+<ul class="list-group" *ngIf="searchRegion.length > 0"
+  style="position: absolute; top: 100%; left: 0; z-index: 999; background: white; border: 1px solid #ccc; width: 100%; max-height: 400px; overflow-y: auto;">
 
-    @for (service of searchResult; track service.id) {
-      <li class="list-group-item"
-          
-          style="cursor: pointer;"
-          (click)="selectService(service)">
-        <strong>{{ service.name }}</strong> - <em>{{ service.parent }}</em>
-      </li>
-    }
-  </ul>
-   
+  @for (region of searchRegion; track region.id) {
+  <li class="list-group-item" style="cursor: pointer;" (click)="selectedRegion(region)">
+    <strong>{{ region.name }}</strong><br /> <em>{{ region.parent }}</em>
+  </li>
+  }
+</ul>
+
+<ul class="list-group" *ngIf="searchResult.length > 0"
+  style="position: absolute; top: 100%; left: 600px; z-index: 999; background: white; border: 1px solid #ccc; width: 250px;">
+
+  @for (service of searchResult; track service.id) {
+  <li class="list-group-item" style="cursor: pointer;" (click)="selectService(service)">
+    <strong>{{ service.name }}</strong> - <em>{{ service.parent }}</em>
+  </li>
+  }
+</ul>
