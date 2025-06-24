@@ -21,6 +21,7 @@ import dataJson from 'src/fake-data/map_data';
 import mapColor from 'src/fake-data/map-color-data.json';
 import { BaseService } from 'src/app/services/base.service';
 import { DataService } from 'src/app/services/data.service';
+import { Router } from '@angular/router';
 
 @Component({
 	selector: 'app-dashboard',
@@ -30,7 +31,7 @@ import { DataService } from 'src/app/services/data.service';
 	styleUrls: ['./dashboard.component.scss']
 })
 export class DashboardComponent implements OnInit {
-	constructor(private baseService: BaseService, private dataService: DataService) { }
+	constructor(private baseService: BaseService, private dataService: DataService, private router:Router) { }
 	// component.ts
 	// services = [
 	//   { img: 'assets/images/women.png', title: "Women's Salon & Spa" },
@@ -51,7 +52,7 @@ export class DashboardComponent implements OnInit {
 			console.log("dashboard component"+region);
 			if (region) {
 				console.log("Received selected region in dashboard:", region);
-				this.callApiForRegionDetails(region.id);
+				// this.callApiForRegionDetails(region.id);
 			}
 		});
 
@@ -283,20 +284,18 @@ export class DashboardComponent implements OnInit {
 		}, 500);
 	}
 
-	callApiForRegionDetails(regionId: string) {
-		console.log("triggered changed, regionId:", regionId);
-	}
-
-	getTopTrendingSubCategories() {
-		const maxTrendingRecords = 10;
-		this.baseService.GET<any>("https://localhost:7282/api/SubCategory/GetTopTrending?maxTrendingRecords=" + maxTrendingRecords).subscribe(response => {
-			console.log("top 5 services ressponse: " + response.data);
+	getTopTrendingSubCategories(){
+		const maxTrendingRecords = 5;
+		this.baseService.GET<any>("https://localhost:7282/api/SubCategory/GetTopTrending?maxTrendingRecords="+maxTrendingRecords).subscribe(response => {
+			console.log("top 5 services ressponse: "+response.data);
 			this.topTrendingSubCategories = response.data;
 		})
 	}
 
-	getServicesFromSubCategoryId(subCategoryId: number) {
-		this.baseService.GET<any>("https://localhost:7282/api/")
+	navigateToSubCategoryServicePage(subCategoryId:number) {
+		this.router.navigate(['subcategory'], {
+			queryParams: { subCategoryId }
+		});
 	}
 
 	// public method

@@ -181,7 +181,7 @@
           class="text-center"
         >
           <div class="border rounded p-3 h-100 category-box"
-               (click)="getServicesFromSubCategoryId(subCategory.subCategoryId)">
+               (click)="navigateToSubCategoryServicePage(subCategory.subCategoryId)">
             <img [src]="subCategory.imageName | imageurl"
                  width="50"
                  [alt]="subCategory.subCategoryName" />

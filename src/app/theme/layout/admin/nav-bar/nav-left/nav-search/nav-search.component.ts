@@ -5,9 +5,10 @@ import { Component } from '@angular/core';
 import { SharedModule } from 'src/app/theme/shared/shared.module';
 import { BaseService } from 'src/app/services/base.service';
 import { DataService } from 'src/app/services/data.service';
+import { Router, RouterModule } from '@angular/router';
 @Component({
   selector: 'app-nav-search',
-  imports: [SharedModule],
+  imports: [SharedModule, RouterModule],
   templateUrl: './nav-search.component.html',
   styleUrls: ['./nav-search.component.scss']
 
@@ -30,9 +31,10 @@ export class NavSearchComponent {
 
 
   // constructor
-  constructor(private baseService: BaseService, private dataService: DataService) {
+  constructor(private baseService: BaseService, private dataService: DataService, private router: Router) {
     this.searchWidth = 0;
   }
+
   ngOnInit(): void {
     //this.dataService.serviceChanged = true;
     // Auto-expand the search bar on component load
@@ -53,34 +55,50 @@ export class NavSearchComponent {
     }, 35);
   }
 
-  getseviceBySearch(event: KeyboardEvent) {
-    const input = event.target as HTMLInputElement;
-    let serviceName = input.value.trim();
-    const onlyAlphabets = /^[a-zA-Z]$/.test(event.key);
-    if (serviceName.length == 0) {
-      this.searchResult = [];
-      this.selectedServiceData = null;
-      return;
-    }
-    if (event.key.length == 1 && onlyAlphabets && serviceName.length >= 2) {
-      console.log("Keyborad event : " + event.key);
-      console.log("input data : " + serviceName);
-      this.baseService.GET<any>("https://localhost:7282/api/Services/GetByName?ServiceName=" + serviceName)
+      getseviceBySearch(event:KeyboardEvent){
+        const input = event.target as HTMLInputElement;
+        
+        let serviceName = input.value.trim();
+        const onlyAlphabets = /^[a-zA-Z]$/.test(event.key);
+        if(serviceName.length==0){
+          this.searchResult=[];
+           this.selectedServiceData = null;
+          return;
+        }
+         
+        if(event.key.length == 1 && onlyAlphabets && serviceName.length >= 2)
+          {  
+          console.log("Keyborad event : "+event.key);
+          console.log("input data : "+serviceName);
+        this.baseService.GET<any>("https://localhost:7282/api/Services/GetByName?ServiceName="+serviceName)
         .subscribe(response => {
-          console.log("Get Servis by search : " + JSON.stringify(response));
+          console.log("Get Servis by search : "+JSON.stringify(response));
           this.searchResult = response.data;
-          console.log("search result : " + this.searchResult);
+          console.log("search result : "+this.searchResult);
         });
-    }
-  }
-  selectService(service: any) {
-    console.log("THis is selected service:" + service.id);
-    this.selectedServiceData = service;
-    this.searchText = service.name;
-    this.searchResult = [];
-  }
+      }
+      }
 
-  getRegionBySearch(event: KeyboardEvent) {
+      selectService(selectedServiceOption:any){
+        console.log("THis is selected service:"+JSON.stringify(selectedServiceOption).toString());
+        this.selectedServiceData = selectedServiceOption;
+        this.searchText = selectedServiceOption.name;
+        this.searchResult=[];
+        
+        let subCategoryId = 0;
+        if(selectedServiceOption.parentId == 0){
+          subCategoryId = selectedServiceOption.id;
+        }
+        else{
+          subCategoryId = selectedServiceOption.parentId;
+        }
+        
+        this.router.navigate(['subcategory'], {
+          queryParams:{subCategoryId}
+        });
+      }
+
+      getRegionBySearch(event: KeyboardEvent) {
     const input = event.target as HTMLInputElement;
     let regionName = input.value.trim();
     const onlyAlphabets = /^[a-zA-Z]$/.test(event.key);
@@ -112,8 +130,6 @@ export class NavSearchComponent {
     this.dataService.setSelectedRegion(region);
     //this.dataService.triggerRegionChanged();
   }
-
-
 
   // searchOff() {
   //   this.searchInterval = setInterval(() => {

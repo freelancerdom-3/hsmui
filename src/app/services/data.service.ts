@@ -17,6 +17,8 @@ export class DataService {
   // private regionChangedSubject = new BehaviorSubject<boolean>(false);
   // regionChanged$ = this.regionChangedSubject.asObservable();
 
+  private onDashboardSubject = new BehaviorSubject<boolean>(false);
+  onDashboard$ = this.onDashboardSubject.asObservable();
 
   // triggerRegionChanged() {
   //   console.log("trigger change in dataservice");
@@ -27,5 +29,10 @@ export class DataService {
     console.log("this is dataservice file"+region);
     this.selectedRegionSubject.next(region);
     this.router.navigate(['dashboard']);
+  }
+
+  //for dashboar url check remove effect from nav elements
+  setOnDashboard(value: boolean) {
+    this.onDashboardSubject.next(value);
   }
 }

@@ -8,8 +8,10 @@ import { NavSearchComponent } from './nav-search/nav-search.component';
 //
 import screenfull from 'screenfull';
 import { BaseService } from 'src/app/services/base.service';
-import { Router, RouterModule } from '@angular/router';
+import { Router, RouterModule, NavigationEnd } from '@angular/router';
 import { DataService } from 'src/app/services/data.service';
+import { filter } from 'rxjs/operators';
+
 
 @Component({
 	selector: 'app-nav-left',
@@ -24,10 +26,16 @@ export class NavLeftComponent implements OnInit, OnDestroy {
 	//categories item array
 	categories: any[] = [];
 	//to denote active
-	activeItem: string = '';
-	// searchResult: any[] = [];
-	// searchText: string = '';
-	// selectedRegionData: any = null;
+	activeItem: number = 0;
+	searchResult: any[] = [];
+	searchText: string = '';
+	selectedRegionData: any = null;
+
+	//to store current route
+	currentRoute: string = "";
+
+	//to check if dashboard is on or not
+	isOnDashboard: boolean = false;
 
 	constructor(private baseService: BaseService, private router: Router, private dataService: DataService) { }
 	// life cycle hook
@@ -38,6 +46,24 @@ export class NavLeftComponent implements OnInit, OnDestroy {
 				this.screenFull = screenfull.isFullscreen;
 			});
 		}
+		
+		this.router.events.pipe(
+		filter(event => event instanceof NavigationEnd)
+			).subscribe((event: any) => {
+			const currentUrl = event.urlAfterRedirects;
+
+			if (currentUrl.includes('/dashboard')) {
+			this.dataService.setOnDashboard(true);
+			} 
+			else {
+			this.dataService.setOnDashboard(false);
+			}
+		});
+
+		this.dataService.onDashboard$.subscribe(isDash => {
+			this.isOnDashboard = isDash;
+		});
+
 		this.loadCategories();
 	}
 
@@ -93,6 +119,7 @@ export class NavLeftComponent implements OnInit, OnDestroy {
 	// 	this.dataService.triggerRegionChanged();
 	// }
 
+	//load categories
 	loadCategories() {
 		this.baseService.GET<any>("https://localhost:7282/api/Category").subscribe(response => {
 			console.log("All categories : " + JSON.stringify(response.data).toString());
@@ -102,34 +129,21 @@ export class NavLeftComponent implements OnInit, OnDestroy {
 	}
 
 	navigateToSubCategory(categoryId: number) {
-		console.log(categoryId);
-		if (categoryId == 1) {
-			this.router.navigate(['home'],
-				{
-					queryParams: {
-						'categoryId': categoryId
-					}
-				}
-			);
-		}
-		else if (categoryId == 2) {
-			this.router.navigate(['beauty'],
-				{
-					queryParams: {
-						'categoryId': categoryId
-					}
-				}
-			);
-		}
-		else if (categoryId == 3) {
-			this.router.navigate(['native'],
-				{
-					queryParams: {
-						'categoryId': categoryId
-					}
-				}
-			);
+		this.activeItem = categoryId; // Only set on click
+
+		const routeMap: any = {
+			1: 'home',
+			2: 'beauty',
+			3: 'native'
+		};
+
+		const route = routeMap[categoryId];
+		if (route) {
+			this.router.navigate([route], {
+				queryParams: { categoryId }
+			});
 		}
 	}
+
 
 }

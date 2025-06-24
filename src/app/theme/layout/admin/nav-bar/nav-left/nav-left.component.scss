@@ -1,0 +1,50 @@
+.navbar-nav .nav-link {
+  position: relative;
+  color: #2d8e9f; /* calm teal */
+  font-weight: 500;
+  padding-bottom: 6px;
+  text-decoration: none;
+  cursor: pointer;
+  transition: color 0.3s ease, text-shadow 0.3s ease;
+}
+
+.navbar-nav .nav-link::after {
+  content: '';
+  position: absolute;
+  left: 10%;
+  right: 10%;
+  bottom: 0;
+  height: 2px;
+  background-color: transparent;
+  border-radius: 2px;
+  transform: scaleX(0);
+  transform-origin: center;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+/* Hover state: soft highlight and underline */
+.navbar-nav .nav-link:hover {
+  color: #1c5e6b; /* deeper teal on hover for contrast */
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.15); /* subtle depth */
+}
+
+.navbar-nav .nav-link:hover::after {
+  background-color: #1c5e6b;
+  transform: scaleX(1);
+}
+
+/* Active link underline in black */
+.navbar-nav .nav-link.active::after {
+  background-color: #000;
+  transform: scaleX(1);
+}
+
+.navbar-nav .nav-link.no-style {
+  color: #2d8e9f !important;
+  text-shadow: none !important;
+}
+
+.navbar-nav .nav-link.no-style::after {
+  background-color: transparent !important;
+  transform: scaleX(0) !important;
+}
