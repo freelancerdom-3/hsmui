@@ -1,0 +1,69 @@
+<div class="container d-flex shrink-container" style="height: 100vh; padding: 0 1rem;">
+  <!-- Left Panel -->
+  <div class="left-panel" style="width: 45%; position: relative;">
+  <div class="left-inner-panel">
+    <h2 class="text-primary fw-semibold sub-category-name">
+      {{ apiResponse?.subCategoryName }}
+    </h2>
+
+    <!-- Child SubCategory Grid -->
+    <div class="row g-3 mt-4">
+      @for (child of apiResponse?.childSubCategoriesList; track child.childSubCategoryId) {
+        <div class="col-12 col-md-4">
+          <div class="category-box">
+            <img [src]="child.childSubCategoryImageName | imageurl" alt="{{ child.childSubCategoryName }}" class="img-fluid mb-1" />
+            <div>{{ child.childSubCategoryName }}</div>
+          </div>
+        </div>
+      }
+    </div>
+  </div>
+</div>
+
+
+  <!-- Right Panel -->
+  <div class="right-panel flex-grow-1 overflow-auto ps-4 service-panel no-scrollbar" (scroll)="onScroll($event)" style="height: 100vh; padding-top: 1rem;">
+  @for (group of visibleServiceGroups; track group.childSubCategoryName) {
+    @if (group.servicesList.length > 0) {
+      <div class="mb-5">
+        <h5 class="fw-bold mb-2 child-subcategory-name">
+          {{ group.childSubCategoryName }}
+        </h5>
+
+        <hr style="height: 4px; background-color: #ccc; border: none;" />
+
+        <div class="row g-3"> <!-- reduced spacing from g-4 to g-3 -->
+          @for (service of group.servicesList; track service.serviceId) {
+            <div class="col-md-6 col-lg-6"> <!-- changed to 2-column layout -->
+              <div class="card service-box h-100 shadow-sm border-0">
+                <img
+                  [src]="service.imageName | imageurl"
+                  class="card-img-top"
+                  alt="{{ service.serviceName }}"
+                  style="height: 180px; object-fit: cover;"
+                />
+                <div class="card-body">
+                  <h5 class="card-title text-dark">{{ service.serviceName }}</h5>
+                  <p class="card-text text-muted mb-1">₹{{ service.price }}</p>
+                  <p class="card-text text-muted">Time: {{ service.timeTaken }}</p>
+                  <button class="btn btn-outline-primary mt-2 w-100" (click)="addService(service.serviceId)">ADD</button>
+                </div>
+              </div>
+            </div>
+          }
+        </div>
+      </div>
+    }
+  }
+
+  <!-- Optional loading spinner -->
+  @if (isLoading) {
+    @if (!apiResponse) {
+      <div class="text-muted text-center">Sorry! No services at the moment...</div>
+    } @else {
+      <div class="text-center my-3">
+        <span class="spinner-border text-primary"></span>
+      </div>
+    }
+  }
+</div>

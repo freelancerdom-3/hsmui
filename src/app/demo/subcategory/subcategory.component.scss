@@ -1,0 +1,114 @@
+
+.left-inner-panel {
+  position: absolute;
+  top: 16.66%; /* originally placed 1/6th from top */
+  left: 0;
+  right: 0;
+  padding: 1rem;
+
+  /* 🔼 Lift it upward by 20% */
+  transform: translateY(-20%);
+  transition: transform 0.3s ease;
+}
+
+// .right-panel {
+//   width: 60% !important; /* Shrunk by 40% */
+//   height: 100vh;
+//   padding-top: 1rem;
+// }
+
+.shrink-container {
+  width: 60%;
+  height: 100vh;
+  padding: 0 1rem;
+  margin-left: 5%;
+  margin-right: 0;
+}
+
+
+.category-box {
+  cursor: pointer;
+  transition: box-shadow 0.3s ease, transform 0.2s ease, background-color 0.3s ease;
+  background-color: #fff;
+  border: 1px solid #dee2e6;
+  border-radius: 8px;
+  padding: 0.75rem;
+  text-align: center;
+  font-weight: 500;
+  box-shadow: 0 0 0 rgba(0, 0, 0, 0);
+  height: 150px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.category-box:hover {
+  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.1);
+  transform: translateY(-3px);
+  background-color: #f8f9fa;
+}
+
+.category-img {
+  height: 60px;
+  object-fit: contain;
+}
+
+/* 🔹 Main SubCategory (Electrician) - left panel h2 */
+.sub-category-name {
+  font-size: 2.4rem; /* ⬅️ 20% larger than typical 2rem h2 */
+  transition: transform 0.3s ease;
+  display: inline-block; /* Required for transform */
+}
+
+.sub-category-name:hover {
+  transform: scale(1.15); /* ⬅️ 15% visual magnification on hover */
+}
+
+/* 🔹 ChildSubCategory name (e.g., Fan, MCB & submeter) */
+.child-subcategory-name {
+  font-size: 1.7rem; /* ⬅️ 20% larger than base (assumed 1rem) */
+  transition: transform 0.3s ease;
+  display: inline-block; /* ensures transform works cleanly */
+}
+
+.child-subcategory-name:hover {
+  transform: scale(1.15); /* ⬅️ 15% magnify on top of 1.2rem */
+}
+
+/* 🔹 Common Hover Style: Shadow, Lift, Light Background */
+/* Reduce service card scale further to 20% smaller */
+.service-box {
+  transform: scale(0.80);
+  transition: transform 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease;
+}
+
+.service-box:hover {
+  transform: scale(0.80) translateY(-3px);
+  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.1);
+  background-color: #f8f9fa;
+}
+
+/* Bigger ADD button */
+.card-body .btn {
+  font-size: 1rem;
+  padding: 0.5rem 1rem;
+  font-weight: 500;
+}
+
+.service-panel {
+  width: 75%; /* Shrunk by 25% */
+  height: 100vh;
+  padding-top: 1rem;
+}
+
+/* Hide scrollbar for WebKit browsers (Chrome, Safari) */
+.no-scrollbar::-webkit-scrollbar {
+  width: 0;
+  height: 0;
+}
+
+/* Hide scrollbar for Firefox */
+.no-scrollbar {
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE and Edge */
+}
