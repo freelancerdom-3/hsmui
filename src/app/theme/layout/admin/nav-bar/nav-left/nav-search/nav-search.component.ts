@@ -91,10 +91,8 @@ export class NavSearchComponent {
       else{
         subCategoryId = selectedServiceOption.parentId;
       }
-      
-      this.router.navigate(['subcategory'], {
-        queryParams:{subCategoryId}
-      });
+      localStorage.setItem('subCategoryIdFromClick', String(subCategoryId));
+      this.router.navigate(['subcategory']);
     }
 
     getRegionBySearch(event: KeyboardEvent) {

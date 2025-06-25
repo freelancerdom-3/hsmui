@@ -57,7 +57,8 @@ const routes: Routes = [
       {
         path: 'subcategory',
         loadComponent: () => import('./demo/subcategory/subcategory.component').then(m => m.SubcategoryComponent)
-      }
+      },
+    
     ]
   },
   {

@@ -293,9 +293,8 @@ export class DashboardComponent implements OnInit {
 	}
 
 	navigateToSubCategoryServicePage(subCategoryId:number) {
-		this.router.navigate(['subcategory'], {
-			queryParams: { subCategoryId }
-		});
+		localStorage.setItem('subCategoryIdFromClick', String(subCategoryId));
+		this.router.navigate(['subcategory']);
 	}
 
 	// public method

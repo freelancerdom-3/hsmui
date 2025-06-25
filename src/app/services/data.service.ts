@@ -10,6 +10,8 @@ export class DataService {
   constructor(private router: Router) { }
   regionChanged:boolean;
   serviceChanged:boolean;
+  subCategoryIdFromClick:number;
+  subCategoryCartSubCategoryId:number;
 
   private selectedRegionSubject = new BehaviorSubject<any>(null);
   selectedRegion$ = this.selectedRegionSubject.asObservable();

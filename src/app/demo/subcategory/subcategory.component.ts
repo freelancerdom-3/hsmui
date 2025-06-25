@@ -1,11 +1,13 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { BaseService } from 'src/app/services/base.service';
 import { SharedModule } from 'src/app/theme/shared/shared.module';
+import { SubcatagorycartComponent } from '../subcatagorycart/subcatagorycart.component';
+import { DataService } from 'src/app/services/data.service';
 
 @Component({
   selector: 'app-subcategory',
-  imports: [SharedModule],
+  imports: [SharedModule, SubcatagorycartComponent],
   templateUrl: './subcategory.component.html',
   styleUrl: './subcategory.component.scss'
 })
@@ -19,18 +21,12 @@ export class SubcategoryComponent implements OnInit {
 	scrollIndex = 0;
 	responseData: any;
 	subCategoryIdFromClick:number;
-	constructor(private baseService: BaseService, private activatedRoute: ActivatedRoute){}
+	
+	constructor(private baseService: BaseService, private activatedRoute: ActivatedRoute,private router: Router, private dataService: DataService ){}
 
 	ngOnInit() {
 		//to get subCategoryId from home, dashboard or related components queryParams
-		this.activatedRoute.queryParams.subscribe(params => {
-			if(params['subCategoryId']){
-				this.subCategoryIdFromClick = params['subCategoryId'];
-			}
-			else{
-				console.log("Didn't received subCategoryIdFromClick");
-			}
-		});
+		this.subCategoryIdFromClick = Number (localStorage.getItem('subCategoryIdFromClick'));
 		// Assume you load from API
 		this.loadServiceFromSubCategory();
 	}
@@ -72,6 +68,9 @@ export class SubcategoryComponent implements OnInit {
 	//add service to cart
 	addService(serviceId:number){
 
+	}
+	navigateTOSubcatagoryCart(){
+		 this.router.navigate(['subcatagorycart']);
 	}
 }
 
