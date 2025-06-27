@@ -58,6 +58,10 @@ const routes: Routes = [
         path: 'subcategory',
         loadComponent: () => import('./demo/subcategory/subcategory.component').then(m => m.SubcategoryComponent)
       },
+      {
+        path: 'checkout',
+        loadComponent: () => import('./demo/checkout/checkout.component').then(m => m.CheckoutComponent)
+      },
     
     ]
   },

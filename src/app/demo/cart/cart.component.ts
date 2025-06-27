@@ -84,6 +84,7 @@ constructor(private router: Router){}
 
   checkout(item: any) {
   console.log('Proceed to checkout for:', item.subcategoryName);
+  this.router.navigate(['checkout']);
   
 }
 }
