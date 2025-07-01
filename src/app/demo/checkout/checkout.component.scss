@@ -1,0 +1,137 @@
+/* ===== Wrapper: two responsive columns ============================ */
+.checkout-wrapper {
+  display: flex;
+  gap: 2rem;
+  flex-wrap: wrap;        /* lets them stack on small screens */
+  align-items: flex-start;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* ===== Panels ===================================================== */
+.customer-info,
+.order-summary {
+  flex: 1 1 50%;          /* 50 % width on desktop, full width on wrap */
+  box-sizing: border-box;
+  padding: 1.5rem 2rem;
+  border: 1px solid #e3e3e3;
+  border-radius: 8px;
+  background: #fafafa;
+}
+
+/* ===== Headings =================================================== */
+.title {
+  margin: 0 0 1rem;
+  font-size: 1.25rem;
+  font-weight: 600;
+}
+
+/* ===== Form controls ============================================== */
+label {
+  display: block;
+  margin-bottom: 1rem;
+}
+
+.label {
+  display: block;
+  margin-bottom: 0.25rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+
+input,
+select,
+textarea {
+  width: 100%;
+  padding: 0.5rem 0.75rem;
+  border: 1px solid #c5c5c5;
+  border-radius: 4px;
+  font: inherit;
+}
+
+textarea { resize: vertical; }
+
+/* ===== Cart items & totals ======================================== */
+.item-row,
+.totals > div {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 0.5rem;
+}
+
+.totals .grand {
+  font-weight: 600;
+  border-top: 1px dashed #ccc;
+  padding-top: 0.5rem;
+}
+
+/* ===== Action button ============================================== */
+button {
+  width: 100%;
+  padding: 0.75rem;
+  margin-top: 1rem;
+  border: none;
+  border-radius: 4px;
+  background: #377dff;
+  color: #fff;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+button:hover { background: #1e5fff; }
+
+/* ===== Mobile: stack panels ======================================= */
+@media (max-width: 768px) {
+  .customer-info,
+  .order-summary {
+    flex: 1 1 100%;
+  }
+}
+
+.chosen-slot {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 12px;
+  background: #f8f8f8;
+  border-radius: 6px;
+  margin-top: 4px;
+}
+
+.change-btn {
+  border: none;
+  background: none;
+  color: #7b61ff;
+  cursor: pointer;
+  font-size: 0.85rem;
+}
+
+/* ===== modal backdrop ===== */
+.backdrop {
+  position: fixed;      /* ⬅︎ anchor to viewport */
+  inset: 0;             /* top:0; right:0; bottom:0; left:0 */
+  background: rgba(0, 0, 0, 0.6);
+  z-index: 1000;
+}
+
+/* ===== popup card ===== */
+.popup {
+  position: fixed;      /* ⬅︎ anchor to viewport */
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);  /* perfectly centered */
+  background: #fff;
+  width: 90%;
+  max-width: 520px;
+  max-height: 80vh;
+  overflow-y: auto;
+  border-radius: 8px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
+  z-index: 1001;        /* above backdrop */
+}
+
+/* (optional) prevent body scroll while modal is open */
+body.modal-open {
+  overflow: hidden;
+}

@@ -1,0 +1,37 @@
+<div class="body">
+  <h2 class="popup-title">When should the professional arrive?</h2>
+  <p class="subtitle">Service will take approx. 3 hrs</p>
+
+  <!-- date tabs -->
+  <div class="day-row">
+    <button *ngFor="let d of uiDays"
+            class="day-btn"
+            [class.active]="d.selected"
+            (click)="choose(d)">
+      <span class="dow">{{ d.label }}</span><br />
+      <span class="day-num">{{ d.dayNum }}</span>
+    </button>
+  </div>
+
+  <h3 class="grid-title">Select start time of service</h3>
+
+  <div class="slot-grid" *ngIf="!loading && filteredSlots.length; else spin">
+    <button *ngFor="let s of filteredSlots"
+            class="slot-btn"
+            [class.active]="s === selectedSlot"
+            (click)="select(s)">
+      <ng-container *ngIf="s.specialSlot">
+        <span class="extra">+ ₹100</span>
+      </ng-container>
+      {{ s.time }}
+    </button>
+  </div>
+
+  <ng-template #spin>Loading…</ng-template>
+</div>
+
+<button  style="width: 100%;"  class="cta"
+        [disabled]="!selectedSlot"
+        (click)="proceed()">
+  Proceed to checkout
+</button>

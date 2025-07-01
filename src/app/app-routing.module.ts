@@ -62,6 +62,10 @@ const routes: Routes = [
         path: 'checkout',
         loadComponent: () => import('./demo/checkout/checkout.component').then(m => m.CheckoutComponent)
       },
+      {
+        path: 'timeslot',
+        loadComponent: () => import('./demo/timeslot/timeslot.component').then(m => m.TimeslotComponent)
+      },
     
     ]
   },
