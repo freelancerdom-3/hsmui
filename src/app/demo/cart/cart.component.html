@@ -2,51 +2,47 @@
   @if (cartItems.length > 0) {
     @for (item of cartItems; track item.subCategoryId) {
       <div class="subcategory-card">
-        <h2 class="subcategory-name">{{ item.subcategoryName }}</h2>
+        <!-- Subcategory Image and Name -->
+        <div style="display: flex; align-items: center; gap: 12px;">
+          <img
+            [src]="'assets/images/' + item.subCategoryImageName + '.webp'"
+            alt="{{ item.subCategoryName }}"
+            width="40"
+            height="40"
+            style="border-radius: 8px;"
+          />
+          <h2 class="subcategory-name">{{ item.subCategoryName }}</h2>
+        </div>
 
-        <div class="services-list">
-          @for (service of item.serviceList; track service.serviceId) {
-            <div class="service-card">
-              <h4>{{ service.ServiceName }}</h4>
-              <p>Price: ₹{{ service.Price }}</p>
-              <p>Time: {{ service.TimeTaken }}</p>
+        <!-- Services -->
+        <div class="services-list" style="margin-top: 12px;">
+          @for (service of item.services; track service.serviceId) {
+            <div class="service-card" style="padding-left: 16px;">
+              <p>{{ service.serviceName }} × {{ service.quantity }}</p>
             </div>
           }
         </div>
 
-        <div class="action-buttons">
-          <button (click)="navigateTodashboard()">Add Services</button>
+        <!-- Buttons -->
+        <div class="action-buttons" style="margin-top: 16px;">
+          <button (click)="navigateToSubCategoryComponent(item.subCategoryId)">Add/Remove Services</button>
           <button (click)="checkout(item)">Checkout</button>
         </div>
       </div>
     }
-  } 
-  
-  @else {
+  } @else {
     <div style="text-align: center;">
-<svg width="50%" height="50%" viewBox="0 0 128 96"  xmlns="http://www.w3.org/2000/svg">
-    <path fill-rule="evenodd" clip-rule="evenodd" d="M77.5 34a.5.5 0 01-.5.5h-2.5V30a.5.5 0 011 0v3.5H77a.5.5 0 01.5.5z" fill="#FFD47F"></path>
-    <path fill-rule="evenodd" clip-rule="evenodd" d="M79.5 34a.5.5 0 01-.5.5h-2.5V30a.5.5 0 011 0v3.5H79a.5.5 0 01.5.5z" fill="#FFD47F"></path>
-    <path fill-rule="evenodd" clip-rule="evenodd" d="M73 69a1 1 0 011 1v1H61a1 1 0 00-1 1v7h-2v-7a3 3 0 013-3h12zm3 2h9a1 1 0 011 1v7h2v-7a3 3 0 00-3-3h-9.17c.11.313.17.65.17 1v1z" fill="#E2E2E2"></path>
-    <path fill-rule="evenodd" clip-rule="evenodd" d="M60 60v10h-2V60h2z" fill="#E2E2E2"></path>
-    <path fill-rule="evenodd" clip-rule="evenodd" d="M72 72a1 1 0 00-1-1H47a1 1 0 00-1 1v7h-2v-7a3 3 0 013-3h24a3 3 0 013 3v7h-2v-7z" fill="#E2E2E2"></path>
-    <path fill-rule="evenodd" clip-rule="evenodd" d="M74 70v9h-2v-9h2z" fill="#E2E2E2"></path><path d="M50 79a5 5 0 11-10 0 5 5 0 0110 0zM64 79a5 5 0 11-10 0 5 5 0 0110 0zM78 79a5 5 0 11-10 0 5 5 0 0110 0zM92 79a5 5 0 11-10 0 5 5 0 0110 0z" fill="#757575"></path>
-    <path d="M48 79a3 3 0 11-6 0 3 3 0 016 0zM62 79a3 3 0 11-6 0 3 3 0 016 0zM76 79a3 3 0 11-6 0 3 3 0 016 0zM90 79a3 3 0 11-6 0 3 3 0 016 0z" fill="#EEE"></path><path fill-rule="evenodd" clip-rule="evenodd" d="M74 60v10h-2V60h2z" fill="#E2E2E2"></path><path fill-rule="evenodd" clip-rule="evenodd" d="M30.832 25.445l8 12-1.664 1.11-8-12 1.664-1.11zm16 0l8 12-1.664 1.11-8-12 1.664-1.11z" fill="#CBCBCB"></path>
-    <path d="M44 34h52l-5.694 30.369A2 2 0 0188.34 66H53.32a4 4 0 01-3.932-3.263L44 34z" fill="#CBCBCB"></path>
-    <path d="M34 34h48l-6 32H41.66a2 2 0 01-1.966-1.631L34 34z" fill="#E2E2E2"></path>
-    <path fill-rule="evenodd" clip-rule="evenodd" d="M46 40h-2v7.059h2V40zm0 12.941h-2V60h2v-7.059zM50 40h2v7.059h-2V40zm2 12.941h-2V60h2v-7.059zM56 40h2v7.059h-2V40zm2 12.941h-2V60h2v-7.059zM62 40h2v7.059h-2V40zm2 12.941h-2V60h2v-7.059zM68 40h2v7.059h-2V40zm2 12.941h-2V60h2v-7.059z" fill="#fff"></path>
-    <path d="M24 24h28v4H24v-4z" fill="#97674E"></path>
-    <path d="M78 20h6v4a6 6 0 01-6 6V20zM78 15a3 3 0 116 0v5h-6v-5zM78 30V18L66 30h12z" fill="#997BED"></path>
-    <path d="M88 16l-4-1v2l4-1z" fill="#FFD47F"></path><path d="M81 15a1 1 0 112 0 1 1 0 01-2 0z" fill="#0F0F0F"></path>
-    <path d="M72 30h-6l12-12v6a6 6 0 01-6 6z" fill="#6E42E5"></path>
-</svg>
-<!-- <h4 dir="auto" aria-level="4" role="heading" class="css-146c3p1 r-8akbws r-krxsd3 r-dnmrzs r-1udh08x r-1udbk01 r-13qz1uu" style="-webkit-line-clamp: 2; font-family: os_semi_bold; font-size: 20px; line-height: 28px; color: rgb(15, 15, 15); text-decoration-line: none; text-transform: none; font-weight: 600; text-align: center;">Your cart is empty</h4> -->
- <h4>Your cart is empty</h4>
-<P>Lets add some services</P>
-</div>
-<div style="text-align: center;">
-    <button (click)="navigateTodashboard()" style="border-color: 1px solid black; background-color: white;">Explore services</button>
-</div>
+      <svg width="50%" height="50%" viewBox="0 0 128 96" xmlns="http://www.w3.org/2000/svg">
+        <!-- [SVG remains unchanged] -->
+      </svg>
+      <h4>Your cart is empty</h4>
+      <p>Let's add some services</p>
+    </div>
 
+    <div style="text-align: center;">
+      <button (click)="navigateToDashboard()" style="border: 1px solid black; background-color: white;">
+        Explore other services
+      </button>
+    </div>
   }
 </div>

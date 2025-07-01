@@ -1,90 +1,41 @@
-import { Component } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-
+import { CartStateService } from 'src/app/services/cart-state.service';
+import { SharedModule } from 'src/app/theme/shared/shared.module';
 
 @Component({
   selector: 'app-cart',
-  imports: [],
   templateUrl: './cart.component.html',
-  styleUrl: './cart.component.scss'
+  styleUrls: ['./cart.component.scss'],
+  standalone: true,
+  imports: [CommonModule, SharedModule]
 })
-export class CartComponent{
+export class CartComponent implements OnInit {
+  cartItems: any[] = [];
 
-constructor(private router: Router){}
+  constructor(
+    private router: Router,
+    private cartStateService: CartStateService
+  ) {}
 
-
-  // cartItems: any[] = [];
-   cartItems = [
-  {
-    subCategoryId: 2,
-    subcategoryName: 'Electrician',
-    serviceList: [
-      {
-        serviceId: 3,
-        ServiceName: "Fan replacement",
-        SubCategoryId: 6,
-        Price: 250,
-        TimeTaken: "30 minutes"
-      },
-      {
-        serviceId: 4,
-        ServiceName: "fan installation",
-        SubCategoryId: 6,
-        Price: 200,
-        TimeTaken: "20 minutes"
-      }
-    ]
-  },
-  {
-    subCategoryId: 3,
-    subcategoryName: 'Plumber',
-    serviceList: [
-      {
-        serviceId: 3,
-        ServiceName: "Bath fittings",
-        SubCategoryId: 4,
-        Price: 120,
-        TimeTaken: "10 minutes"
-      },
-      {
-        serviceId: 4,
-        ServiceName: "Basin & sink",
-        SubCategoryId: 4,
-        Price: 300,
-        TimeTaken: "20 minutes"
-      }
-    ]
-  },
-  {
-     subCategoryId: 1,
-    subcategoryName: 'Beauty',
-    serviceList: [
-      {
-        serviceId: 10,
-        ServiceName: "Sallon for man",
-        SubCategoryId: 7,
-        Price: 120,
-        TimeTaken: "10 minutes"
-      },
-      {
-        serviceId: 11,
-        ServiceName: "massage",
-        SubCategoryId: 7,
-        Price: 300,
-        TimeTaken: "20 minutes"
-      }
-    ]
+  ngOnInit(): void {
+    this.cartItems = this.cartStateService.getGroupedCartData();
+    console.log("Grouped Cart Items: ", this.cartItems);
   }
-];
-      
-  
- navigateTodashboard(): void{
+
+  navigateToSubCategoryComponent(subCategoryId: number): void {
+    //Set the respective subCategoryId and redirect to subCategory page
+    localStorage.setItem('subCategoryIdFromClick', String(subCategoryId));
+    this.router.navigate(['subcategory']);
+  }
+
+  navigateToDashboard(){
     this.router.navigate(['dashboard']);
   }
 
   checkout(item: any) {
   console.log('Proceed to checkout for:', item.subcategoryName);
   this.router.navigate(['checkout']);
-  
 }
 }

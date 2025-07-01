@@ -128,20 +128,13 @@ export class NavLeftComponent implements OnInit, OnDestroy {
 		this.activeItem = this.categories[0];
 	}
 
-	navigateToSubCategory(categoryId: number) {
+	navigateToCategory(categoryId: number) {
 		this.activeItem = categoryId; // Only set on click
-
-		const routeMap: any = {
-			1: 'home',
-			2: 'beauty',
-			3: 'native'
-		};
-
-		const route = routeMap[categoryId];
-		if (route) {
-			this.router.navigate([route], {
-				queryParams: { categoryId }
-			});
+		localStorage.setItem('categoryIdFromClick', String(categoryId));
+		this.dataService.categoryIdChangedSubject.next();
+		
+		if(!this.router.url.includes('/category')){
+			this.router.navigate(['category']);
 		}
 	}
 

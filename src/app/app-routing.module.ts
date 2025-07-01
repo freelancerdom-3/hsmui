@@ -39,18 +39,6 @@ const routes: Routes = [
         loadComponent: () => import('./demo/extra/sample-page/sample-page.component')
       },
       {
-        path: 'home',
-        loadComponent: () => import('./demo/home/home.component').then(m => m.HomeComponent)
-      },
-      {
-        path: 'beauty',
-        loadComponent: () => import('./demo/beauty/beauty.component').then(m => m.BeautyComponent)
-      },
-      {
-        path: 'native',
-        loadComponent: () => import('./demo/native/native.component').then(m => m.NativeComponent)
-      },
-      {
         path: 'cart',
         loadComponent: () => import('./demo/cart/cart.component').then(m => m.CartComponent)
       },
@@ -66,6 +54,10 @@ const routes: Routes = [
         path: 'timeslot',
         loadComponent: () => import('./demo/timeslot/timeslot.component').then(m => m.TimeslotComponent)
       },
+      {
+        path: 'category',
+        loadComponent: () => import('./demo/category/category.component').then(m => m.CategoryComponent)
+      }
     
     ]
   },

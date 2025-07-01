@@ -1,78 +1,67 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { CartStateService } from 'src/app/services/cart-state.service';
+import { ServiceData } from 'src/app/services/cart-state.service';
 import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-subcatagorycart',
+  standalone: true,
+  imports: [CommonModule],
   templateUrl: './subcatagorycart.component.html',
   styleUrls: ['./subcatagorycart.component.scss']
 })
-export class SubcatagorycartComponent implements OnInit {
+export class SubcatagorycartComponent implements OnInit, OnChanges {
 
-  @Input() subCategoryIdFromSubCategoryComponent!: number;
+  @Input() subCategoryIdFromSubCategoryComponent!: number; // will be passed by parent component
+  serviceList: ServiceData[] = [];
 
-  cartItems: any[] = [];
-  filteredServiceList: any[] = [];
-  quantities: { [key: number]: number } = {};
-
-  constructor(private router: Router) {}
-
+  constructor(
+    private cartStateService: CartStateService,
+    private router: Router
+  ) {}
+  
+  
   ngOnInit(): void {
     this.loadCartItems();
-    this.displayServicesFromSubcategory();
-  }
-
-  loadCartItems() {
-    // Replace this with localStorage logic later
-    const storedCart = localStorage.getItem('cartItems');
-    this.cartItems = storedCart ? JSON.parse(storedCart) : [
-      {
-        subCategoryId: 2,
-        subcategoryName: 'Electrician',
-        serviceList: [
-          { serviceId: 3, ServiceName: "Fan replacement", SubCategoryId: 6, Price: 250, TimeTaken: "30 minutes" },
-          { serviceId: 4, ServiceName: "fan installation", SubCategoryId: 6, Price: 200, TimeTaken: "20 minutes" }
-          
-        ]
-      },
-      {
-        subCategoryId: 3,
-        subcategoryName: 'Plumber',
-        serviceList: [
-          { serviceId: 3, ServiceName: "Bath fittings", SubCategoryId: 4, Price: 120, TimeTaken: "10 minutes" },
-          { serviceId: 4, ServiceName: "Basin & sink", SubCategoryId: 4, Price: 300, TimeTaken: "20 minutes" }
-        ]
-      }
-    ];
-  }
-
-  displayServicesFromSubcategory() {
-    const subcategory = this.cartItems.find(item => item.subCategoryId === this.subCategoryIdFromSubCategoryComponent);
-    this.filteredServiceList = subcategory ? subcategory.serviceList : [];
-
-    // Initialize quantities
-    this.filteredServiceList.forEach(service => {
-      this.quantities[service.serviceId] = 1;
+    
+    this.cartStateService.serviceQuantityChanged$.subscribe(() => {
+      this.loadCartItems();
     });
   }
 
-  increment(serviceId: number) {
-    this.quantities[serviceId]++;
-  }
-
-  decrement(serviceId: number) {
-    if (this.quantities[serviceId] > 1) {
-      this.quantities[serviceId]--;
+  ngOnChanges(changes: SimpleChanges): void {
+    if(changes['subCategoryIdFromSubCategoryComponent'] && this.subCategoryIdFromSubCategoryComponent !== undefined){
+      this.loadCartItems();
     }
   }
 
-  getTotalPrice(): number {
-    return this.filteredServiceList.reduce((total, service) => {
-      const qty = this.quantities[service.serviceId] || 1;
-      return total + (service.Price * qty);
-    }, 0);
+  
+
+  loadCartItems(): void {
+    this.serviceList = this.cartStateService.getServicesForSubCategory(this.subCategoryIdFromSubCategoryComponent);
   }
 
-  viewCart() {
-    this.router.navigate(['/cart']);
+  increment(service: ServiceData): void {
+    this.cartStateService.addOrUpdateService(
+      this.subCategoryIdFromSubCategoryComponent,
+      '', // name optional
+      '', // image optional
+      service.serviceId,
+      service.serviceName,
+      service.price
+    );
+  }
+
+  decrement(service: ServiceData): void {
+    this.cartStateService.removeService(this.subCategoryIdFromSubCategoryComponent, service.serviceId);
+  }
+
+  getTotalPrice(): number {
+    return this.serviceList.reduce((total, s) => total + s.price * s.quantity, 0);
+  }
+
+  viewCart(): void {
+    this.router.navigate(['cart']); // Adjust route as per your app
   }
 }

@@ -18,7 +18,7 @@
 // }
 
 .shrink-container {
-  width: 100%;
+  width: 90%;
   height: 100vh;
   padding: 0 1rem;
   margin-left: 5%;
@@ -51,6 +51,13 @@
 .category-img {
   height: 60px;
   object-fit: contain;
+}
+
+.btn-color{
+  background-color: rgba(110,66,229,1.00);
+  font-size: 130%;     /* ⬆️ 30% larger font size */
+  font-weight: 700;    /* ⬆️ Bold text */
+  color: white !important;
 }
 
 /* 🔹 Main SubCategory (Electrician) - left panel h2 */
@@ -111,4 +118,15 @@
 .no-scrollbar {
   scrollbar-width: none; /* Firefox */
   -ms-overflow-style: none; /* IE and Edge */
+}
+
+.quantity-control {
+  gap: 0.5rem;
+}
+
+.quantity-control .btn {
+  padding: 0.4rem 0.8rem;
+  font-weight: 600;
+  font-size: 1rem;
+  min-width: 2.5rem;
 }

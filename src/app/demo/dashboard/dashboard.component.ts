@@ -56,7 +56,7 @@ export class DashboardComponent implements OnInit {
 			}
 		});
 
-
+		//Load topTrendingSubCategories
 		this.getTopTrendingSubCategories();
 
 		this.baseService.GET("https://jsonplaceholder.typicode.com/1").subscribe(response => {
@@ -292,6 +292,7 @@ export class DashboardComponent implements OnInit {
 		})
 	}
 
+	//This method redirects to Subcatgory page with with selected subCategoryId
 	navigateToSubCategoryServicePage(subCategoryId:number) {
 		localStorage.setItem('subCategoryIdFromClick', String(subCategoryId));
 		this.router.navigate(['subcategory']);
