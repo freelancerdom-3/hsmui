@@ -1,71 +1,79 @@
 <div class="checkout-wrapper">
-  <!-- LEFT: Customer Details ---------------------------------->
-  <section class="customer-info">
-    <h2 class="title">Customer Information</h2>
+  <div class="checkout-columns">
+    <!-- LEFT: Customer Details -->
+    <section class="customer-info">
+      <h2 class="title">Customer Information</h2>
 
-    <!-- Phone -->
-    <label>
-      <span class="label">Phone Number</span>
-      <input type="tel"
-             [(ngModel)]="customer.phone"
-             placeholder="e.g. 9876543210" />
-    </label>
+      <!-- Phone -->
+      <label>
+        <span class="label">Phone Number</span>
+        <input type="tel" [(ngModel)]="customer.phone" placeholder="e.g. 9876543210" />
+      </label>
 
-    <!-- Address -->
-    <label>
-      <span class="label">Address</span>
-      <textarea rows="3"
-                [(ngModel)]="customer.address"
-                placeholder="House / Street / City"></textarea>
-    </label>
+      <!-- Address -->
+      <label>
+        <span class="label">Address</span>
+        <textarea rows="3" [(ngModel)]="customer.address" placeholder="House / Street / City"></textarea>
+      </label>
 
-    <!-- Time Slot -->
-    <label>
-      <span class="label">Preferred Time Slot</span>
+      <!-- Time Slot -->
+      <label>
+        <span class="label">Preferred Time Slot</span>
+        <div *ngIf="customer.timeslot; else chooseBtn" class="chosen-slot">
+          {{ customer.timeslot }}
+          <button class="change-btn" (click)="openTimeSlotPopup()">Edit</button>
+        </div>
+        <ng-template #chooseBtn>
+          <button (click)="openTimeSlotPopup()">Select time slot</button>
+        </ng-template>
+      </label>
 
-      <div *ngIf="customer.timeslot; else chooseBtn" class="chosen-slot">
-        {{ customer.timeslot }}
-        <button style="width: 25%;" (click)="openTimeSlotPopup()">Edit</button>
+      <!-- Payment Method -->
+      <label>
+        <span class="label">Payment Method</span>
+        <select [(ngModel)]="customer.paymentMethod">
+          <option value="cod">Cash on Delivery</option>
+          <option value="online">UPI / Card (online)</option>
+        </select>
+      </label>
+    </section>
+
+    <!-- Separator -->
+    <div class="vertical-separator"></div>
+
+    <!-- RIGHT: Order Summary -->
+    <aside class="order-summary">
+      <h2 class="title">Order Summary</h2>
+
+      @for (service of serviceList; track service.serviceId) {
+        <div class="cart-item">
+          <div class="item-name">{{ service.serviceName }}</div>
+
+          <div class="quantity-control">
+            <button (click)="decrement(service)">−</button>
+            <span>{{ service.quantity }}</span>
+            <button (click)="increment(service)">+</button>
+          </div>
+
+          <div class="item-price">₹{{ service.price * service.quantity }}</div>
+        </div>
+      }
+
+      <div class="totals">
+        <div><span>Item total</span><span>₹{{ getSubtotal() }}</span></div>
+        <div><span>Fees</span><span>₹{{ getTaxesAndFees() }}</span></div>
+        <div class="grand">
+          <span>Total amount</span>
+          <span>₹{{ getGrandTotal() }}</span>
+        </div>
       </div>
 
-      <ng-template #chooseBtn>
-        <button (click)="openTimeSlotPopup()">Select time slot</button>
-      </ng-template>
-    </label>
-
-    <!-- Payment Method -->
-    <label>
-      <span class="label">Payment Method</span>
-      <select [(ngModel)]="customer.paymentMethod">
-        <option value="cod">Cash on Delivery</option>
-        <option value="online">UPI / Card (online)</option>
-      </select>
-    </label>
-  </section>
-
-  <!-- RIGHT: Order Summary ----------------------------------->
-  <aside class="order-summary">
-    <h2 class="title">Order Summary</h2>
-
-    <div *ngFor="let item of cartItems, track item-row" class="item-row">
-      <span>{{ item.name }} ×{{ item.quantity }}</span>
-      <span>₹{{ item.price * item.quantity }}</span>
-    </div>
-
-    <div class="totals">
-      <div><span>Item total</span><span>₹{{ getSubtotal() }}</span></div>
-      <div><span>Fees</span><span>₹{{ getTaxesAndFees() }}</span></div>
-      <div class="grand">
-        <span>Total amount</span>
-        <span>₹{{ getGrandTotal() }}</span>
-      </div>
-    </div>
-
-    <button (click)="placeOrder()">Place Order</button>
-  </aside>
+      <button (click)="placeOrder()">Place Order</button>
+    </aside>
+  </div>
 </div>
 
-<!-- ---------- POP‑UP (child component) ----------------------->
+<!-- Time Slot Popup -->
 <div class="backdrop" *ngIf="showTimeSlotPopup" (click)="closeTimeSlotPopup()"></div>
 
 <div class="popup" *ngIf="showTimeSlotPopup" (click)="$event.stopPropagation()">

@@ -34,8 +34,9 @@ export class CartComponent implements OnInit {
     this.router.navigate(['dashboard']);
   }
 
-  checkout(item: any) {
-  console.log('Proceed to checkout for:', item.subcategoryName);
+  checkout(subCategoryId: number) {
+  console.log('Proceed to checkout for:', subCategoryId);
+  localStorage.setItem('subCategoryIdFromCart', String(subCategoryId));
   this.router.navigate(['checkout']);
 }
 }

@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { TimeslotComponent, TimeslotState } from '../timeslot/timeslot.component';
 import { BaseService } from 'src/app/services/base.service';
+import { CartStateService, ServiceData } from 'src/app/services/cart-state.service';
 
 interface CartItem {
   id : number;
@@ -28,10 +29,23 @@ interface Fees{
 export class CheckoutComponent implements OnInit {
   Fees: Fees[] = [];
 
-  constructor(private baseService: BaseService){}
+  constructor(private baseService: BaseService, private cartStateService: CartStateService){}
+  
+  //services list
+  serviceList: any[] = [];
+
+  subCategoryIdFromCart: number;
 
   ngOnInit(): void {
-    this.getfees();      
+    this.getfees();
+
+    //fetch subCategoryId from localstorage to load services of respective subCategoryId
+    this.subCategoryIdFromCart = Number(localStorage.getItem('subCategoryIdFromCart'));
+    
+    this.cartStateService.serviceQuantityChanged$.subscribe(() => {
+      this.loadCartItems();
+    });
+    console.log("Cart items of subCategoryId : "+this.serviceList);
   }
   /* ------------------- customer + cart --------------------- */
   customer = {
@@ -41,13 +55,13 @@ export class CheckoutComponent implements OnInit {
     paymentMethod: 'cod'
   };
 
-  cartItems: CartItem[] = [
-    { id:1 ,name: 'Coffee',   quantity: 1, price: 200 },
-    { id:2 ,name: 'Muffin',   quantity: 1, price: 300 },
-    { id:3 ,name: 'Sandwich', quantity: 1, price: 100 }
-  ];
 
   //deliveryCharge = 40;
+
+  //load cartItems from cart-state service
+  loadCartItems(): void {
+    this.serviceList = this.cartStateService.getServicesForSubCategory(this.subCategoryIdFromCart);
+  }
 
   /* ------------------- popup helpers ------------------------ */
   showTimeSlotPopup = false;
@@ -77,7 +91,7 @@ export class CheckoutComponent implements OnInit {
 	}
 
   getSubtotal(): number {
-    return this.cartItems.reduce((sum, item) => sum + item.quantity * item.price, 0);
+    return this.serviceList.reduce((sum, item) => sum + item.quantity * item.price, 0);
   }
 
   /** Dynamic Taxes & Fees based on slab table */
@@ -94,13 +108,28 @@ export class CheckoutComponent implements OnInit {
     return this.getSubtotal() + this.getTaxesAndFees();
   }
   
+  increment(service: ServiceData): void {
+      this.cartStateService.addOrUpdateService(
+        this.subCategoryIdFromCart,
+        '', // name optional
+        '', // image optional
+        service.serviceId,
+        service.serviceName,
+        service.price
+      );
+    }
+  
+    decrement(service: ServiceData): void {
+      this.cartStateService.removeService(this.subCategoryIdFromCart, service.serviceId);
+    }
+
 
   placeOrder(): void {
     if (!this.customer.timeslot) {
       alert('Please select a time slot first.');
       return;
     }
-    console.log('Order placed!', this.customer, this.cartItems);
+    console.log('Order placed!', this.customer, this.serviceList);
     alert('Thank you! Your order has been placed.');
   }
 }
