@@ -58,6 +58,7 @@ const routes: Routes = [
         path: 'category',
         loadComponent: () => import('./demo/category/category.component').then(m => m.CategoryComponent)
       }
+     
     
     ]
   },

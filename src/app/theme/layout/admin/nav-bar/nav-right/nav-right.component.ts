@@ -1,12 +1,13 @@
 // angular import
 import { Component, inject } from '@angular/core';
-import { Router } from '@angular/router';
+
 
 // bootstrap import
 import { NgbDropdownConfig } from '@ng-bootstrap/ng-bootstrap';
 
 // project import
 import { SharedModule } from 'src/app/theme/shared/shared.module';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-nav-right',
@@ -24,6 +25,15 @@ export class NavRightComponent {
 
     config.placement = 'bottom-right';
   }
+
+ logout() {
+  localStorage.removeItem('authToken');
+  localStorage.removeItem('userId');
+  localStorage.removeItem('mobileNumber');
+  localStorage.removeItem('userTypeId');
+  this.router.navigate(['signin']);
+}
+  
 
   navigateToCart(){
     this.router.navigate(['cart']);

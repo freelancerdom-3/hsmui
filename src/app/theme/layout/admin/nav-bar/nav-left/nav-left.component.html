@@ -4,7 +4,10 @@
       <i class="feather" [ngClass]="screenFull ? 'icon-minimize' : 'icon-maximize'"></i>
     </a>
   </li> -->
-  @for (category of categories; track category.categoryId) {
+
+  @if(categories && categories.length > 0){
+
+    @for (category of categories; track category.categoryId) {
   <li class="nav-item">
     <a class="nav-link px-3 text-uppercase fw-medium"
       [ngClass]="{
@@ -17,6 +20,8 @@
 
   </li>
 }
+  }
+  
 
  
 <!-- location Search -->

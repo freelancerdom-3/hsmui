@@ -1,7 +1,6 @@
 // angular import
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-
 // project import
 import { SharedModule } from 'src/app/theme/shared/shared.module';
 
@@ -59,26 +58,32 @@ export class DashboardComponent implements OnInit {
 		//Load topTrendingSubCategories
 		this.getTopTrendingSubCategories();
 
-		this.baseService.GET("https://jsonplaceholder.typicode.com/1").subscribe(response => {
-			console.log("GET Response:", response);
-		});
-		// POST request
-		this.baseService.POST("https://jsonplaceholder.typicode.com/posts", { title: 'foo', body: 'bar', userId: 1 })
-			.subscribe(response => {
-				console.log("POST Response:", response);
-			});
+		//testing api
+		// this.baseService.GET<any>("https://localhost:7282/api/SubCategory/GetByCategoryId?CategoryId=1")
+		// .subscribe(response => {
+		// 	console.log("testing for authirization ====> subcategory data: "+response);
+		// })
 
-		// PUT request
-		this.baseService.PUT("https://jsonplaceholder.typicode.com/posts/1", { id: 1, title: 'updated', body: 'updated content', userId: 1 })
-			.subscribe(response => {
-				console.log("PUT Response:", response);
-			});
+		// this.baseService.GET("https://jsonplaceholder.typicode.com/posts/1").subscribe(response => {
+		// 	console.log("GET Response:", response);
+		// });
+		// // POST request
+		// this.baseService.POST("https://jsonplaceholder.typicode.com/posts", { title: 'foo', body: 'bar', userId: 1 })
+		// 	.subscribe(response => {
+		// 		console.log("POST Response:", response);
+		// 	});
 
-		//  DELETE request
-		this.baseService.DELETE("https://jsonplaceholder.typicode.com/posts/1")
-			.subscribe(response => {
-				console.log("DELETE Response:", response);
-			});
+		// // PUT request
+		// this.baseService.PUT("https://jsonplaceholder.typicode.com/posts/1", { id: 1, title: 'updated', body: 'updated content', userId: 1 })
+		// 	.subscribe(response => {
+		// 		console.log("PUT Response:", response);
+		// 	});
+
+		// //  DELETE request
+		// this.baseService.DELETE("https://jsonplaceholder.typicode.com/posts/1")
+		// 	.subscribe(response => {
+		// 		console.log("DELETE Response:", response);
+		// 	});
 		setTimeout(() => {
 			const latlong = dataJson;
 
