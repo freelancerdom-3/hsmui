@@ -31,6 +31,10 @@ export class NavRightComponent {
   localStorage.removeItem('userId');
   localStorage.removeItem('mobileNumber');
   localStorage.removeItem('userTypeId');
+
+  //remove these keys which will eventually redirect to dashboard
+  localStorage.removeItem('route');
+  localStorage.removeItem('subCategoryIdForRouting');
   this.router.navigate(['signin']);
 }
   

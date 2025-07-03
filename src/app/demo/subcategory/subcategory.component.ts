@@ -5,6 +5,7 @@ import { SharedModule } from 'src/app/theme/shared/shared.module';
 import { SubcatagorycartComponent } from '../subcatagorycart/subcatagorycart.component';
 import { DataService } from 'src/app/services/data.service';
 import { CartStateService } from 'src/app/services/cart-state.service';
+import { UtilityService } from 'src/app/services/utility.service';
 
 @Component({
   selector: 'app-subcategory',
@@ -40,14 +41,21 @@ export class SubcategoryComponent implements OnInit {
 		private activatedRoute: ActivatedRoute,
 		private router: Router,
 		private dataService: DataService,
-		private cartStateService: CartStateService
+		private cartStateService: CartStateService,
+		private utilityService: UtilityService
 	) {}
 
 	ngOnInit() {
 		console.log("Inside subCategoryPage");
+
+		//load subCategoryId from click form localstorage
 		this.subCategoryIdFromClick = Number(localStorage.getItem('subCategoryIdFromClick'));
+
+		//load services from subCategory
 		this.loadServiceFromSubCategory();
-		// eslint-disable-next-line no-debugger
+		
+		localStorage.setItem('route', this.utilityService.extractLastSegment(this.router.url));
+		localStorage.setItem('subCategoryIdForRouting', String(this.subCategoryIdFromClick));
 
 		//this trigger is defined in cart-state service and subscribed here
 		this.cartStateService.serviceQuantityChanged$.subscribe(() => {

@@ -1,42 +1,51 @@
 <div class="checkout-wrapper">
   <div class="checkout-columns">
     <!-- LEFT: Customer Details -->
-    <section class="customer-info">
-      <h2 class="title">Customer Information</h2>
+  <section class="customer-info">
+  @if (userLoginStatus) {
+    <h2 class="title">Customer Information</h2>
 
-      <!-- Phone -->
-      <label>
-        <span class="label">Phone Number</span>
-        <input type="tel" [(ngModel)]="customer.phone" placeholder="e.g. 9876543210" />
-      </label>
+    <!-- Phone -->
+    <label>
+      <span class="label">Phone Number</span>
+      <input type="tel" [(ngModel)]="customer.phone" placeholder="e.g. 9876543210" />
+    </label>
 
-      <!-- Address -->
-      <label>
-        <span class="label">Address</span>
-        <textarea rows="3" [(ngModel)]="customer.address" placeholder="House / Street / City"></textarea>
-      </label>
+    <!-- Address -->
+    <label>
+      <span class="label">Address</span>
+      <textarea rows="3" [(ngModel)]="customer.address" placeholder="House / Street / City"></textarea>
+    </label>
 
-      <!-- Time Slot -->
-      <label>
-        <span class="label">Preferred Time Slot</span>
-        <div *ngIf="customer.timeslot; else chooseBtn" class="chosen-slot">
-          {{ customer.timeslot }}
-          <button class="change-btn" (click)="openTimeSlotPopup()">Edit</button>
-        </div>
-        <ng-template #chooseBtn>
-          <button (click)="openTimeSlotPopup()">Select time slot</button>
-        </ng-template>
-      </label>
+    <!-- Time Slot -->
+    <label>
+      <span class="label">Preferred Time Slot</span>
+      <div *ngIf="customer.timeslot; else chooseBtn" class="chosen-slot">
+        {{ customer.timeslot }}
+        <button class="change-btn" (click)="openTimeSlotPopup()">Edit</button>
+      </div>
+      <ng-template #chooseBtn>
+        <button (click)="openTimeSlotPopup()">Select time slot</button>
+      </ng-template>
+    </label>
 
-      <!-- Payment Method -->
-      <label>
-        <span class="label">Payment Method</span>
-        <select [(ngModel)]="customer.paymentMethod">
-          <option value="cod">Cash on Delivery</option>
-          <option value="online">UPI / Card (online)</option>
-        </select>
-      </label>
-    </section>
+    <!-- Payment Method -->
+    <label>
+      <span class="label">Payment Method</span>
+      <select [(ngModel)]="customer.paymentMethod">
+        <option value="cod">Cash on Delivery</option>
+        <option value="online">UPI / Card (online)</option>
+      </select>
+    </label>
+  } 
+  @else {
+    <div class="login-block">
+      <h2 class="login-message">Kindly login to checkout</h2>
+      <button class="login-btn" (click)="onLoginClicked()">Login</button>
+    </div>
+  }
+  </section>
+
 
     <!-- Separator -->
     <div class="vertical-separator"></div>
@@ -68,7 +77,13 @@
         </div>
       </div>
 
-      <button (click)="placeOrder()">Place Order</button>
+      <button 
+        (click)="placeOrder()" 
+        [disabled]="!userLoginStatus" 
+        [ngClass]="{ 'disabled-btn': !userLoginStatus }">
+        Place Order
+      </button>
+
     </aside>
   </div>
 </div>

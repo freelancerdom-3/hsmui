@@ -211,3 +211,41 @@ button {
 button:hover {
   background-color: #5f4ccf;
 }
+
+
+/* Login call-to-action */
+.login-block {
+  text-align: center;
+  margin-top: 2rem;
+}
+
+.login-btn {
+  background-color: #7b61ff;
+  color: #fff;
+  border: none;
+  padding: 0.75rem 1.5rem;
+  font-size: 1rem;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-top: 1rem;
+}
+
+.login-btn:hover {
+  background-color: #5f4ccf;
+}
+
+/* Disabled button visual */
+.disabled-btn {
+  background-color: #e0e0e0 !important;
+  color: #999 !important;
+  cursor: not-allowed;
+}
+
+.login-message {
+  color: #999;
+  font-weight: 400;
+  font-size: 1.5rem;  /* 50% larger than base 1rem */
+  margin-bottom: 1rem;
+  text-align: center;
+}
+

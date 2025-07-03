@@ -57,8 +57,11 @@ const routes: Routes = [
       {
         path: 'category',
         loadComponent: () => import('./demo/category/category.component').then(m => m.CategoryComponent)
+      },
+      {
+        path: 'signin',
+        loadComponent: () => import('../app/demo/pages/authentication/auth-signin/auth-signin.component').then(m => m.default)
       }
-     
     
     ]
   },

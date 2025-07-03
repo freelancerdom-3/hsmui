@@ -4,6 +4,8 @@ import { FormsModule } from '@angular/forms';
 import { TimeslotComponent, TimeslotState } from '../timeslot/timeslot.component';
 import { BaseService } from 'src/app/services/base.service';
 import { CartStateService, ServiceData } from 'src/app/services/cart-state.service';
+import { ActivatedRoute, Router } from '@angular/router';
+import { UtilityService } from 'src/app/services/utility.service';
 
 interface CartItem {
   id : number;
@@ -29,12 +31,14 @@ interface Fees{
 export class CheckoutComponent implements OnInit {
   Fees: Fees[] = [];
 
-  constructor(private baseService: BaseService, private cartStateService: CartStateService){}
+  constructor(private baseService: BaseService, private cartStateService: CartStateService, private router: Router, private activatedRoute: ActivatedRoute, private utilityService: UtilityService){}
   
   //services list
   serviceList: any[] = [];
 
   subCategoryIdFromCart: number;
+
+  userLoginStatus = true;
 
   ngOnInit(): void {
     this.getfees();
@@ -46,6 +50,9 @@ export class CheckoutComponent implements OnInit {
       this.loadCartItems();
     });
     console.log("Cart items of subCategoryId : "+this.serviceList);
+
+    //check user login status
+    this.checkUserLoginStatus();
   }
   /* ------------------- customer + cart --------------------- */
   customer = {
@@ -57,6 +64,23 @@ export class CheckoutComponent implements OnInit {
 
 
   //deliveryCharge = 40;
+
+  //navigate to signin page
+  onLoginClicked(){
+    //get current page url
+    const url = this.router.url;
+    const urlEndpointToRedirectBack = this.utilityService.extractLastSegment(url);
+    console.log("Url end point : "+this.utilityService.extractLastSegment(this.router.url));
+    localStorage.setItem('route', urlEndpointToRedirectBack);
+    localStorage.setItem('subCategoryIdForRouting', String(this.subCategoryIdFromCart));
+    this.router.navigate(['signin']);
+  }
+
+  checkUserLoginStatus(){
+    if(!localStorage.getItem('userId')){
+      this.userLoginStatus = false;
+    }
+  }
 
   //load cartItems from cart-state service
   loadCartItems(): void {

@@ -55,8 +55,21 @@ export class VerifyotpComponent implements OnInit {
         localStorage.setItem('userId', response.data.userId.toString());
         localStorage.setItem('mobileNumber', response.data.mobileNumber.toString());
         localStorage.setItem('userTypeId', response.data.userTypeId.toString());
+          
+          if(localStorage.getItem('route') && localStorage.getItem('subCategoryIdForRouting')){
+            const dynamicRoute = localStorage.getItem('route');
+            const routingSubCategoryId = localStorage.getItem('subCategoryIdForRouting');
 
-        this.router.navigate(['dashboard']);
+            /*set subCategoryIdFromClick and subCategoryIdFromCart with routing subcategoryId so that no matter 
+            where the user is, one can be redirected to exact page
+            */
+            localStorage.setItem('subCategoryIdFromClick', routingSubCategoryId);
+            localStorage.setItem('subCategoryIdFromCart', routingSubCategoryId);
+            this.router.navigate([dynamicRoute]);
+          }
+          else{
+            this.router.navigate(['dashboard']);
+          }
         }
       },
       error: (err) => {
