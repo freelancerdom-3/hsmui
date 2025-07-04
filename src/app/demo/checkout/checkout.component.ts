@@ -21,6 +21,8 @@ interface Fees{
   charge : number;
 }
 
+
+
 @Component({
   selector: 'app-checkout',
   standalone: true,
@@ -40,12 +42,31 @@ export class CheckoutComponent implements OnInit {
 
   userLoginStatus = true;
 
+  /* ------------ user object to enable two-way binding and setting of data--------------*/
+  user = {
+    userId: '',
+    Mobilenumber: '',
+    houseNumber: '',
+    landmark: '',
+    ariaName: '',
+    locationTypeId: 1,
+    customLabel: ''
+  };
+  //----Address pop-up flag
+  showAddressPopup = false;
+
+  //userId and mobileNumber for address API
+  userId: string;
+  mobileNumber: string;
+
   ngOnInit(): void {
     this.getfees();
 
+  
+
     //fetch subCategoryId from localstorage to load services of respective subCategoryId
     this.subCategoryIdFromCart = Number(localStorage.getItem('subCategoryIdFromCart'));
-    
+    //Trigger that updates the cart items
     this.cartStateService.serviceQuantityChanged$.subscribe(() => {
       this.loadCartItems();
     });
@@ -53,6 +74,12 @@ export class CheckoutComponent implements OnInit {
 
     //check user login status
     this.checkUserLoginStatus();
+
+    //
+    if(this.userLoginStatus){
+      this.loadUserIdAndMobileNumberIfUserIsLoggedIn();
+      this.loadUserDetails();
+    }
   }
   /* ------------------- customer + cart --------------------- */
   customer = {
@@ -80,6 +107,7 @@ export class CheckoutComponent implements OnInit {
     if(!localStorage.getItem('userId')){
       this.userLoginStatus = false;
     }
+  
   }
 
   //load cartItems from cart-state service
@@ -156,4 +184,59 @@ export class CheckoutComponent implements OnInit {
     console.log('Order placed!', this.customer, this.serviceList);
     alert('Thank you! Your order has been placed.');
   }
+  /* ----------- address load up --------------*/
+  
+  loadUserIdAndMobileNumberIfUserIsLoggedIn(){
+    //set values of userId and mobileNumber once user logs-in
+    this.userId = localStorage.getItem('userId');
+    this.mobileNumber = localStorage.getItem('mobileNumber');
+    
+    this.user.userId = this.userId;
+    this.user.Mobilenumber = this.mobileNumber;
+  }
+
+  openAddressPopup(): void {
+    this.showAddressPopup = true;
+    // this.loadUserDetails();
+  }
+
+  closeAddressPopup(): void {
+    this.showAddressPopup = false;
+  }
+
+  loadUserDetails(): void {
+    this.baseService.GET<any>("https://localhost:7282/api/User/GetById?userId="+this.userId)
+      .subscribe(response => {
+        console.log('User details loaded', response);
+        const data = response.data;
+        if (data.houseNumber) this.user.houseNumber = data.houseNumber;
+        if (data.landmark) this.user.landmark = data.landmark;
+        if (data.ariaName) this.user.ariaName = data.ariaName;
+        
+      });
+  }
+
+  updateAddress(): void {
+    const updatedUser = {
+      userId: this.user.userId,
+      Mobilenumber: this.user.Mobilenumber,
+      houseNumber: this.user.houseNumber,
+      landmark: this.user.landmark,
+      ariaName: this.user.ariaName,
+      locationType: this.user.locationTypeId === 1 ? 'HOME' : this.user.customLabel
+    };
+
+    console.log("Submitting address", updatedUser);
+    this.baseService.PUT<any>("https://localhost:7282/api/User", updatedUser)
+      .subscribe(response => {
+        console.log('Address updated successfully', response);
+        
+        this.closeAddressPopup(); // Only closes here
+
+
+        
+      });
+  }
+
+
 }

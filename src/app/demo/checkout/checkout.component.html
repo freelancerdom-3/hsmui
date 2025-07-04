@@ -8,14 +8,85 @@
     <!-- Phone -->
     <label>
       <span class="label">Phone Number</span>
-      <input type="tel" [(ngModel)]="customer.phone" placeholder="e.g. 9876543210" />
+      <input type="tel" [disabled]="true" [placeholder] ="mobileNumber" />
     </label>
 
     <!-- Address -->
-    <label>
+    <!-- Address Button -->
+     <!-- <label>
       <span class="label">Address</span>
-      <textarea rows="3" [(ngModel)]="customer.address" placeholder="House / Street / City"></textarea>
+    <button (click)="openAddressPopup()" class="select-address-btn">Select an Address</button>
+    </label> -->
+     <label>
+      <span class="label"> Address</span>
+          
+     
+       <div *ngIf="user.houseNumber; else chooseAddressBtn" class="chosen-slot">
+         {{ user.houseNumber }}, {{ user.landmark }}, {{ user.ariaName }}
+         <button class="change-btn" (click)="openAddressPopup()">Edit</button>
+       </div>
+
+        <ng-template #chooseAddressBtn>
+          <button (click)="openAddressPopup()">Choose Address</button>
+        </ng-template>
     </label>
+
+
+    <!-- Address Popup -->
+    <div class="backdrop" *ngIf="showAddressPopup" (click)="closeAddressPopup()"></div>
+
+    <div class="popup" *ngIf="showAddressPopup" (click)="$event.stopPropagation()">
+      <form #addressForm="ngForm" (ngSubmit)="updateAddress()" class="address-container">
+
+        <!-- <button type="button" class="change-btn">Change</button> -->
+
+        <input type="text"
+              name="houseNumber"
+              placeholder="House/Flat Number*"
+              [(ngModel)]="user.houseNumber"
+              required />
+
+        <input type="text"
+              name="landmark"
+              placeholder="Landmark (Optional)"
+              [(ngModel)]="user.landmark"
+              required />
+
+        <input type="text"
+              name="ariaName"
+              placeholder="Area Name"
+              [(ngModel)]="user.ariaName"
+              required />
+
+        <div class="save-as-section">
+          <label>Save as</label>
+          <button type="button"
+                  class="tag-btn"
+                  [class.active]="user.locationTypeId === 1"
+                  (click)="user.locationTypeId = 1">Home</button>
+          <button type="button"
+                  class="tag-btn"
+                  [class.active]="user.locationTypeId === 2"
+                  (click)="user.locationTypeId = 2">Other</button>
+        </div>
+
+        <div *ngIf="user.locationTypeId === 2" class="custom-label-input">
+          <input type="text"
+                name="customLabel"
+                placeholder="Enter label for Other"
+                [(ngModel)]="user.customLabel"
+                required />
+        </div>
+
+        <button
+          type="submit"
+          class="select-address-btn"
+          [disabled]="!addressForm.form.valid">
+          Save and proceed to slots
+        </button>
+      </form>
+    </div>
+
 
     <!-- Time Slot -->
     <label>
