@@ -1,6 +1,6 @@
 // angular import
 import { Component, inject } from '@angular/core';
-
+import { ToastrService } from 'ngx-toastr';
 
 // bootstrap import
 import { NgbDropdownConfig } from '@ng-bootstrap/ng-bootstrap';
@@ -20,7 +20,9 @@ export class NavRightComponent {
   // public props
 
   // constructor
-  constructor(private router: Router) {
+  constructor(private router: Router,
+              private toastr: ToastrService
+  ) {
     const config = inject(NgbDropdownConfig);
 
     config.placement = 'bottom-right';
@@ -35,6 +37,15 @@ export class NavRightComponent {
   //remove these keys which will eventually redirect to dashboard
   localStorage.removeItem('route');
   localStorage.removeItem('subCategoryIdForRouting');
+
+  this.toastr.success('Logout Successful!', 'Success', {
+            timeOut: 3000,
+            progressBar: true
+          }); 
+
+  localStorage.setItem('logoutMessage', 'Logged out successfully');
+  console.log('Logout successful');
+
   this.router.navigate(['signin']);
 }
   

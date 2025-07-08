@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 // project import
 import { SharedModule } from 'src/app/theme/shared/shared.module';
+// import { ToastrService } from 'ngx-toastr';
 
 declare const AmCharts;
 
@@ -30,7 +31,18 @@ import { Router } from '@angular/router';
 	styleUrls: ['./dashboard.component.scss']
 })
 export class DashboardComponent implements OnInit {
-	constructor(private baseService: BaseService, private dataService: DataService, private router:Router) { }
+
+	loginMessage: string | null = null;
+  	showLoginMessage: boolean = false;
+
+	// logoutMessage: string | null = null;
+  	// showLogoutMessage: boolean = false;
+
+	constructor(private baseService: BaseService, 
+				private dataService: DataService, 
+				private router:Router
+				// private toastr: ToastrService
+				) { }
 	// component.ts
 	// services = [
 	//   { img: 'assets/images/women.png', title: "Women's Salon & Spa" },
@@ -45,6 +57,51 @@ export class DashboardComponent implements OnInit {
 
 	// life cycle event
 	ngOnInit() {
+
+		const loginMsg = localStorage.getItem('loginSuccessMessage');
+			if (loginMsg) {
+			this.loginMessage = loginMsg;
+			this.showLoginMessage = true;
+
+			setTimeout(() => {
+				this.showLoginMessage = false;
+				this.loginMessage = null;
+			}, 3000);
+
+			localStorage.removeItem('loginSuccessMessage');
+			}
+
+		const logoutMsg = localStorage.getItem('logoutMessage');
+			if (logoutMsg) {
+			this.loginMessage = logoutMsg;
+			this.showLoginMessage = true;
+
+			setTimeout(() => {
+				this.showLoginMessage = false;
+				this.loginMessage = null;
+			}, 3000);
+
+			localStorage.removeItem('logoutMessage');
+			}
+
+
+		// const loginMsg = localStorage.getItem('loginSuccessMessage');
+		// const logoutMsg = localStorage.getItem('logoutMessage');
+
+ 		// 	 if (loginMsg || logoutMsg) {
+		// 		this.loginMessage = loginMsg || logoutMsg;
+		// 		this.showLoginMessage = true;
+
+		// 		// Auto-hide after 3 seconds
+		// 		setTimeout(() => {
+		// 		this.showLoginMessage = false;
+		// 		this.loginMessage = null;
+		// 		}, 3000);
+
+		// 		localStorage.removeItem('loginSuccessMessage');
+		// 		localStorage.removeItem('logoutMessage');
+		// 	}
+
 		//Get top trending sub-categories
 		console.log("this is dashboard");
 		this.dataService.selectedRegion$.subscribe(region => {
@@ -59,10 +116,10 @@ export class DashboardComponent implements OnInit {
 		this.getTopTrendingSubCategories();
 
 		//testing api
-		// this.baseService.GET<any>("https://localhost:7282/api/SubCategory/GetByCategoryId?CategoryId=1")
-		// .subscribe(response => {
-		// 	console.log("testing for authirization ====> subcategory data: "+response);
-		// })
+		this.baseService.GET<any>("https://localhost:7282/api/SubCategory/GetByCategoryId?CategoryId=1")
+		.subscribe(response => {
+			console.log("testing for authirization ====> subcategory data: "+response);
+		})
 
 		// this.baseService.GET("https://jsonplaceholder.typicode.com/posts/1").subscribe(response => {
 		// 	console.log("GET Response:", response);

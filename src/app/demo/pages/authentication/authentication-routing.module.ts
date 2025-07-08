@@ -7,7 +7,7 @@ const routes: Routes = [
     children: [
       {
         path: 'signin',
-        loadComponent: () => import('./auth-signin/auth-signin.component')
+        loadComponent: () => import('./auth-signin/auth-signin.component').then(m => m.default)
       },
       // {
       //   path: 'signup',

@@ -13,15 +13,35 @@
           <i class="feather icon-unlock auth-icon"></i>
         </div>
         <h3 class="mb-4">User-Login</h3>
+
         <div class="input-group mb-3" *ngIf="!otpSent">
-          <input type="phoneNo" class="form-control" placeholder="Phone Number"  formControlName="phoneNumber" />
+
+           <input
+              type="tel"
+              maxlength="10"
+              class="form-control"
+              placeholder="Phone Number"
+              formControlName="phoneNumber"
+              [ngClass]="{'is-invalid': phoneNumber?.invalid && (phoneNumber?.touched || phoneNumber?.dirty)}"
+            />
+        </div>
+
+            <!-- Error message -->
+            <div
+              *ngIf="phoneNumber?.invalid && (phoneNumber?.touched || phoneNumber?.dirty)"
+              class="text-danger"
+              style="font-size: 0.80rem; margin-top: -6px; margin-left: 3px;">
+              Please enter 10 digits mobile number
+            </div>
+          <!-- <input type="phoneNo" class="form-control" placeholder="Phone Number"  formControlName="phoneNumber" /> -->
+
            <!-- [ngClass]="{ 'is-invalid': submitted && f.phoneNo.errors }" 
             <div *ngIf="submitted && f.phoneNo.errors" class="invalid-feedback">
             <div *ngIf="f.phoneNo.errors.required">
               Enter Valid 10 digits Phone Number
             </div>
           </div>-->
-        </div>
+        
         <!-- <h3 class="mb-4">Login</h3>
         <div class="input-group mb-3">
           <input type="email" class="form-control" placeholder="Email" />

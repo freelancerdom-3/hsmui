@@ -43,11 +43,11 @@ export class BaseService {
 
      console.error('HTTP Error:', error);
 
-    if (error.status === 401) {
-        setTimeout(() => {
-        this.router.navigate(['/signin']); // Redirect to signin
-      }, 1000); // Add slight delay so toast is visible
-    }
+    // if (error.status === 401) {
+    //     setTimeout(() => {
+    //     this.router.navigate(['signin']); // Redirect to signin
+    //   }, 1000); // Add slight delay so toast is visible
+    // }
 
     return throwError(() => new Error(errorMessage));
   }

@@ -29,6 +29,10 @@ export default class AuthSigninComponent implements OnInit {
     });
   }
 
+  get phoneNumber() {
+    return this.signinForm.get('phoneNumber');
+  }
+
   sendOtp() {
     const phoneNumber = this.signinForm.value.phoneNumber;
     // this.otpSent = true;

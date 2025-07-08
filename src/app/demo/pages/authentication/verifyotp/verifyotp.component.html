@@ -8,14 +8,43 @@
     </div>
     <div class="card">
       <div class="card-body text-center">
+        <form [formGroup]="otpForm">
         <div class="mb-4">
           <i class="feather icon-unlock auth-icon"></i>
         </div>
          <h3 class="mb-4">Enter OTP</h3> 
 
-         <div class="input-group mb-3">
+          <div class="input-group mb-3">
+            <input
+              type="text"
+              maxlength="6"
+              class="form-control"
+              placeholder="Enter 6 digits OTP"
+              formControlName="otp"
+              [ngClass]="{
+                'is-invalid': otpControl?.invalid && (otpControl?.touched || otpControl?.dirty),
+                'is-valid': otpControl?.valid
+              }"
+            />
+          </div>
+
+          <!-- Validation Message -->
+          <div
+            *ngIf="otpControl?.invalid && (otpControl?.touched || otpControl?.dirty)"
+            class="text-danger"
+            style="font-size: 0.80rem; margin-top: -6px; margin-left: 3px;"
+          >
+            Please enter valid 6 digits OTP
+          </div>
+
+
+         <!-- <div class="input-group mb-3">
           <input type="text" class="form-control" placeholder="Enter 6 digits OTP" maxlength="6" pattern="[0-9]*" [(ngModel)]="otp" />
         </div>
+
+        <div class="text-danger mb-3" *ngIf="otpError">
+          Please enter valid 6 digits OTP
+        </div> -->
         <!--
         <div class="input-group mb-4">
           <input type="password" class="form-control" placeholder="Password" />
@@ -36,6 +65,7 @@
            Didn't receive the code?
           <a href="#" (click)="resendOtp()">Resend OTP</a> </p>-->
           <button class="btn btn-primary mb-4" (click)="resendOtp()">Resend OTP</button>
+          </form>
       </div>
     </div>
   </div>
