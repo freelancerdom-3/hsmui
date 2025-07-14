@@ -74,7 +74,7 @@ export class BaseService {
     );
   }
 
-  DELETE<T>(url: string): Observable<T> {
+  DELETE<T>(url: string, body: any): Observable<T> {
     const headers = this.getAuthHeaders();
     return this.http.delete<T>(url, { headers }).pipe(
       catchError(error => this.handleError(error))

@@ -7,6 +7,9 @@ import { DashboardComponent } from 'src/app/demo/dashboard/dashboard.component';
 import { BaseService } from 'src/app/services/base.service';
 import { ToastrService } from 'ngx-toastr';
 
+import { DataService } from 'src/app/services/data.service';
+import { CartStateService } from 'src/app/services/cart-state.service';
+import { catchError, map, Observable, of, tap } from 'rxjs';
 
 @Component({
   selector: 'app-verifyotp',
@@ -26,7 +29,9 @@ export class VerifyotpComponent implements OnInit {
     private http: HttpClient,
     private baseService: BaseService,
     private toastr: ToastrService ,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private dataService: DataService,
+    private cartStateService: CartStateService
   ) {}
 
   ngOnInit(): void {
@@ -51,9 +56,9 @@ export class VerifyotpComponent implements OnInit {
     }
 
      if (this.otpForm.invalid) {
-    this.otpForm.markAllAsTouched();
-    return;
-  }
+      this.otpForm.markAllAsTouched();
+      return;
+    }
         const otp = this.otpControl?.value;
       // console.log("verify phonenumber : "+ this.phoneNumber);
       // console.log("verify otp : "+ this.otp);
@@ -70,28 +75,48 @@ export class VerifyotpComponent implements OnInit {
           console.log(" data is null "+response.message);
         } 
         else {
-          console.log("data "+response.message); 
-          console.log("jwtToken:", response.data.jwtToken);
+            console.log("data "+response.message); 
+            console.log("jwtToken:", response.data.jwtToken);
+            
+            localStorage.setItem('authToken', response.data.jwtToken.toString());
+            localStorage.setItem('userId', response.data.userId.toString());
+            localStorage.setItem('mobileNumber', response.data.mobileNumber.toString());
+            localStorage.setItem('userTypeId', response.data.userTypeId.toString());
           
-          localStorage.setItem('authToken', response.data.jwtToken.toString());
-          localStorage.setItem('userId', response.data.userId.toString());
-          localStorage.setItem('mobileNumber', response.data.mobileNumber.toString());
-          localStorage.setItem('userTypeId', response.data.userTypeId.toString());
-          
-          if(localStorage.getItem('route') && localStorage.getItem('subCategoryIdForRouting')){
-            const dynamicRoute = localStorage.getItem('route');
-            const routingSubCategoryId = localStorage.getItem('subCategoryIdForRouting');
-
-            /*set subCategoryIdFromClick and subCategoryIdFromCart with routing subcategoryId so that no matter 
-            where the user is, one can be redirected to exact page
+          if (response.data.userTypeId === 2) {
+            /* This pipe tap logic will ensure the sequential execution of this entire flow
             */
-            localStorage.setItem('subCategoryIdFromClick', routingSubCategoryId);
-            localStorage.setItem('subCategoryIdFromCart', routingSubCategoryId);
-            this.router.navigate([dynamicRoute]);
+            this.getCartForEndUserAndSaveToLocalStorage(response.data.userId).pipe(
+              tap(cartId => {
+                // side-effect: after cart is created
+                console.log("Cart fetched from backend in verifyotp file cartId : "+cartId);
+                this.dataService.setUserLoginStatus(true);
+                console.log("User logged in userLogin status turned true");
+              }),
+              tap(() => {
+                // another side-effect: routing
+                  if (localStorage.getItem('route') && localStorage.getItem('subCategoryIdForRouting')) {
+                    const dynamicRoute = localStorage.getItem('route');
+                    const routingSubCategoryId = localStorage.getItem('subCategoryIdForRouting');
+
+                    localStorage.setItem('subCategoryIdFromClick', routingSubCategoryId);
+                    localStorage.setItem('subCategoryIdFromCart', routingSubCategoryId);
+                    this.router.navigate([dynamicRoute]);
+                  } else {
+                    this.router.navigate(['dashboard']);
+                  }
+                }
+              ),
+              catchError(err => {
+                //Catch any of the errors if anything goes wrong
+                console.error('Cart fetch failed', err);
+                return of(null);
+              })
+            ).subscribe();
           }
-          else{
-            this.router.navigate(['dashboard']);
-          }
+
+          /* Toastr logic to show messages on UI
+          */
           this.toastr.success('Login Successful!', 'Success', {
             timeOut: 3000,
             progressBar: true
@@ -107,12 +132,34 @@ export class VerifyotpComponent implements OnInit {
     });
   }
 
-  resendOtp(): void {
-  console.log("otp resent : " +this.phoneNumber);
+  //This function will get cart from backend and save it to localStorage
+  /* Here I have used pipe and tap logic for maitainig sequential execution as tap's side effect
+  property helps to achieve it and once the subscribe is called then the whole flow is ensured 
+  to work in the defined execution sequence.
+  */
+  getCartForEndUserAndSaveToLocalStorage(userId: number): Observable<number> {
+    return this.baseService.GET<any>(`https://localhost:7282/api/Cart/GenerateCart?userId=${userId}`).pipe(
+      tap(response => {
+        if (response?.data?.cartId != null) {
+          localStorage.setItem('cartId', String(response.data.cartId));
+          console.log("CartId from verify otp:", response.data.cartId);
+        } else {
+          console.error("❌ cartId not found in response", response);
+          throw new Error("CartId is null");
+        }
+      }),
+      map(response => response.data.cartId)
+    );
+  }
 
-  const apiUrl = "https://localhost:7282/api/Otp/OtpForEndUser?mobilenumber="+this.phoneNumber
-  this.http.get(apiUrl).subscribe(response => {
-      console.log("Otp response : "+response);
+
+
+  resendOtp(): void {
+    console.log("otp resent : " +this.phoneNumber);
+
+    const apiUrl = "https://localhost:7282/api/Otp/OtpForEndUser?mobilenumber="+this.phoneNumber
+    this.http.get(apiUrl).subscribe(response => {
+        console.log("Otp response : "+response);
     });
   }
 }

@@ -107,7 +107,7 @@ export class SubcategoryComponent implements OnInit {
 
 	getQuantity(serviceId: number): number {
 		const quantity = this.cartStateService.getServiceQuantityFromSubCategory(this.subCategoryIdToDisplay, serviceId);
-		console.log("fetched quantity for : "+serviceId+ " and its quantity = "+quantity);
+		// console.log("fetched quantity for : "+serviceId+ " and its quantity = "+quantity);
 		return quantity;
 	}
 

@@ -109,8 +109,7 @@ export class NavSearchComponent {
         console.log("Keyborad event : " + event.key);
         console.log("input data : " + regionName);
 
-        let maxrecord = 10;
-        this.baseService.GET<any>("https://localhost:7282/api/ServiceAreaMapping/GetAreaBySearch?name=" + regionName + "&maxrecord=" + maxrecord)
+        this.baseService.GET<any>("https://localhost:7282/api/ServiceAreaMapping/GetAreaBySearch?name=" + regionName + "&maxrecord=" + this.dataService.maxSearchResults)
           .subscribe(response => {
             console.log("Get area by search : " + JSON.stringify(response));
             this.searchRegion = response.data;

@@ -33,7 +33,13 @@ interface Fees{
 export class CheckoutComponent implements OnInit {
   Fees: Fees[] = [];
 
-  constructor(private baseService: BaseService, private cartStateService: CartStateService, private router: Router, private activatedRoute: ActivatedRoute, private utilityService: UtilityService){}
+  constructor(private baseService: BaseService, 
+              private cartStateService: CartStateService, 
+              private router: Router, 
+              private activatedRoute: ActivatedRoute, 
+              private utilityService: UtilityService
+              )
+              {}
   
   //services list
   serviceList: any[] = [];
@@ -60,9 +66,8 @@ export class CheckoutComponent implements OnInit {
   mobileNumber: string;
 
   ngOnInit(): void {
+    //Fetch fees from backend and load to array
     this.getfees();
-
-  
 
     //fetch subCategoryId from localstorage to load services of respective subCategoryId
     this.subCategoryIdFromCart = Number(localStorage.getItem('subCategoryIdFromCart'));
@@ -75,11 +80,13 @@ export class CheckoutComponent implements OnInit {
     //check user login status
     this.checkUserLoginStatus();
 
-    //
+    //check if the user logs in then load userId and mobile number
     if(this.userLoginStatus){
       this.loadUserIdAndMobileNumberIfUserIsLoggedIn();
       this.loadUserDetails();
     }
+
+    
   }
   /* ------------------- customer + cart --------------------- */
   customer = {
@@ -149,7 +156,7 @@ export class CheckoutComponent implements OnInit {
   /** Dynamic Taxes & Fees based on slab table */
   getTaxesAndFees(): number {
     const subtotal = this.getSubtotal();
-    console.log(this.Fees);
+    // console.log(this.Fees);
     const slab = this.Fees.find(f => subtotal >= f.startRange && subtotal <= f.endRange);
     if (!slab) return 0;                          // no slab matched
     return +(subtotal * slab.charge / 100).toFixed(2);  // round to 2 dec
@@ -184,8 +191,9 @@ export class CheckoutComponent implements OnInit {
     console.log('Order placed!', this.customer, this.serviceList);
     alert('Thank you! Your order has been placed.');
   }
+
   /* ----------- address load up --------------*/
-  
+  //Just to load mobile number and userId from localStorage when user logs in 
   loadUserIdAndMobileNumberIfUserIsLoggedIn(){
     //set values of userId and mobileNumber once user logs-in
     this.userId = localStorage.getItem('userId');
@@ -237,6 +245,4 @@ export class CheckoutComponent implements OnInit {
         
       });
   }
-
-
 }

@@ -1,7 +1,9 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { BaseService } from './base.service';
+import { DataService } from './data.service';
 
+//This interface is to ensure type safety of the data and this also gives flexibility to add new property to carry on with it.
 export interface SubCategoryData {
   subCategoryId: number;
   subCategoryName: string;
@@ -18,10 +20,11 @@ export interface ServiceData {
 @Injectable({
   providedIn: 'root'
 })
-export class CartStateService {
+export class CartStateService{
 
 	//Cart object
-	// private cartObject: any;
+	private cartId: number;
+
 	//Declare new maps here 
 	private readonly subCategoryDataMap = new Map<number, SubCategoryData>();
 	private readonly subCategoryServiceDataMap = new Map<number, Map<number, ServiceData>>();
@@ -30,29 +33,38 @@ export class CartStateService {
 	private serviceQuantityChangedSubject = new BehaviorSubject<void>(undefined);
 	serviceQuantityChanged$ = this.serviceQuantityChangedSubject.asObservable();
 
-	constructor(private baseService: BaseService) {
-		//Load maps from local storage
+	private isLoggedIn = false;
+
+	constructor(private baseService: BaseService, private dataService: DataService) {
 		this.loadMapsFromLocalStorage();
-		//Load cart from local storage
-		// this.loadCartFromLocalStorage();
+
+		//Trigger from data service to load cart once user logs in
+		this.dataService.userLoginStatusChanged$.subscribe((status: boolean) => {
+			this.isLoggedIn = status;
+			console.log("Cart-state service triggered on user login");
+			if (status) {
+				this.loadCartFromLocalStorage();
+				this.updateServicesToBackendCart();
+			} else {
+				console.log('User logged out, skip backend updates.');
+				this.cartId = null;
+			}
+		});
 	}
 
-	// loadCartFromLocalStorage(){
-	// 	//check if cart does not exist then generate cart and save to localstorage
-	// 	if(!localStorage.getItem('cart')){
-	// 		this.generateCartAndSaveToLocalStorage();
-	// 	}
-	// 	//Till this point we will have cart object in localstorage
-	// 	this.cartObject = JSON.parse(localStorage.getItem('cart'));
-	// }
+
+	loadCartFromLocalStorage(){
+		console.log("User logged in, fetch cart from localstorage");
+		this.cartId = Number(localStorage.getItem('cartId'));
+	}
 
 	// generateCartAndSaveToLocalStorage(){
-	// 	this.baseService.GET<any>("https://localhost:7282/api/GenerateCart").subscribe(response => {
-	// 		//initialize cart from response to cartObject
-	// 		this.cartObject = response.data;
-	// 		//set cart to localstorage once received from backend.
-	// 		localStorage.setItem('cart', JSON.stringify(response.data));
-	// 	});
+	// 	// this.baseService.GET<any>("https://localhost:7282/api/GenerateCart").subscribe(response => {
+	// 	// 	//initialize cart from response to cartObject
+	// 	// 	this.cartObject = response.data;
+	// 	// 	//set cart to localstorage once received from backend.
+	// 	// 	localStorage.setItem('cart', JSON.stringify(response.data));
+	// 	// });
 	// }
 
 	addOrUpdateService(subCategoryId: number, subCategoryName: string = '', subCategoryImageName: string = '', serviceId: number, serviceName: string, price: number): void {
@@ -85,16 +97,19 @@ export class CartStateService {
 				quantity: currentQuantity + 1
 			});
 			//generate payload to send it to backend
-			// const POSTPayload = {
-			// 	serviceId,
-			// 	cartId : this.cartObject.cartId,
-			// 	price,
-			// 	quantity: this.subCategoryServiceDataMap.get(subCategoryId).get(serviceId).quantity
-			// }
-			// //MAKE a POST API call to backend for service-cart mapping
-			// this.baseService.POST<any>("https://localhost:7282/api/ServiceCartMapping", POSTPayload).subscribe(response => {
-			// 	console.log("Response after adding a service ===> "+ JSON.stringify(response.data).toString());
-			// })
+			if(this.isLoggedIn){
+				const POSTPayload = {
+					serviceId,
+					cartId : this.cartId,
+					price,
+					quantity: this.subCategoryServiceDataMap.get(subCategoryId).get(serviceId).quantity
+				}
+				//MAKE a POST API call to backend for service-cart mapping
+				this.baseService.POST<any>("https://localhost:7282/api/ServiceCartMapping", POSTPayload).subscribe(response => {
+					console.log("Response after adding a service ===> "+ JSON.stringify(response.data).toString());
+				});
+				console.log("Service added for the first time when user logged-In");
+			}
 		} 
 		else {
 			//else get the service and update the quantity
@@ -104,16 +119,19 @@ export class CartStateService {
 			serviceMap.set(serviceId, service);
 
 			//Generate a PUT Payload to update that data in backend
-			// const PUTPayload = {
-			// 	serviceId,
-			// 	cartId: this.cartObject.cartId,
-			// 	price,
-			// 	quantity: this.subCategoryServiceDataMap.get(subCategoryId).get(serviceId).quantity
-			// }
-			// //Make a PUT API call here after service's quantity is updated
-			// this.baseService.PUT<any>("https://localhost:7282/api/ServiceCartMapping", PUTPayload).subscribe(response => {
-			// 	console.log("Response after updating quantity of a service ===> "+JSON.stringify(response.data).toString());
-			// })
+			if(this.isLoggedIn){
+				const PUTPayload = {
+					serviceId,
+					cartId: this.cartId,
+					price,
+					quantity: this.subCategoryServiceDataMap.get(subCategoryId).get(serviceId).quantity
+				}
+				//Make a PUT API call here after service's quantity is updated
+				this.baseService.PUT<any>("https://localhost:7282/api/ServiceCartMapping", PUTPayload).subscribe(response => {
+					console.log("Response after updating quantity of a service ===> "+JSON.stringify(response.data).toString());
+				})
+				console.log("Service quantity increased when user logged-In");
+			}
 		}
 
 		//At this point save to localstorage
@@ -139,20 +157,33 @@ export class CartStateService {
 		if (service.quantity <= 0) {
 			serviceMap.delete(serviceId);
 			//DELETE API for service-cart mapping
-			// this.baseService.DELETE<any>("https://localhost:7282/api/ServiceCartMapping")
+			if(this.isLoggedIn){
+				const DELETEPayload = {
+					cartId: this.cartId,
+					serviceId: serviceId
+				}
+				this.baseService.DELETE<any>("https://localhost:7282/api/ServiceCartMapping", DELETEPayload).subscribe(response => {
+					console.log("Response from DELETE API : "+ response);
+				})
+				console.log("Service deleted when user logged-In");
+			}
 		} 
 		else {
 			serviceMap.set(serviceId, service);
 			//PUT API for service-cart mapping
-			// const PUTPayload = {
-			// 	serviceId,
-			// 	cartId: this.cartObject.cartId,
-			// 	price: this.subCategoryServiceDataMap.get(subCategoryId).get(serviceId).price,
-			// 	quantity: this.getServiceQuantityFromSubCategory(subCategoryId, serviceId)
-			// }
-			// this.baseService.PUT<any>("https://localhost:7282/api/ServiceCartMapping", PUTPayload).subscribe(response => {
-			// 	console.log("Response from remove service and updating it ===> "+JSON.stringify(response.data).toString());
-			// })
+			//Only if the user is logged in, the status can be fetched from data-service
+			if(this.isLoggedIn){
+					const PUTPayload = {
+					serviceId,
+					cartId: this.cartId,
+					price: this.subCategoryServiceDataMap.get(subCategoryId).get(serviceId).price,
+					quantity: this.getServiceQuantityFromSubCategory(subCategoryId, serviceId)
+				}
+				this.baseService.PUT<any>("https://localhost:7282/api/ServiceCartMapping", PUTPayload).subscribe(response => {
+					console.log("Response from remove service and updating it ===> "+JSON.stringify(response.data).toString());
+				});
+				console.log("Service quantity reduced after user logged-In");
+			}
 		}
 
 		if (serviceMap.size === 0) {
@@ -246,5 +277,74 @@ export class CartStateService {
 
 		return result;
 	}
+
+	/** 
+	 * Flattens and returns a list of all services (across all subcategories) 
+	 * as an array of type ServiceData.
+	 */
+	getAllServicesAsFlatList(): ServiceData[] {
+		const flatList: ServiceData[] = [];
+
+		for (const serviceMap of this.subCategoryServiceDataMap.values()) {
+			for (const service of serviceMap.values()) {
+				flatList.push({ ...service });  // clone to avoid direct mutation <--- Deep copy to eliminate all possibilities of mutation
+			}
+		}
+
+		return flatList;
+	}
+
+	updateServicesToBackendCart(){
+		const servicesList: ServiceData[] = this.getAllServicesAsFlatList();
+		/*Even if the front-end's cart is empty, still the backend-cart might even contain the the data which is supposed to 
+		be updated to front-end cart so this call will happend irrespective of items in front-end cart
+		*/
+		console.log("cart-state service get all services as flat list : "+JSON.stringify(this.getAllServicesAsFlatList()).toString());
+		console.log("Backend call will happen");
+		//Here update services to storage and release the trigger to update services
+		this.sendServicesToBackendAndUpdateTheCurrentStorage(this.cartId, servicesList);
+		//trigger that will notify all subscribers to update the values
+		// this.serviceQuantityChangedSubject.next();
+	}
+
+	//function to send services in flat list format, and each object contains ---> serviceId, serviceName, quantity and price
+	sendServicesToBackendAndUpdateTheCurrentStorage(cartIdToSend: number, servicesList: ServiceData[]) {
+		console.log("sent services to cartId = " + cartIdToSend + " in backend");
+		const serviceCartPAYLOAD = {
+			cartId: cartIdToSend,
+			serviceQuantityList: servicesList
+		};
+		this.baseService.POST<any>("https://localhost:7282/api/ServiceCartMapping/AddServicesByList", serviceCartPAYLOAD).subscribe(response => {
+			console.log("Response after updating cart services" + JSON.stringify(response.data).toString());
+			console.log("Response message : " + response.message);
+			this.updateDataMapWithBackendMapData(response.data);
+			this.serviceQuantityChangedSubject.next();
+		});
+	}
+
+	/* ✅ NEW METHOD: Updates both maps from backend response and stores to localStorage
+	only if there are some services received from backend's response.
+	*/
+	private updateDataMapWithBackendMapData(backendResponse: any[]): void {
+		if(backendResponse.length > 0){
+			for (const entry of backendResponse) {
+				const subCategoryData = entry.subCategoryImageNameData;
+				const subCategoryId = subCategoryData.subCategoryId;
+
+				// Update subCategoryDataMap
+				this.subCategoryDataMap.set(subCategoryId, subCategoryData);
+
+				// Prepare service map for each subcategory
+				const serviceMap = new Map<number, ServiceData>();
+				for (const service of entry.serviceQuantityList) {
+					serviceMap.set(service.serviceId, service);
+				}
+				this.subCategoryServiceDataMap.set(subCategoryId, serviceMap);
+			}
+			// Persist to localStorage
+			this.saveMapsToLocalStorage();
+		}
+	}
+
 
 }
