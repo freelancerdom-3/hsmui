@@ -1,121 +1,120 @@
 <div class="checkout-wrapper">
   <div class="checkout-columns">
     <!-- LEFT: Customer Details -->
-  <section class="customer-info">
-  @if (userLoginStatus) {
-    <h2 class="title">Customer Information</h2>
+    <section class="customer-info">
+      @if (userLoginStatus) {
+      <h2 class="title">Customer Information</h2>
 
-    <!-- Phone -->
-    <label>
-      <span class="label">Phone Number</span>
-      <input type="tel" [disabled]="true" [placeholder] ="mobileNumber" />
-    </label>
+      <!-- Phone -->
+      <label>
+        <span class="label">Phone Number</span>
+        <input type="tel" [disabled]="true" [placeholder]="mobileNumber" />
+      </label>
 
-    <!-- Address -->
-    <!-- Address Button -->
-     <!-- <label>
+      <!-- Address -->
+      <!-- Address Button -->
+      <!-- <label>
       <span class="label">Address</span>
     <button (click)="openAddressPopup()" class="select-address-btn">Select an Address</button>
     </label> -->
-     <label>
-      <span class="label"> Address</span>
-          
-     
-       <div *ngIf="user.houseNumber; else chooseAddressBtn" class="chosen-slot">
-         {{ user.houseNumber }}, {{ user.landmark }}, {{ user.ariaName }}
-         <button class="change-btn" (click)="openAddressPopup()">Edit</button>
-       </div>
+      <label>
+        <span class="label"> Address</span>
+
+
+        <div *ngIf="user.houseNumber; else chooseAddressBtn" class="chosen-slot">
+          {{ user.houseNumber }}, {{ user.landmark }}, {{ user.ariaName }}
+          <button class="change-btn" (click)="openAddressPopup()">Edit</button>
+        </div>
 
         <ng-template #chooseAddressBtn>
           <button (click)="openAddressPopup()">Choose Address</button>
         </ng-template>
-    </label>
+      </label>
 
 
-    <!-- Address Popup -->
-    <div class="backdrop" *ngIf="showAddressPopup" (click)="closeAddressPopup()"></div>
+      <!-- Address Popup -->
+      <div class="backdrop" *ngIf="showAddressPopup" (click)="closeAddressPopup()"></div>
 
-    <div class="popup" *ngIf="showAddressPopup" (click)="$event.stopPropagation()">
-      <form #addressForm="ngForm" (ngSubmit)="updateAddress()" class="address-container">
+      <div class="popup" *ngIf="showAddressPopup" (click)="$event.stopPropagation()">
+        <form #addressForm="ngForm" (ngSubmit)="updateAddress()" class="address-container">
 
-        <!-- <button type="button" class="change-btn">Change</button> -->
+          <!-- <button type="button" class="change-btn">Change</button> -->
 
-        <input type="text"
-              name="houseNumber"
-              placeholder="House/Flat Number*"
-              [(ngModel)]="user.houseNumber"
-              required />
+          <input type="text" name="houseNumber" placeholder="House/Flat Number*" [(ngModel)]="user.houseNumber"
+            required />
 
-        <input type="text"
-              name="landmark"
-              placeholder="Landmark (Optional)"
-              [(ngModel)]="user.landmark"
-              required />
+          <input type="text" name="landmark" placeholder="Landmark (Optional)" [(ngModel)]="user.landmark" required />
 
-        <input type="text"
+          <!-- <input type="text"
               name="ariaName"
               placeholder="Area Name"
               [(ngModel)]="user.ariaName"
+              required /> -->
+
+          <!-- AREA INPUT with AUTOCOMPLETE DROPDOWN -->
+          <div class="dropdown-wrapper" style="position: relative;">
+            <input type="text" name="ariaName" (keyup)="getRegionBySearch($event)" placeholder="Area Name"
+              [(ngModel)]="user.ariaName" required />
+
+            <ul class="list-group" *ngIf="searchRegion.length > 0">
+              <li *ngFor="let region of searchRegion" class="list-group-item" style="cursor: pointer;"
+                (click)="selectArea(region)">
+                <strong>{{ region.name }}</strong><br />
+                <em>{{ region.parent }}</em>
+              </li>
+            </ul>
+          </div>
+
+
+
+          <div class="save-as-section">
+            <label>Save as</label>
+            <button type="button" class="tag-btn" [class.active]="user.locationTypeId === 1"
+              (click)="user.locationTypeId = 1">Home</button>
+            <button type="button" class="tag-btn" [class.active]="user.locationTypeId === 2"
+              (click)="user.locationTypeId = 2">Other</button>
+          </div>
+
+          <div *ngIf="user.locationTypeId === 2" class="custom-label-input">
+            <input type="text" name="customLabel" placeholder="Enter label for Other" [(ngModel)]="user.customLabel"
               required />
+          </div>
 
-        <div class="save-as-section">
-          <label>Save as</label>
-          <button type="button"
-                  class="tag-btn"
-                  [class.active]="user.locationTypeId === 1"
-                  (click)="user.locationTypeId = 1">Home</button>
-          <button type="button"
-                  class="tag-btn"
-                  [class.active]="user.locationTypeId === 2"
-                  (click)="user.locationTypeId = 2">Other</button>
-        </div>
-
-        <div *ngIf="user.locationTypeId === 2" class="custom-label-input">
-          <input type="text"
-                name="customLabel"
-                placeholder="Enter label for Other"
-                [(ngModel)]="user.customLabel"
-                required />
-        </div>
-
-        <button
-          type="submit"
-          class="select-address-btn"
-          [disabled]="!addressForm.form.valid">
-          Save and proceed to slots
-        </button>
-      </form>
-    </div>
-
-
-    <!-- Time Slot -->
-    <label>
-      <span class="label">Preferred Time Slot</span>
-      <div *ngIf="customer.timeslot; else chooseBtn" class="chosen-slot">
-        {{ customer.timeslot }}
-        <button class="change-btn" (click)="openTimeSlotPopup()">Edit</button>
+          <button type="submit" class="select-address-btn" [disabled]="!addressForm.form.valid">
+            Save and proceed to slots
+          </button>
+        </form>
       </div>
-      <ng-template #chooseBtn>
-        <button (click)="openTimeSlotPopup()">Select time slot</button>
-      </ng-template>
-    </label>
 
-    <!-- Payment Method -->
-    <label>
-      <span class="label">Payment Method</span>
-      <select [(ngModel)]="customer.paymentMethod">
-        <option value="cod">Cash on Delivery</option>
-        <option value="online">UPI / Card (online)</option>
-      </select>
-    </label>
-  } 
-  @else {
-    <div class="login-block">
-      <h2 class="login-message">Kindly login to checkout</h2>
-      <button class="login-btn" (click)="onLoginClicked()">Login</button>
-    </div>
-  }
-  </section>
+
+      <!-- Time Slot -->
+      <label>
+        <span class="label">Preferred Time Slot</span>
+        <div *ngIf="customer.timeslot; else chooseBtn" class="chosen-slot">
+          {{ customer.timeslot }}
+          <button class="change-btn" (click)="openTimeSlotPopup()">Edit</button>
+        </div>
+        <ng-template #chooseBtn>
+          <button (click)="openTimeSlotPopup()">Select time slot</button>
+        </ng-template>
+      </label>
+
+      <!-- Payment Method -->
+      <label>
+        <span class="label">Payment Method</span>
+        <select [(ngModel)]="customer.paymentMethod">
+          <option value="cod">Cash on Delivery</option>
+          <option value="online">UPI / Card (online)</option>
+        </select>
+      </label>
+      }
+      @else {
+      <div class="login-block">
+        <h2 class="login-message">Kindly login to checkout</h2>
+        <button class="login-btn" (click)="onLoginClicked()">Login</button>
+      </div>
+      }
+    </section>
 
 
     <!-- Separator -->
@@ -126,32 +125,29 @@
       <h2 class="title">Order Summary</h2>
 
       @for (service of serviceList; track service.serviceId) {
-        <div class="cart-item">
-          <div class="item-name">{{ service.serviceName }}</div>
+      <div class="cart-item">
+        <div class="item-name">{{ service.serviceName }}</div>
 
-          <div class="quantity-control">
-            <button (click)="decrement(service)">−</button>
-            <span>{{ service.quantity }}</span>
-            <button (click)="increment(service)">+</button>
-          </div>
-
-          <div class="item-price">₹{{ service.price * service.quantity }}</div>
+        <div class="quantity-control">
+          <button (click)="decrement(service)">−</button>
+          <span>{{ service.quantity }}</span>
+          <button (click)="increment(service)">+</button>
         </div>
+
+        <div class="item-price">₹{{ service.price * service.quantity }}</div>
+      </div>
       }
 
       <div class="totals">
         <div><span>Item total</span><span>₹{{ getSubtotal() }}</span></div>
-        <div><span>Fees</span><span>₹{{ getTaxesAndFees() }}</span></div>
+        <div><span>Fees</span><span>₹{{ getTaxesAndFees }}</span></div>
         <div class="grand">
           <span>Total amount</span>
           <span>₹{{ getGrandTotal() }}</span>
         </div>
       </div>
 
-      <button 
-        (click)="placeOrder()" 
-        [disabled]="!userLoginStatus" 
-        [ngClass]="{ 'disabled-btn': !userLoginStatus }">
+      <button (click)="placeOrder()" [disabled]="!userLoginStatus" [ngClass]="{ 'disabled-btn': !userLoginStatus }">
         Place Order
       </button>
 
@@ -163,9 +159,7 @@
 <div class="backdrop" *ngIf="showTimeSlotPopup" (click)="closeTimeSlotPopup()"></div>
 
 <div class="popup" *ngIf="showTimeSlotPopup" (click)="$event.stopPropagation()">
-  <app-timeslot
-    [initialSelection]="selectedSlot"
-    (slotSelected)="onSlotSelected($event)"
+  <app-timeslot [initialSelection]="selectedSlot" (slotSelected)="onSlotSelected($event)"
     (closed)="closeTimeSlotPopup()">
   </app-timeslot>
 </div>

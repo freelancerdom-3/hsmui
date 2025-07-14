@@ -2,7 +2,8 @@
 .checkout-wrapper {
   display: flex;
   gap: 2rem;
-  flex-wrap: wrap;        /* lets them stack on small screens */
+  flex-wrap: wrap;
+  /* lets them stack on small screens */
   align-items: flex-start;
   max-width: 1200px;
   margin: 0 auto;
@@ -11,7 +12,8 @@
 /* ===== Panels ===================================================== */
 .customer-info,
 .order-summary {
-  flex: 1 1 50%;          /* 50 % width on desktop, full width on wrap */
+  flex: 1 1 50%;
+  /* 50 % width on desktop, full width on wrap */
   box-sizing: border-box;
   padding: 1.5rem 2rem;
   border: 1px solid #e3e3e3;
@@ -49,11 +51,13 @@ textarea {
   font: inherit;
 }
 
-textarea { resize: vertical; }
+textarea {
+  resize: vertical;
+}
 
 /* ===== Cart items & totals ======================================== */
 .item-row,
-.totals > div {
+.totals>div {
   display: flex;
   justify-content: space-between;
   margin-bottom: 0.5rem;
@@ -79,10 +83,13 @@ button {
   transition: background 0.2s ease;
 }
 
-button:hover { background: #1e5fff; }
+button:hover {
+  background: #1e5fff;
+}
 
 /* ===== Mobile: stack panels ======================================= */
 @media (max-width: 768px) {
+
   .customer-info,
   .order-summary {
     flex: 1 1 100%;
@@ -109,18 +116,22 @@ button:hover { background: #1e5fff; }
 
 /* ===== modal backdrop ===== */
 .backdrop {
-  position: fixed;      /* ⬅︎ anchor to viewport */
-  inset: 0;             /* top:0; right:0; bottom:0; left:0 */
+  position: fixed;
+  /* ⬅︎ anchor to viewport */
+  inset: 0;
+  /* top:0; right:0; bottom:0; left:0 */
   background: rgba(0, 0, 0, 0.6);
   z-index: 1000;
 }
 
 /* ===== popup card ===== */
 .popup {
-  position: fixed;      /* ⬅︎ anchor to viewport */
+  position: fixed;
+  /* ⬅︎ anchor to viewport */
   top: 50%;
   left: 50%;
-  transform: translate(-50%, -50%);  /* perfectly centered */
+  transform: translate(-50%, -50%);
+  /* perfectly centered */
   background: #fff;
   width: 90%;
   max-width: 520px;
@@ -128,7 +139,8 @@ button:hover { background: #1e5fff; }
   overflow-y: auto;
   border-radius: 8px;
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
-  z-index: 1001;        /* above backdrop */
+  z-index: 1001;
+  /* above backdrop */
 }
 
 /* (optional) prevent body scroll while modal is open */
@@ -244,7 +256,8 @@ button:hover {
 .login-message {
   color: #999;
   font-weight: 400;
-  font-size: 1.5rem;  /* 50% larger than base 1rem */
+  font-size: 1.5rem;
+  /* 50% larger than base 1rem */
   margin-bottom: 1rem;
   text-align: center;
 }
@@ -344,21 +357,21 @@ input[type="text"] {
 }
 
 .tag-btn {
-    border: none;
-    border-radius: 30px; // fully rounded
-    padding: 10px 20px;
-    font-weight: 50;
-    text-align: center;
-    width: 30%;
-    color: #999; // default gray text
-    background-color: #f5f5f5;
-    transition: all 0.3s ease;
+  border: none;
+  border-radius: 30px; // fully rounded
+  padding: 10px 20px;
+  font-weight: 50;
+  text-align: center;
+  width: 30%;
+  color: #999; // default gray text
+  background-color: #f5f5f5;
+  transition: all 0.3s ease;
 
-    &.active {
-      background-color: #7b47ff; // vibrant purple
-      color: white;
-    }
+  &.active {
+    background-color: #7b47ff; // vibrant purple
+    color: white;
   }
+}
 
 .proceed-btn {
   width: 100%;
@@ -376,6 +389,7 @@ input[type="text"] {
   background-color: #7a3dff;
   cursor: pointer;
 }
+
 .select-address-btn {
   text-align: center;
   width: 100%;
@@ -397,9 +411,21 @@ input[type="text"] {
 }
 
 .select-address-btn:disabled {
-  background-color: #cccccc;  
-  color: #666666;              
+  background-color: #cccccc;
+  color: #666666;
   cursor: not-allowed;
-  opacity: 0.6;               
+  opacity: 0.6;
 }
 
+.list-group {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  z-index: 999;
+  background: white;
+  border: 1px solid #ccc;
+  width: 100%;
+  max-height: 300px;
+  overflow-y: auto;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
