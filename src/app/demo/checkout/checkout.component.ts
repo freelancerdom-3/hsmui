@@ -6,6 +6,7 @@ import { BaseService } from 'src/app/services/base.service';
 import { CartStateService, ServiceData } from 'src/app/services/cart-state.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { UtilityService } from 'src/app/services/utility.service';
+import { DataService } from 'src/app/services/data.service';
 
 interface CartItem {
   id: number;
@@ -37,7 +38,8 @@ export class CheckoutComponent implements OnInit {
               private cartStateService: CartStateService, 
               private router: Router, 
               private activatedRoute: ActivatedRoute, 
-              private utilityService: UtilityService
+              private utilityService: UtilityService,
+              private dataService: DataService
               )
               {}
   
@@ -45,8 +47,9 @@ export class CheckoutComponent implements OnInit {
   serviceList: any[] = [];
 
   subCategoryIdFromCart: number;
-
-  userLoginStatus = true;
+  
+  //User login status 
+  userLoginStatus: boolean;
 
   /* ------------ user object to enable two-way binding and setting of data--------------*/
   user = {
@@ -80,8 +83,9 @@ export class CheckoutComponent implements OnInit {
     });
     console.log("Cart items of subCategoryId : " + this.serviceList);
 
-    //check user login status
-    this.checkUserLoginStatus();
+    this.dataService.userLoginStatusChanged$.subscribe((status:boolean) => {
+      this.userLoginStatus = status;
+    })
 
     //check if the user logs in then load userId and mobile number
     if(this.userLoginStatus){
@@ -113,12 +117,6 @@ export class CheckoutComponent implements OnInit {
     this.router.navigate(['signin']);
   }
 
-  checkUserLoginStatus() {
-    if (!localStorage.getItem('userId')) {
-      this.userLoginStatus = false;
-    }
-
-  }
 
   //load cartItems from cart-state service
   loadCartItems(): void {
@@ -182,9 +180,15 @@ export class CheckoutComponent implements OnInit {
       service.price
     );
   }
-
+  
+    /* This decrement function is also responsible to navigate to cart if user deletes all the
+    services at checkout page
+    */
   decrement(service: ServiceData): void {
     this.cartStateService.removeService(this.subCategoryIdFromCart, service.serviceId);
+      if(this.serviceList.length <= 0){
+        this.router.navigate(['cart']);
+      }
   }
 
 
@@ -195,6 +199,15 @@ export class CheckoutComponent implements OnInit {
     }
     console.log('Order placed!', this.customer, this.serviceList, this.getTaxesAndFees);
     alert('Thank you! Your order has been placed.');
+
+
+    //Hemil is working on this flow so kindly keep it commented when using place order if required
+    //--------> this api call is working and inserting services in TblOrderServiceMapping
+    // console.log("From place order: "+JSON.stringify(this.serviceList).toString());
+    // const orderPlacePYLOAD = {servicesList: this.serviceList}
+    // this.baseService.POST<any>("https://localhost:7282/api/OrderServiceMapping/AddServicesInOrder", orderPlacePYLOAD).subscribe(response => {
+    //   console.log("Response after adding services to order table"+response.message);
+    // })
   }
 
 
