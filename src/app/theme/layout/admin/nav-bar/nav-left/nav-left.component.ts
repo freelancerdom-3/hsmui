@@ -138,5 +138,8 @@ export class NavLeftComponent implements OnInit, OnDestroy {
 		}
 	}
 
+	onIconClick(){
+		this.router.navigate(['dashboard']);
+	}
 
 }

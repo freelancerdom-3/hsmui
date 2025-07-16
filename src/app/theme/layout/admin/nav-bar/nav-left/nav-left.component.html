@@ -5,6 +5,15 @@
     </a>
   </li> -->
 
+  <li class="nav-item">
+  <img
+    src="assets/Hammer-Wrench--Streamline-Ultimate (1).png"
+    alt="Repair Icon"
+    class="mouse-pointer repair-icon"
+    (click)="onIconClick()" />
+  </li>
+
+
   @if(categories && categories.length > 0){
 
     @for (category of categories; track category.categoryId) {

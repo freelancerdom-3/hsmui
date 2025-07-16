@@ -22,6 +22,8 @@
               class="form-control"
               placeholder="Phone Number"
               formControlName="phoneNumber"
+              (keypress)="allowOnlyDigits($event)"
+              (paste)="blockPaste($event)"
               [ngClass]="{'is-invalid': phoneNumber?.invalid && (phoneNumber?.touched || phoneNumber?.dirty)}"
             />
         </div>

@@ -48,4 +48,19 @@ export default class AuthSigninComponent implements OnInit {
       queryParams: { phone: phoneNumber }
     });
   }
+
+   allowOnlyDigits(event: KeyboardEvent): void {
+    const charCode = event.key.charCodeAt(0);
+    if (charCode < 48 || charCode > 57) {
+      event.preventDefault();
+    }
+  }
+
+  blockPaste(event: ClipboardEvent): void {
+    const pastedInput: string = event.clipboardData?.getData('text') || '';
+    const isValid = /^\d+$/.test(pastedInput);
+    if (!isValid || pastedInput.length > 10) {
+      event.preventDefault();
+    }
+  }
 }

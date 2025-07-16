@@ -85,23 +85,6 @@ export class DashboardComponent implements OnInit {
 			}
 
 
-		// const loginMsg = localStorage.getItem('loginSuccessMessage');
-		// const logoutMsg = localStorage.getItem('logoutMessage');
-
- 		// 	 if (loginMsg || logoutMsg) {
-		// 		this.loginMessage = loginMsg || logoutMsg;
-		// 		this.showLoginMessage = true;
-
-		// 		// Auto-hide after 3 seconds
-		// 		setTimeout(() => {
-		// 		this.showLoginMessage = false;
-		// 		this.loginMessage = null;
-		// 		}, 3000);
-
-		// 		localStorage.removeItem('loginSuccessMessage');
-		// 		localStorage.removeItem('logoutMessage');
-		// 	}
-
 		//Get top trending sub-categories
 		console.log("this is dashboard");
 		this.dataService.selectedRegion$.subscribe(region => {

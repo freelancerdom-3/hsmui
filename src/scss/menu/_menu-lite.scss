@@ -54,8 +54,8 @@
     }
   }
 }
-// new logo End
-// Pre-loader css start
+new logo End
+Pre-loader css start
 
 .loader-bg {
   position: fixed;
@@ -137,12 +137,14 @@
   display: flex;
   min-height: $header-height;
   padding: 0;
-  position: relative;
+  // position: relative;
   top: 0;
   background: transparent;
   color: $header-light-text-color;
-  width: calc(100% - #{$Menu-width});
-  margin-left: $Menu-width;
+  // width: calc(100% - #{$Menu-width});
+  width: calc(100%);
+  // margin-left: $Menu-width;
+  margin-left: 0;
   transition: all 0.3s ease-in-out;
 
   .m-header {
@@ -1154,7 +1156,8 @@
   clear: both;
   float: unset;
   right: 0;
-  margin-left: $Menu-width;
+  // margin-left: $Menu-width;
+  margin-left: 0;
   min-height: 100vh;
   transition: all 0.3s ease-in-out;
 }

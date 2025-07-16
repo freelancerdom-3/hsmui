@@ -1,5 +1,5 @@
 // angular import
-import { Component, inject } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
 
 // bootstrap import
@@ -17,8 +17,10 @@ import { DataService } from 'src/app/services/data.service';
   styleUrls: ['./nav-right.component.scss'],
   providers: [NgbDropdownConfig]
 })
-export class NavRightComponent {
+export class NavRightComponent implements OnInit{
   // public props
+
+  isUserLoggedIn: boolean;
 
   // constructor
   constructor(private router: Router,
@@ -27,6 +29,15 @@ export class NavRightComponent {
     const config = inject(NgbDropdownConfig);
 
     config.placement = 'bottom-right';
+  }
+  ngOnInit(): void {
+    
+   //Trigger from data service to load cart once user logs in
+		this.dataService.userLoginStatusChanged$.subscribe((status: boolean) => {
+			this.isUserLoggedIn = status;
+			console.log("User login status change");
+			
+		});
   }
 
  logout() {
@@ -57,5 +68,9 @@ export class NavRightComponent {
 
   navigateToCart(){
     this.router.navigate(['cart']);
+  }
+
+  navigateToSignInPage(){
+    this.router.navigate(['signin']);
   }
 }

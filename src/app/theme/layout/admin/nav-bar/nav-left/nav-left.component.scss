@@ -48,3 +48,14 @@
   background-color: transparent !important;
   transform: scaleX(0) !important;
 }
+
+.repair-icon {
+  width: 32px;
+  height: 32px;
+  cursor: pointer;
+  transition: transform 0.2s ease-in-out;
+}
+
+.repair-icon:hover {
+  transform: scale(1.2); /* Increases size by 20% on hover */
+}

@@ -21,6 +21,8 @@
               class="form-control"
               placeholder="Enter 6 digits OTP"
               formControlName="otp"
+              (keypress)="allowOnlyDigits($event)"
+              (paste)="blockPaste($event)"
               [ngClass]="{
                 'is-invalid': otpControl?.invalid && (otpControl?.touched || otpControl?.dirty),
                 'is-valid': otpControl?.valid
