@@ -1,0 +1,174 @@
+<form [formGroup]="userForm"  (ngSubmit)="onSubmit()">
+  <label>Mobile Number</label>
+  <input type="tel"  [disabled]="true" placeholder={{user.mobileNumber}} />
+  <!-- <label>
+      <span class="label">Mo</span>
+      <input type="tel" [disabled]="true" placeholder ={{user.mobileNumber}} />
+    </label> -->
+
+  <label>Full Name</label>
+  <input type="text" formControlName="fullName" placeholder="Enter full name" />
+
+  <label>Email</label>
+  <input type="email" formControlName="email" placeholder="Enter email" />
+
+  <label>Gender</label>
+  <select formControlName="gender">
+    <option value="">Select</option>
+    <option value="Male">Male</option>
+    <option value="Female">Female</option>
+    <option value="Other">Other</option>
+  </select>
+
+  <label>Date of Birth</label>
+  <input type="date" formControlName="dateOfBirth" />
+  <div class="error" *ngIf="userForm.get('dateOfBirth')?.errors?.['underage'] && userForm.get('dateOfBirth')?.touched">
+    You must be at least 18 years old.
+  </div>
+
+  <label>State</label>
+<div class="dropdown-wrapper" style="position: relative;">
+  <input
+    type="text"
+    name="stateName"
+    placeholder="Enter State name"
+    [(ngModel)]="stateName"
+    formControlName="State"
+    (keyup)="searchStateData($event)"
+    autocomplete="off"
+    required
+  />
+
+  <ul class="list-group" *ngIf="stateResult.length > 0">
+    <li
+      *ngFor="let state of stateResult"
+      class="list-group-item"
+      style="cursor: pointer;"
+      (click)="selectState(state)"
+    >
+      <strong>{{ state.regionName }}</strong>
+    </li>
+  </ul>
+</div>
+
+<!-- City Input with Autocomplete -->
+<label>City</label>
+<div class="dropdown-wrapper" style="position: relative;">
+<input type="text"
+    name="CityName"
+    placeholder="Enter City name"
+    [(ngModel)]="cityName"
+    formControlName="City"
+    (keyup)="searchCityData($event)"
+    autocomplete="off"
+    required />
+
+<ul *ngIf="cityResult.length > 0" class="city-suggestion-list">
+  <li 
+    *ngFor="let city of cityResult" 
+    (click)="selectCityAndSaveToLocalStorage(city)" 
+    class="list-group-item"
+      style="cursor: pointer;"
+  >
+    {{ city.regionName }}
+  </li>
+</ul>
+</div>
+
+
+<!-- Aria Button -->
+<div class="aria-button-wrapper">
+  <label>Aria</label>
+  <button type="button" class="small-blue-button" (click)="toggleAriaPopup()">Select Aria</button>
+
+
+
+  <!-- Show selected names -->
+  <div *ngIf="selectedAriaIds.length > 0" class="selected-aria">
+    {{ getSelectedAriaNames() }}
+  </div>
+</div>
+
+<!-- Aria Selection Popup -->
+<div class="popup-overlay" *ngIf="showAriaPopup">
+  <div class="popup-content">
+    <h3>Select Aria </h3>
+    <div class="aria-list">
+      <div
+        *ngFor="let aria of availableArias"
+        class="aria-item"
+        [class.selected]="isAriaSelected(aria.regionID)"
+        (click)="toggleAria(aria.regionID)"
+      >
+        {{ aria.regionName}}
+        <span *ngIf="isAriaSelected(aria.regionID)">✔</span>
+      </div>
+    </div>
+
+    <div class="popup-buttons">
+      <button type="button" (click)="saveAria()" [disabled]="selectedAriaIds.length === 0">
+        Save Aria
+      </button>
+    </div>
+
+    <div class="error" *ngIf="ariaError">Please select at least 1 item.</div>
+  </div>
+</div>
+
+
+
+
+
+  <!-- Skill Selection Button -->
+<div class="skill-button-wrapper">
+  <label>Skills</label>
+  <button type="button" (click)="toggleSkillPopup()">
+    Select Skills
+  </button>
+
+  <!-- Show selected names -->
+  <div *ngIf="selectedSkillIds.length > 0" class="selected-skills">
+    {{ getSelectedSkillNames() }}
+  </div>
+</div>
+
+<!-- Skill Selection Popup -->
+<div class="popup-overlay" *ngIf="showSkillPopup">
+  <div class="popup-content">
+    <h3>Select up to 3 Skills</h3>
+    <div class="skill-list">
+      <div
+        *ngFor="let skill of availableSkills"
+        class="skill-item"
+        [class.selected]="isSelected(skill.subCategoryId)"
+        (click)="toggleSkill(skill.subCategoryId)"
+      >
+        {{ skill.subCategoryName }}
+        <span *ngIf="isSelected(skill.subCategoryId)">✔</span>
+      </div>
+    </div>
+
+    <div class="popup-buttons">
+      <button type="button" (click)="saveSkills()" [disabled]="selectedSkillIds.length === 0">
+        Save Skills
+      </button>
+    </div>
+
+    <div class="error" *ngIf="showError">Please select at least 1 skill.</div>
+  </div>
+</div>
+<button 
+  type="submit"
+  [disabled]="
+    userForm.invalid || 
+    selectedSkillIds.length === 0 || 
+    selectedAriaIds.length === 0
+  "
+  
+>
+  Submit
+</button>
+
+
+  <!-- <button type="submit"  (click)="navigateTOloginserviceprovider()"  >Submit</button> -->
+</form>

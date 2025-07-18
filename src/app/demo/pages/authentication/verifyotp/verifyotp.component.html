@@ -1,3 +1,4 @@
+
 <div class="auth-wrapper">
   <div class="auth-content">
     <div class="auth-bg">
@@ -42,6 +43,8 @@
 
          <!-- <div class="input-group mb-3">
           <input type="text" class="form-control" placeholder="Enter 6 digits OTP" maxlength="6" pattern="[0-9]*" [(ngModel)]="otp" />
+         <div class="input-group mb-3">
+          <input type="text" [(ngModel)]="otp" class="form-control" placeholder="Enter 6 digits OTP" maxlength="6" pattern="[0-9]*" [(ngModel)]="otp" />
         </div>
 
         <div class="text-danger mb-3" *ngIf="otpError">
@@ -57,7 +60,7 @@
             <label for="checkbox-fill-a1" class="cr">Save Details</label>
           </div> 
         </div> -->
-        <button class="btn btn-primary mb-4" (click)="verifyOtp()">Verify OTP</button>
+        <button class="btn btn-primary mb-4" type="submit" (click)="verifyOtp()">Verify OTP</button>
  
         <!-- <p class="mb-2 text-muted">
           Forgot password?
@@ -72,6 +75,7 @@
     </div>
   </div>
 </div>
+
 
 <!-- [disabled]="otp.length !== 6" -->
 

@@ -60,9 +60,22 @@ const routes: Routes = [
       },
       {
         path: 'signin',
-        loadComponent: () => import('../app/demo/pages/authentication/auth-signin/auth-signin.component').then(m => m.default)
+        loadComponent: () => import('./demo/pages/authentication/auth-signin/auth-signin.component').then(m => m.default)
+      },
+      {
+        path: 'service-provider',
+        loadComponent: () => import('./demo/service-provider/service-provider.component').then(m => m.ServiceProviderComponent)
+      },
+      {
+        path: 'login-serviceprovider',
+        loadComponent: () => import ('./demo/login-serviceprovider/login-serviceprovider.component').then(m => m.LoginServiceproviderComponent)
+      },
+      {
+        path: 'serviceprovider-registration',
+        loadComponent: () => import ('./demo/serviceprovider-registration/serviceprovider-registration.component').then(m => m.ServiceproviderRegistrationComponent)
       }
-    
+
+   
     ]
   },
   {
