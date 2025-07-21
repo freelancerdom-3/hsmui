@@ -500,4 +500,11 @@ export class DashboardComponent implements OnInit {
 			color: 'text-c-green'
 		}
 	];
+
+// 	  navigateTOServiceProvider(){
+//     this.router.navigate(['service-provider']);
+//   }
+//   navigateTOloginserviceprovider(){
+//     this.router.navigate(['login-serviceprovider']);
+//   }
 }

@@ -1,32 +1,34 @@
 import { HttpClient } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
-import { RouterModule, ActivatedRoute, Router } from '@angular/router';
-import { FormsModule, ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Component , OnInit } from '@angular/core';
+import { RouterModule , ActivatedRoute, Router} from '@angular/router';
+import { FormsModule , ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { DashboardComponent } from 'src/app/demo/dashboard/dashboard.component';
 import { BaseService } from 'src/app/services/base.service';
 import { ToastrService } from 'ngx-toastr';
+
 import { DataService } from 'src/app/services/data.service';
 import { CartStateService } from 'src/app/services/cart-state.service';
 import { catchError, map, Observable, of, tap } from 'rxjs';
 
 @Component({
   selector: 'app-verifyotp',
+  imports: [ RouterModule, FormsModule,ReactiveFormsModule,CommonModule],
   standalone: true,
-  imports: [RouterModule, FormsModule, ReactiveFormsModule, CommonModule],
   templateUrl: './verifyotp.component.html',
-  styleUrls: ['./verifyotp.component.scss']
+  styleUrl: './verifyotp.component.scss'
 })
 export class VerifyotpComponent implements OnInit {
-  otpForm!: FormGroup;
-  phoneNumber: string | null = null;
-  otpError: boolean = false;
+    otpForm!: FormGroup;
+    phoneNumber: string | null = null;
+    otpError: boolean = false; 
 
   constructor(
     private route: ActivatedRoute,
-    private router: Router,
+    private router:Router,
     private http: HttpClient,
     private baseService: BaseService,
-    private toastr: ToastrService,
+    private toastr: ToastrService ,
     private fb: FormBuilder,
     private dataService: DataService,
     private cartStateService: CartStateService
@@ -38,7 +40,7 @@ export class VerifyotpComponent implements OnInit {
 
     this.otpForm = this.fb.group({
       otp: ['', [Validators.required, Validators.pattern(/^\d{6}$/)]]
-    });
+    });    
   }
 
   get otpControl() {
@@ -53,106 +55,129 @@ export class VerifyotpComponent implements OnInit {
       return;
     }
 
-    if (this.otpForm.invalid) {
+     if (this.otpForm.invalid) {
       this.otpForm.markAllAsTouched();
       return;
     }
-
-    const otp = this.otpControl?.value;
-    const apiUrl = `https://localhost:7282/api/Otp/Verify?Otp=${otp}&mobileNumber=${this.phoneNumber}`;
+        const otp = this.otpControl?.value;
+      // console.log("verify phonenumber : "+ this.phoneNumber);
+      // console.log("verify otp : "+ this.otp);
+      console.log('Verifying OTP:', otp, 'Phone:', this.phoneNumber);
+    
+      // const apiUrl = 'https://localhost:7282/api/Otp/Verify?Otp=' +this.otp + '&mobileNumber=' +this.phoneNumber ; 
+       const apiUrl = `https://localhost:7282/api/Otp/Verify?Otp=${otp}&mobileNumber=${this.phoneNumber}`;
 
     this.baseService.GET<any>(apiUrl).subscribe({
       next: (response: any) => {
         console.log('OTP verify response:', response);
+        
+        if (response.data == null) {
+          console.log(" data is null "+response.message);
+        } 
+        else {
+            console.log("data "+response.message); 
+            console.log("jwtToken:", response.data.jwtToken);
+            
+            localStorage.setItem('authToken', response.data.jwtToken.toString());
+            localStorage.setItem('userId', response.data.userId.toString());
+            localStorage.setItem('mobileNumber', response.data.mobileNumber.toString());
+            localStorage.setItem('userTypeId', response.data.userTypeId.toString());
+          
+          if (response.data.userTypeId === 2) {
+            /* This pipe tap logic will ensure the sequential execution of this entire flow
+            */
+            this.getCartForEndUserAndSaveToLocalStorage(response.data.userId).pipe(
+              tap(cartId => {
+                // side-effect: after cart is created
+                console.log("Cart fetched from backend in verifyotp file cartId : "+cartId);
+                this.dataService.setUserLoginStatus(true);
+                console.log("User logged in userLogin status turned true");
+              }),
+              tap(() => {
+                // another side-effect: routing
+                  if (localStorage.getItem('route') && localStorage.getItem('subCategoryIdForRouting')) {
+                    const dynamicRoute = localStorage.getItem('route');
+                    const routingSubCategoryId = localStorage.getItem('subCategoryIdForRouting');
 
-        if (!response.data) {
-          console.warn("Data is null:", response.message);
-          this.toastr.error('Invalid OTP or user not found');
-          return;
-        }
+                    localStorage.setItem('subCategoryIdFromClick', routingSubCategoryId);
+                    localStorage.setItem('subCategoryIdFromCart', routingSubCategoryId);
+                    this.router.navigate([dynamicRoute]);
+                  } else {
+                    this.router.navigate(['dashboard']);
+                  }
+                }
+              ),
+              catchError(err => {
+                //Catch any of the errors if anything goes wrong
+                console.error('Cart fetch failed', err);
+                return of(null);
+              })
+            ).subscribe();
+          }
+          else if(response.data.userTypeId === 3){
+            const userId = response.data.userId;
 
-        const { jwtToken, userId, mobileNumber, userTypeId } = response.data;
+            this.baseService.GET<any>('https://localhost:7282/api/ServiceProviderSubCategoryMapping/HasSkills?userId=' + userId)
+              .subscribe({
+                next: (res) => {
+                  if (res.data === true) {
+                    this.router.navigate(['service-provider']);
+                  } else {
+                    this.router.navigate(['serviceprovider-registration']);
+                  }
+                },
+                error: (err) => {
+                  console.error('Skill check failed:', err);
+                  alert('Error while checking skill registration.');
+                }
+              });
+          }
 
-        localStorage.setItem('authToken', jwtToken);
-        localStorage.setItem('userId', userId.toString());
-        localStorage.setItem('mobileNumber', mobileNumber);
-        localStorage.setItem('userTypeId', userTypeId.toString());
-
-        if (userTypeId === 2) {
-          this.getCartForEndUserAndSaveToLocalStorage(userId).pipe(
-            tap(cartId => {
-              console.log("Cart ID received:", cartId);
-              this.dataService.setUserLoginStatus(true);
-              console.log("User logged in");
-            }),
-            tap(() => {
-              const dynamicRoute = localStorage.getItem('route');
-              const subCategoryId = localStorage.getItem('subCategoryIdForRouting');
-
-              if (dynamicRoute && subCategoryId) {
-                localStorage.setItem('subCategoryIdFromClick', subCategoryId);
-                localStorage.setItem('subCategoryIdFromCart', subCategoryId);
-                this.router.navigate([dynamicRoute]);
-              } else {
-                this.router.navigate(['dashboard']);
-              }
-            })
-          ).subscribe();
-
-        } else if (userTypeId === 3) {
-          this.checkServiceProviderSkills(userId);
+          /* Toastr logic to show messages on UI
+          */
+          this.toastr.success('Login Successful!', 'Success', {
+            timeOut: 3000,
+            progressBar: true
+          });
+          localStorage.setItem('loginSuccessMessage', 'Logged in successfully');
+          console.log('Login Successful');  
         }
       },
       error: (err) => {
         console.error('OTP verification failed:', err);
-        this.toastr.error('Server error: ' + err.message);
+        alert('Server error' + err.message);
       }
     });
   }
 
+  //This function will get cart from backend and save it to localStorage
+  /* Here I have used pipe and tap logic for maitainig sequential execution as tap's side effect
+  property helps to achieve it and once the subscribe is called then the whole flow is ensured 
+  to work in the defined execution sequence.
+  */
   getCartForEndUserAndSaveToLocalStorage(userId: number): Observable<number> {
     return this.baseService.GET<any>(`https://localhost:7282/api/Cart/GenerateCart?userId=${userId}`).pipe(
       tap(response => {
-        const cartId = response?.data?.cartId;
-        if (cartId) {
-          localStorage.setItem('cartId', cartId.toString());
+        if (response?.data?.cartId != null) {
+          localStorage.setItem('cartId', String(response.data.cartId));
+          console.log("CartId from verify otp:", response.data.cartId);
         } else {
-          console.error("Cart ID not found", response);
-          throw new Error("Cart ID is null");
+          console.error("❌ cartId not found in response", response);
+          throw new Error("CartId is null");
         }
       }),
       map(response => response.data.cartId)
     );
   }
 
-  checkServiceProviderSkills(userId: number): void {
-    const apiUrl = `https://localhost:7282/api/ServiceProviderSubCategoryMapping/HasSkills?userId=${userId}`;
 
-    this.baseService.GET<any>(apiUrl).subscribe({
-      next: (res) => {
-        const hasSkills = res.data === true;
-        this.router.navigate([hasSkills ? 'service-provider' : 'serviceprovider-registration']);
-      },
-      error: (err) => {
-        console.error('Skill check failed:', err);
-        this.toastr.error('Error while checking skill registration.');
-      }
-    });
-  }
 
   resendOtp(): void {
-    if (!this.phoneNumber) return;
+    console.log("otp resent : " +this.phoneNumber);
 
-    const apiUrl = `https://localhost:7282/api/Otp/OtpForEndUser?mobilenumber=${this.phoneNumber}`;
-    this.http.get(apiUrl).subscribe({
-      next: (response) => {
-        console.log("OTP resent:", response);
-        this.toastr.success('OTP has been resent.');
-      },
-      error: (err) => {
-        console.error("Error resending OTP:", err);
-        this.toastr.error('Failed to resend OTP.');
-      }
+    const apiUrl = "https://localhost:7282/api/Otp/OtpForEndUser?mobilenumber="+this.phoneNumber
+    this.http.get(apiUrl).subscribe(response => {
+        console.log("Otp response : "+response);
     });
   }
 
@@ -164,10 +189,11 @@ export class VerifyotpComponent implements OnInit {
   }
 
   blockPaste(event: ClipboardEvent): void {
-    const pastedInput = event.clipboardData?.getData('text') || '';
+    const pastedInput: string = event.clipboardData?.getData('text') || '';
     const isValid = /^\d+$/.test(pastedInput);
     if (!isValid || pastedInput.length > 6) {
       event.preventDefault();
     }
   }
 }
+
