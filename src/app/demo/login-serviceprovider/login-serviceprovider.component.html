@@ -12,7 +12,7 @@
         <div class="mb-4">
           <i class="feather icon-unlock auth-icon"></i>
         </div>
-        <h3 class="mb-4">User-Login</h3>
+        <h3 class="mb-4">ServiceProvider-Login</h3>
         <div class="input-group mb-3" *ngIf="!otpSent">
           <input type="phoneNo" class="form-control" placeholder="Phone Number"  formControlName="phoneNumber" />
            <!-- [ngClass]="{ 'is-invalid': submitted && f.phoneNo.errors }" 
@@ -60,4 +60,12 @@
       </div>
     </div>
   </div>
+  <!-- ADD POPUP HERE -->
+<!-- POPUP -->
+<div class="popup-overlay" *ngIf="showPopup">
+  <div class="popup-box">
+    <p>{{ errorMessage }}</p>
+    <button class="btn btn-secondary mt-3" (click)="showPopup = false">Close</button>
+  </div>
+</div>
 </div>

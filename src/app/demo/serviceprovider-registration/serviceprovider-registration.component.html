@@ -79,12 +79,13 @@
 <!-- Aria Button -->
 <div class="aria-button-wrapper">
   <label>Aria</label>
-  <button type="button" class="small-blue-button" (click)="toggleAriaPopup()">Select Aria</button>
+  <button type="button" class="small-blue-button" (click)="toggleAriaPopup()" [disabled]="!isAreaButtonEnabled">Select Aria</button>
+  
 
 
 
   <!-- Show selected names -->
-  <div *ngIf="selectedAriaIds.length > 0" class="selected-aria">
+  <div *ngIf="selectedAriaIds.length > 0" class="selected-skills">
     {{ getSelectedAriaNames() }}
   </div>
 </div>
@@ -106,7 +107,7 @@
     </div>
 
     <div class="popup-buttons">
-      <button type="button" (click)="saveAria()" [disabled]="selectedAriaIds.length === 0">
+      <button type="button" (click)="saveAria()"  [disabled]="selectedAriaIds.length === 0">
         Save Aria
       </button>
     </div>
@@ -122,7 +123,7 @@
   <!-- Skill Selection Button -->
 <div class="skill-button-wrapper">
   <label>Skills</label>
-  <button type="button" (click)="toggleSkillPopup()">
+  <button type="button" (click)="toggleSkillPopup()" [disabled]="!isSkillButtonEnabled">
     Select Skills
   </button>
 
@@ -149,7 +150,7 @@
     </div>
 
     <div class="popup-buttons">
-      <button type="button" (click)="saveSkills()" [disabled]="selectedSkillIds.length === 0">
+      <button type="button" (click)="saveSkills()"  [disabled]="selectedSkillIds.length === 0">
         Save Skills
       </button>
     </div>
@@ -164,7 +165,7 @@
     selectedSkillIds.length === 0 || 
     selectedAriaIds.length === 0
   "
-  
+
 >
   Submit
 </button>

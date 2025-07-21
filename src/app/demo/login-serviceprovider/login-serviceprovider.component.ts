@@ -14,6 +14,10 @@ export class LoginServiceproviderComponent implements OnInit {
 
  signinForm: FormGroup;
   otpSent = false;
+  errorMessage: string = '';
+showPopup: boolean = false; // <-- control popup visibility
+
+
 
   constructor(private fb: FormBuilder, 
               private router: Router,
@@ -29,49 +33,66 @@ export class LoginServiceproviderComponent implements OnInit {
     });
   }
 
-  // sendOtp() {
-  //   const phoneNumber = this.signinForm.value.phoneNumber;
-  //   // this.otpSent = true;
-  //   console.log('Sending OTP to:', this.signinForm.value);
-  //   //API call 
-  //   this.baseService.GET<any>("https://localhost:7282/api/Otp/OtpForServiceProvider?mobileNumber="+phoneNumber)
-  //   .subscribe(response => {
-  //     console.log("Otp response : "+response);
-
-  //     //  if (response?.isRegistered) {
-  //     //   // ✅ Already registered
-  //     //   this.router.navigate(['service-provider']);
-  //     //  }
-  //     //  else {
-          
-  //     //     this.router.navigate(['serviceprovider-registration'])
-  //     //   }
-
-  //   });
 
 sendOtp(){
    const phoneNumber = this.signinForm.value.phoneNumber;
   this.baseService.GET<any>("https://localhost:7282/api/Otp/OtpForServiceProvider?mobileNumber=" + phoneNumber)
 .subscribe(response => {
   console.log("Otp sent response: ", response);
+
+  if (response?.message === "You are logged in as a user, so you can't use this number as a service provider.") {
+          this.errorMessage = response.message;
+          this.showPopup = true; // 🔥 SHOW POPUP!
+        } else  {
+          
+          this.router.navigate(['/auth/verifyotp'], {
+            queryParams: { phone: phoneNumber }
+          });
+        }
   
- this.router.navigate(['/auth/verifyotp'], {
-      queryParams: { phone: phoneNumber }
-    });
-  // Check skill registration (optional, not recommended at this stage)
-  // this.baseService.GET<any>("https://localhost:7282/api/ServiceProviderSubCategoryMapping/IsSkillRegisteredByPhone?phone=" + phoneNumber)
-  // .subscribe(skillRes => {
-  //   if (skillRes.data === true) {
-  //     this.router.navigate(['service-provider']);
-  //   } else {
-  //     this.router.navigate(['serviceprovider-registration']);
-  //   }
-  // });
+//  this.router.navigate(['/auth/verifyotp'], {
+//       queryParams: { phone: phoneNumber }
+//     });
+  
 });
+ }
 
-    
-   
 
-    
-  }
+
+
+// sendOtp() {
+//   const phoneNumber = this.signinForm.value.phoneNumber;
+
+//   this.baseService.GET<any>("https://localhost:7282/api/Otp/OtpForServiceProvider?mobileNumber=" + phoneNumber)
+//     .subscribe({
+//       next: (response) => {
+//         console.log("Otp sent response: ", response);
+
+//         if (response?.message === "You are logged in as a user, so you can't use this number as a service provider.") {
+//           this.errorMessage = response.message;
+//           this.showPopup = true; // 🔥 SHOW POPUP!
+//         } else if (response?.message === "User Paid 3") {
+//           // Successful flow
+//           this.router.navigate(['/auth/verifyotp'], {
+//             queryParams: { phone: phoneNumber }
+//           });
+//         }
+//       },
+//       error: (error) => {
+//         console.log('OTP error response:', error);
+//         const msg = error.error?.message;
+
+//         if (msg) {
+//           this.errorMessage = msg;
+//         } else {
+//           this.errorMessage = "Failed to send OTP. Please try again later.";
+//         }
+//         this.showPopup = true; // 🔥 SHOW POPUP ON ANY ERROR
+//       }
+//     });
+// }
+
+
+
+
 }

@@ -57,9 +57,10 @@ ngOnInit() {
     gender: ['', Validators.required],
     dateOfBirth: ['', [Validators.required, this.minimumAgeValidator(18)]],
     State: ['', Validators.required],
-    City: ['', Validators.required],
-      skills: [[]],
-  arias: [[]]
+  City: [{ value: '', disabled: true }, Validators.required], // initially disabled
+  arias: [[]],
+  skills: [[]]
+  
   });
 
   this.baseService.GET<any>("https://localhost:7282/api/SubCategory/GetAllSkill")
@@ -245,8 +246,13 @@ selectState(state):void {
   this.stateResult = [];
   console.log("State ID from search after select : "+state.regionID);
   localStorage.setItem('StateIDFromSearch', String(state.regionID));
+   // Enable city input
+  this.userForm.get('City')?.enable();
 }
 
+
+isSkillButtonEnabled = false;
+isAreaButtonEnabled = false;
 
 
 searchCityData(event: KeyboardEvent) {
@@ -281,7 +287,16 @@ selectCityAndSaveToLocalStorage(city: any): void {
   this.selectedCityData = city;
   this.cityResult = [];
   localStorage.setItem('CityIDFromSearch', String(city.regionID));
+   // ✅ Enable Area button
+  this.isAreaButtonEnabled = true;
+
+   this.selectedAriaIds = [];
+  this.availableArias = [];
+  this.ariaError = false;
+  this.userForm.get('regionName')?.setValue([]);
 }
+
+
 
   selectAreas(){
     const CityIDFromSearch = localStorage.getItem('CityIDFromSearch');
@@ -325,12 +340,14 @@ selectCityAndSaveToLocalStorage(city: any): void {
     this.showAriaPopup = false;
     this.ariaError = false;
     console.log("Seleced Area ids : "+this.selectedAriaIds);
+  // ✅ Enable Skill button
+  this.isSkillButtonEnabled = true;
   }
 
   getSelectedAriaNames(): string {
     return this.availableArias
-      .filter(item => this.selectedAriaIds.includes(item.id))
-      .map(item => item.name)
+      .filter(item => this.selectedAriaIds.includes(item.regionID))
+      .map(item => item.regionName)
       .join(', ');
   }
   
