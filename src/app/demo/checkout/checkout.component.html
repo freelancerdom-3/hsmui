@@ -45,17 +45,13 @@
 
           <input type="text" name="landmark" placeholder="Landmark (Optional)" [(ngModel)]="user.landmark" required />
 
-          <!-- <input type="text"
-              name="ariaName"
-              placeholder="Area Name"
-              [(ngModel)]="user.ariaName"
-              required /> -->
 
-          <!-- AREA INPUT with AUTOCOMPLETE DROPDOWN -->
+
           <div class="dropdown-wrapper" style="position: relative;">
-            <input type="text" name="ariaName" (keyup)="getRegionBySearch($event)" placeholder="Area Name"
-              [(ngModel)]="user.ariaName" required />
+            <input type="text" name="ariaName" placeholder="Area Name" [(ngModel)]="user.ariaName"
+              (keyup)="getRegionBySearch($event)" required />
 
+            <!-- Dropdown if matches found -->
             <ul class="list-group" *ngIf="searchRegion.length > 0">
               <li *ngFor="let region of searchRegion" class="list-group-item" style="cursor: pointer;"
                 (click)="selectArea(region)">
@@ -63,7 +59,15 @@
                 <em>{{ region.parent }}</em>
               </li>
             </ul>
+
+            <!-- Show error only if no match and user typed -->
+            <div *ngIf="user.ariaName && !isAreaSelected" style="color: red; font-size: 14px;">
+              Please enter valid area and select from dropdown
+            </div>
+
           </div>
+
+
 
 
 
@@ -80,9 +84,10 @@
               required />
           </div>
 
-          <button type="submit" class="select-address-btn" [disabled]="!addressForm.form.valid">
+          <button type="submit" class="select-address-btn" [disabled]="!addressForm.form.valid || !selectedRegionData">
             Save and proceed to slots
           </button>
+
         </form>
       </div>
 
@@ -95,7 +100,8 @@
           <button class="change-btn" (click)="openTimeSlotPopup()">Edit</button>
         </div>
         <ng-template #chooseBtn>
-          <button (click)="openTimeSlotPopup()">Select time slot</button>
+          <button [disabled]="!isAddressValid()"
+    [ngClass]="{ 'disabled-btn': !isAddressValid() }" (click)="openTimeSlotPopup()">Select time slot</button>
         </ng-template>
       </label>
 
@@ -147,7 +153,8 @@
         </div>
       </div>
 
-      <button (click)="placeOrder()" [disabled]="!userLoginStatus" [ngClass]="{ 'disabled-btn': !userLoginStatus }">
+      <button (click)="placeOrder()" [disabled]="!userLoginStatus || !customer.timeslot" 
+      [ngClass]="{ 'disabled-btn': !userLoginStatus || !customer.timeslot }">
         Place Order
       </button>
 
