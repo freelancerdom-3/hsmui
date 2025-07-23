@@ -1,0 +1,12 @@
+export enum SubCategoryEnum {
+  'APPLIANCE-REPAIR-SERVICE' = 1,
+  'ELECTRICIAN' = 2,
+  'PLUMBER' = 3,
+  'CARPENTER' = 4,
+  'BATHROOM-KITCHEN-CLEANING' = 5,
+  'CLEANING' = 6,
+  'FULL-HOME-PAINTING' = 7,
+  'SALON-FOR-WOMEN' = 8,
+  'SPA-FOR-WOMEN' = 9,
+  'MASSAGE-FOR-MEN' = 10
+}

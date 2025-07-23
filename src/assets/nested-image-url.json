@@ -1,0 +1,20 @@
+{
+    "ELECTRICIAN": {
+        "ImagePath": "https://res.cloudinary.com/urbanclap/image/upload/t_high_res_category/w_48,dpr_2,fl_progressive:steep,q_auto:low,f_auto,c_limit/images/growth/luminosity/1699868754554-a5c5c9.jpeg",
+        "FAN": {
+            "ImagePath": "https://res.cloudinary.com/urbanclap/image/upload/t_high_res_template,q_auto:low,f_auto/w_64,dpr_2,fl_progressive:steep,q_auto:low,f_auto,c_limit/images/growth/luminosity/1729092471356-d358a6.jpeg",
+            "FAN-REPLACEMENT": {
+                "ImagePath": "https://res.cloudinary.com/urbanclap/image/upload/t_high_res_template,q_auto:low,f_auto/w_128,dpr_1,fl_progressive:steep,q_auto:low,f_auto,c_limit/images/growth/luminosity/1729158496446-b93dbc.jpeg"
+            },
+            "FAN-REPAIR": {
+                "ImagePath": "https://res.cloudinary.com/urbanclap/image/upload/t_high_res_template,q_auto:low,f_auto/w_128,dpr_1,fl_progressive:steep,q_auto:low,f_auto,c_limit/images/growth/luminosity/1729158581570-e7cd15.jpeg"
+            }
+        },
+        "SWITCH-AND-SOCKET": {
+            "ImagePath": "https://res.cloudinary.com/urbanclap/image/upload/t_high_res_template,q_auto:low,f_auto/w_64,dpr_2,fl_progressive:steep,q_auto:low,f_auto,c_limit/images/supply/customer-app-supply/1719646923803-15ecf2.jpeg",
+            "SWITCH-BOX-INSTALLATION": {
+                "ImagePath": "https://res.cloudinary.com/urbanclap/image/upload/t_high_res_template,q_auto:low,f_auto/w_128,dpr_2,fl_progressive:steep,q_auto:low,f_auto,c_limit/images/supply/customer-app-supply/1726730716477-571a68.jpeg"
+            }
+        }
+    }
+}

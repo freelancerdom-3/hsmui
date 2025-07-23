@@ -1,0 +1,25 @@
+export enum ChildSubCategoryEnum {
+  // APPLIANCE-REPAIR-SERVICE
+  'AC-REPAIR-SERVICE' = 8,
+  'LAPTOP-CHECK-UP' = 9,
+  'AIR-COOLER' = 39,
+  'CHIMNEY' = 40,
+  'GEYSER' = 41,
+  'REFRIGERATOR' = 42,
+  'WASHING-MACHINE' = 43,
+  'MICROWAVE' = 44,
+  'TELEVISION' = 45,
+  'WATER-PURIFIER' = 46,
+
+  // ELECTRICIAN
+  'SWITCH-AND-SOCKET' = 10,
+  'FAN' = 11,
+  'MCB-SUBMETER' = 12,
+  'WALL-CEILING-LIGHT' = 26,
+  'WIRING' = 27,
+  'DOORBELL' = 28,
+  'INVERTER-STABILISERS' = 29,
+  'APPLIANCE' = 30
+
+  // PLUMBER, etc. — Add as needed
+}

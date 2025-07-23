@@ -212,16 +212,26 @@ export class CheckoutComponent implements OnInit {
     this.customer.plateformfees=this.getTaxesAndFees;
     this.customer.itemtotal=this.getGrandTotal();
     this.customer.totalamount=this.getGrandTotal();
-    alert('Thank you! Your order has been placed.');
+    // alert('Thank you! Your order has been placed.');
 
 
     //Hemil is working on this flow so kindly keep it commented when using place order if required
     //--------> this api call is working and inserting services in TblOrderServiceMapping
-    // console.log("From place order: "+JSON.stringify(this.serviceList).toString());
-    // const orderPlacePYLOAD = {servicesList: this.serviceList}
-    // this.baseService.POST<any>("https://localhost:7282/api/OrderServiceMapping/AddServicesInOrder", orderPlacePYLOAD).subscribe(response => {
-    //   console.log("Response after adding services to order table"+response.message);
-    // })
+    console.log("From place order: "+JSON.stringify(this.serviceList).toString());
+    const orderPlacePYLOAD = {
+      endUserId: this.userId,
+      date: this.customer.date,
+      time: this.customer.time,
+      subCategoryId: this.subCategoryIdFromCart,
+      itemTotal: this.getSubtotal(),
+      platFormFee: this.getTaxesAndFees,
+      subTotal: this.getGrandTotal(),
+      servicesList: this.serviceList
+    }
+    this.baseService.POST<any>("https://localhost:7282/api/OrderServiceMapping/AddServicesInOrder", orderPlacePYLOAD).subscribe(response => {
+      console.log("Confirmed OrderID : "+response.data);
+      localStorage.setItem('OrderId', String(response.data));
+    })
   }
 
 

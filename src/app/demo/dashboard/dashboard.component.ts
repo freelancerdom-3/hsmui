@@ -60,28 +60,28 @@ export class DashboardComponent implements OnInit {
 
 		const loginMsg = localStorage.getItem('loginSuccessMessage');
 			if (loginMsg) {
-			this.loginMessage = loginMsg;
-			this.showLoginMessage = true;
+				this.loginMessage = loginMsg;
+				this.showLoginMessage = true;
 
-			setTimeout(() => {
-				this.showLoginMessage = false;
-				this.loginMessage = null;
-			}, 3000);
+				setTimeout(() => {
+					this.showLoginMessage = false;
+					this.loginMessage = null;
+				}, 3000);
 
-			localStorage.removeItem('loginSuccessMessage');
+				localStorage.removeItem('loginSuccessMessage');
 			}
 
 		const logoutMsg = localStorage.getItem('logoutMessage');
 			if (logoutMsg) {
-			this.loginMessage = logoutMsg;
-			this.showLoginMessage = true;
+				this.loginMessage = logoutMsg;
+				this.showLoginMessage = true;
 
-			setTimeout(() => {
-				this.showLoginMessage = false;
-				this.loginMessage = null;
-			}, 3000);
+				setTimeout(() => {
+					this.showLoginMessage = false;
+					this.loginMessage = null;
+				}, 3000);
 
-			localStorage.removeItem('logoutMessage');
+				localStorage.removeItem('logoutMessage');
 			}
 
 

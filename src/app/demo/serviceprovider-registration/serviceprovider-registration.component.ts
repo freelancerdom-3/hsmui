@@ -43,7 +43,7 @@ savedAreaIds: number []=[];
     ariaName:'',
     skill:'',
     
-    };
+  };
  
 
 
@@ -222,6 +222,13 @@ searchStateData(event: KeyboardEvent) {
   if (regionName.length == 0) {
     this.stateResult = [];
     this.selectedstateData = null;
+    // ✅ CLEAR CITY WHEN STATE IS CLEARED
+    this.cityResult = [];
+    this.selectedCityData = null;
+    this.cityName = '';
+    this.userForm.get('City')?.reset();     // <-- reset form control
+    this.userForm.get('City')?.disable();   // <-- disable city input again
+    this.isAreaButtonEnabled = false;       // <-- also disable area button
     return;
   }
 

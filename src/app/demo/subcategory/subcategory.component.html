@@ -11,7 +11,7 @@
       @for (child of apiResponse?.childSubCategoriesList; track child.childSubCategoryId) {
         <div class="col-12 col-md-4">
           <div class="category-box">
-            <img [src]="child.childSubCategoryImageName | imageurl | async" alt="{{ child.childSubCategoryName }}" class="img-fluid mb-1" />
+            <img [src]="[subCategoryIdToDisplay, child.childSubCategoryId] | nestedImageUrl | async" alt="{{ child.childSubCategoryName }}" class="img-fluid mb-1" />
             <div>{{ child.childSubCategoryName }}</div>
           </div>
         </div>
@@ -37,7 +37,7 @@
             <div class="col-md-6 col-lg-6"> <!-- changed to 2-column layout -->
               <div class="card service-box h-100 shadow-sm border-0">
                 <img
-                  [src]="service.imageName | imageurl | async"
+                  [src]="[subCategoryIdToDisplay, group.childSubCategoryId, service.serviceId] | nestedImageUrl | async"
                   class="card-img-top"
                   alt="{{ service.serviceName }}"
                   style="height: 180px; object-fit: cover;"

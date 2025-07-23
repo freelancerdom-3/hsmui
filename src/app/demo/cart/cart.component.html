@@ -5,7 +5,7 @@
         <!-- Subcategory Image and Name -->
         <div style="display: flex; align-items: center; gap: 12px;">
           <img
-            [src]="item.subCategoryImageName | imageurl | async"
+            [src]="[item.subCategoryId] | nestedImageUrl | async"
             alt="{{ item.subCategoryName }}"
             width="40"
             height="40"

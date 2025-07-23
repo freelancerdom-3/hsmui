@@ -187,7 +187,7 @@
         >
           <div class="border rounded p-3 h-100 category-box"
                (click)="navigateToSubCategoryServicePage(subCategory.subCategoryId)">
-            <img [src]="subCategory.imageName | imageurl | async"
+            <img [src]= "[subCategory.subCategoryId] | nestedImageUrl | async"
                  width="50"
                  [alt]="subCategory.subCategoryName" />
             <p class="mt-2 mb-0">{{ subCategory.subCategoryName }}</p>

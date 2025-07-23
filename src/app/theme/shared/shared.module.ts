@@ -13,10 +13,11 @@ import { NgbCollapseModule } from '@ng-bootstrap/ng-bootstrap';
 // third party
 import { NgScrollbarModule } from 'ngx-scrollbar';
 import { ImageurlPipe } from 'src/app/pipes/imageurl.pipe';
+import { NestedImageUrlPipe } from 'src/app/pipes/nested-image-url.pipe';
 
 @NgModule({
   declarations: [],
-  imports: [CommonModule, FormsModule, ReactiveFormsModule, CardComponent, NgbModule, NgScrollbarModule, NgbCollapseModule, ImageurlPipe],
-  exports: [CommonModule, FormsModule, ReactiveFormsModule, CardComponent, NgbModule, NgScrollbarModule, NgbCollapseModule, ImageurlPipe]
+  imports: [CommonModule, FormsModule, ReactiveFormsModule, CardComponent, NgbModule, NgScrollbarModule, NgbCollapseModule, ImageurlPipe, NestedImageUrlPipe],
+  exports: [CommonModule, FormsModule, ReactiveFormsModule, CardComponent, NgbModule, NgScrollbarModule, NgbCollapseModule, ImageurlPipe, NestedImageUrlPipe]
 })
 export class SharedModule {}
