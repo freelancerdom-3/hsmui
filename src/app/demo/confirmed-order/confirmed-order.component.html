@@ -1,0 +1,38 @@
+<!-- Order Confirmed Banner -->
+<div class="order-confirmed-banner">
+  Order Confirmed!
+</div>
+
+<!-- Order Card -->
+<div class="order-card">
+  <p class="order-id"><strong>Order ID:</strong> {{ orderDetails?.orderID }}</p>
+
+  <div class="service-row" *ngFor="let service of servicesList">
+    <span class="service-name">{{ service.serviceName }}</span>
+    <span class="service-qty">x{{ service.quantity }}</span>
+    <span class="service-price">₹{{ service.price * service.quantity }}</span>
+  </div>
+
+  <div class="summary-line">Item Total: ₹{{ orderDetails?.itemTotal }}</div>
+  <div class="summary-line">Platform Fee: ₹{{ orderDetails?.platformFee }}</div>
+
+  <div class="summary-line subtotal">
+    Subtotal: ₹{{ orderDetails?.subTotal }}
+    <span
+      class="status-tag"
+      [ngClass]="{
+        'upcoming': orderDetails?.orderStatusName === 'UPCOMING',
+        'inprogress': orderDetails?.orderStatusName === 'IN-PROGRESS',
+        'completed': orderDetails?.orderStatusName === 'COMPLETED'
+      }"
+    >
+      {{ orderDetails?.orderStatusName | titlecase }}
+    </span>
+  </div>
+</div>
+
+<div class="button-container">
+    <button class="browse-btn" (click)="navigateToDashboard()">
+      Browse other services
+    </button>
+</div>

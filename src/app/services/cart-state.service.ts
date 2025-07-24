@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { BaseService } from './base.service';
 import { DataService } from './data.service';
+import { of } from 'rxjs';
 
 //This interface is to ensure type safety of the data and this also gives flexibility to add new property to carry on with it.
 export interface SubCategoryData {
@@ -220,6 +221,7 @@ export class CartStateService{
 		localStorage.setItem('subCategoryServiceDataMap', JSON.stringify(serviceDataObj));
 	}
 
+	//This method loads maps from localstorage
 	private loadMapsFromLocalStorage(): void {
 		//Fetch maps from local-storage
 		const subCategoryDataJson = localStorage.getItem('subCategoryDataMap');
@@ -294,6 +296,7 @@ export class CartStateService{
 		return flatList;
 	}
 
+	//This updates services to backend cart
 	updateServicesToBackendCart(){
 		const servicesList: ServiceData[] = this.getAllServicesAsFlatList();
 		/*Even if the front-end's cart is empty, still the backend-cart might even contain the the data which is supposed to 
@@ -344,6 +347,59 @@ export class CartStateService{
 			// Persist to localStorage
 			this.saveMapsToLocalStorage();
 		}
+	}
+
+	//This method deletes placed order in sequential execution first from backend and then from front-end
+	deletePlacedServices(subCategoryId: number): void {
+		// Step 1: Get services of subCategoryId using your utility
+		const serviceList = this.getServicesForSubCategory(subCategoryId);
+		if (!serviceList || serviceList.length === 0) {
+			console.warn('No services to delete for subCategoryId:', subCategoryId);
+			return;
+		}
+
+		// Step 2: Call backend delete API (reusing existing method)
+		this.deletePlacedServicesFromBackendCart(subCategoryId, serviceList).subscribe({
+			next: () => {
+				// Step 3: Delete from local maps (reusing your method that returns Promise)
+				this.deletePlacedServicesFromMaps(subCategoryId).then(() => {
+					// Step 4: Emit change trigger
+					this.serviceQuantityChangedSubject.next();
+				});
+			},
+			error: (error) => {
+			console.error('Backend deletion failed:', error);
+			}
+		});
+	}
+
+	private deletePlacedServicesFromBackendCart(subCategoryId: number, servicesList: ServiceData[]): Observable<any> {
+		const deletePlacedServicePAYLOAD = {
+			cartId: this.cartId,
+			serviceQuantityList: servicesList
+		};
+
+		// ✅ Placeholder for real API call
+		// return this.baseService.POST<any>(
+		//   "https://localhost:7282/api/ServiceCartMapping/DeleteBulkServices",
+		//   deletePlacedServicePAYLOAD
+		// );
+
+		console.log("✅ [Simulated] deletePlacedServicesFromBackendCart called with payload:", deletePlacedServicePAYLOAD);
+
+		// Return a mock observable simulating success
+		return of({ success: true }); // import { of } from 'rxjs';
+	}
+
+	private deletePlacedServicesFromMaps(subCategoryId: number): Promise<void> {
+		return new Promise((resolve) => {
+			// this.subCategoryServiceDataMap.delete(subCategoryId);
+			// this.subCategoryDataMap.delete(subCategoryId);
+			// this.saveMapsToLocalStorage();
+
+			console.log("✅ [Simulated] deletePlacedServicesFromMaps executed for subCategoryId:", subCategoryId);
+			resolve();
+		});
 	}
 
 

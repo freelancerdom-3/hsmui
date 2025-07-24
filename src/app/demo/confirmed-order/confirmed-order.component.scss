@@ -1,0 +1,115 @@
+/* Order Confirmation Banner */
+.order-confirmed-banner {
+  text-align: center;
+  margin-top: 20px;
+  font-size: 32px;
+  font-weight: bold;
+  color: purple;
+  border: 3px solid white;
+  padding: 10px 20px;
+  width: fit-content;
+  margin-left: auto;
+  margin-right: auto;
+  border-radius: 10px;
+}
+
+/* Main Box */
+.order-card {
+  border: 2px solid purple;
+  border-radius: 16px;
+  padding: 24px;
+  background-color: #ffffff;
+  width: 60%;
+  margin: 30px auto; /* vertically below the banner */
+  font-family: 'Segoe UI', sans-serif;
+  color: #555;
+}
+
+/* Order ID */
+.order-id {
+  font-weight: bold;
+  color: #888;
+  margin-bottom: 16px;
+}
+
+/* Service Line Items */
+.service-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 6px 0;
+  font-size: 16px;
+}
+
+.service-name {
+  flex: 1.5;
+}
+
+.service-qty {
+  flex: 0.5;
+  text-align: center;
+}
+
+.service-price {
+  flex: 0.7;
+  text-align: right;
+}
+
+/* Summary Lines (Item Total, Platform Fee, etc.) */
+.summary-line {
+  margin-top: 10px;
+  font-size: 16px;
+  font-weight: 500;
+}
+
+/* Subtotal and Status Tag */
+.subtotal {
+  font-weight: bold;
+  margin-top: 16px;
+  position: relative;
+}
+
+.status-tag {
+  position: absolute;
+  right: 0;
+  top: 0;
+  padding: 4px 12px;
+  border-radius: 16px;
+  font-weight: bold;
+  color: white;
+  font-size: 14px;
+}
+
+.status-tag.upcoming {
+  background-color: purple;
+}
+
+.status-tag.inprogress {
+  background-color: #f3c623; /* ochre yellow */
+  color: black;
+}
+
+.status-tag.completed {
+  background-color: #28a745;
+}
+
+.button-container {
+  display: flex;
+  justify-content: center;
+  margin-top: 30px;
+}
+
+.browse-btn {
+  background-color: purple;
+  color: white;
+  border: none;
+  padding: 12px 25px;
+  font-size: 16px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.browse-btn:hover {
+  background-color: #5e00a0; /* darker purple on hover */
+}

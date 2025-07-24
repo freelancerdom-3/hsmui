@@ -228,10 +228,13 @@ export class CheckoutComponent implements OnInit {
       subTotal: this.getGrandTotal(),
       servicesList: this.serviceList
     }
+
     this.baseService.POST<any>("https://localhost:7282/api/OrderServiceMapping/AddServicesInOrder", orderPlacePYLOAD).subscribe(response => {
       console.log("Confirmed OrderID : "+response.data);
       localStorage.setItem('OrderId', String(response.data));
-    })
+      this.cartStateService.deletePlacedServices(this.subCategoryIdFromCart);
+      this.router.navigate(['confirmed-order']);
+    });
   }
 
 

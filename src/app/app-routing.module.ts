@@ -73,8 +73,11 @@ const routes: Routes = [
       {
         path: 'serviceprovider-registration',
         loadComponent: () => import ('./demo/serviceprovider-registration/serviceprovider-registration.component').then(m => m.ServiceproviderRegistrationComponent)
+      },
+      {
+        path: 'confirmed-order',
+        loadComponent: () => import('./demo/confirmed-order/confirmed-order.component').then(m => m.ConfirmedOrderComponent)
       }
-
    
     ]
   },
