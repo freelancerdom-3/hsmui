@@ -6,6 +6,8 @@
 <!-- Order Card -->
 <div class="order-card">
   <p class="order-id"><strong>Order ID:</strong> {{ orderDetails?.orderID }}</p>
+  <p class="order-date"><strong>Date:</strong> {{ orderDetails?.date | date: 'dd MMM yyyy' }}</p>
+  <p class="order-time"><strong>Time:</strong> {{ orderDetails?.time }}</p>
 
   <div class="service-row" *ngFor="let service of servicesList">
     <span class="service-name">{{ service.serviceName }}</span>
@@ -32,7 +34,7 @@
 </div>
 
 <div class="button-container">
-    <button class="browse-btn" (click)="navigateToDashboard()">
-      Browse other services
-    </button>
+  <button class="browse-btn" (click)="navigateToDashboard()">
+    Browse other services
+  </button>
 </div>

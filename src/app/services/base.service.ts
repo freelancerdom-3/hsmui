@@ -75,8 +75,19 @@ export class BaseService {
   }
 
   DELETE<T>(url: string, body: any): Observable<T> {
+    /*I had to change the DELETE mehod's implementation as http.delete does not 
+    provide direct way to pass body as content so there is a carrier named options
+    which is the defualt option just like in switch case one so this is capable of 
+    carrying some paylod like object with it and as I am passing this options object like I have named 
+    it as options so it can infer to the name options in terms of http method so I am passing headers 
+    with it and the ASP.NET core backend will recognize it even in the options way.
+    */
     const headers = this.getAuthHeaders();
-    return this.http.delete<T>(url, { headers }).pipe(
+    const options = {
+      headers: headers,
+      body: body
+    }
+    return this.http.delete<T>(url, options).pipe(
       catchError(error => this.handleError(error))
     );
   }

@@ -4,6 +4,12 @@ import { BaseService } from './base.service';
 import { DataService } from './data.service';
 import { of } from 'rxjs';
 
+/* I have created this cart-state service as a centralized storage to be interacted by components those are 
+subscribed to it so it data is accessible to all of those and not matter where it is called it performs just
+fine and this cart-state service interacts with backend API call so this one is like the one which keeps 
+the track of front-end and backend cart.
+*/
+
 //This interface is to ensure type safety of the data and this also gives flexibility to add new property to carry on with it.
 export interface SubCategoryData {
   subCategoryId: number;
@@ -368,7 +374,7 @@ export class CartStateService{
 				});
 			},
 			error: (error) => {
-			console.error('Backend deletion failed:', error);
+				console.error('Backend deletion failed:', error);
 			}
 		});
 	}
@@ -379,23 +385,23 @@ export class CartStateService{
 			serviceQuantityList: servicesList
 		};
 
-		// ✅ Placeholder for real API call
-		// return this.baseService.POST<any>(
-		//   "https://localhost:7282/api/ServiceCartMapping/DeleteBulkServices",
-		//   deletePlacedServicePAYLOAD
-		// );
-
 		console.log("✅ [Simulated] deletePlacedServicesFromBackendCart called with payload:", deletePlacedServicePAYLOAD);
+		// ✅ Placeholder for real API call
+		return this.baseService.DELETE<any>(
+		  "https://localhost:7282/api/ServiceCartMapping/DeletePlacedServices",
+		  deletePlacedServicePAYLOAD
+		);
+
 
 		// Return a mock observable simulating success
-		return of({ success: true }); // import { of } from 'rxjs';
+		// return of({ success: true }); // import { of } from 'rxjs';
 	}
 
 	private deletePlacedServicesFromMaps(subCategoryId: number): Promise<void> {
 		return new Promise((resolve) => {
-			// this.subCategoryServiceDataMap.delete(subCategoryId);
-			// this.subCategoryDataMap.delete(subCategoryId);
-			// this.saveMapsToLocalStorage();
+			this.subCategoryServiceDataMap.delete(subCategoryId);
+			this.subCategoryDataMap.delete(subCategoryId);
+			this.saveMapsToLocalStorage();
 
 			console.log("✅ [Simulated] deletePlacedServicesFromMaps executed for subCategoryId:", subCategoryId);
 			resolve();
