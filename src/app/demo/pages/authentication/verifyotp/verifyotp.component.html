@@ -70,7 +70,7 @@
         <!-- <p class="mb-0 text-muted">
            Didn't receive the code?
           <a href="#" (click)="resendOtp()">Resend OTP</a> </p>-->
-          <button class="btn btn-primary mb-4" (click)="resendOtp()">Resend OTP</button>
+          <button class="btn btn-primary mb-4" (click)="resendOtp()" [disabled]="!isVerifyOtpButtonClicked">Resend OTP</button>
           </form>
       </div>
     </div>

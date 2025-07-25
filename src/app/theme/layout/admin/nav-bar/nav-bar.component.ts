@@ -8,6 +8,7 @@ import { SharedModule } from 'src/app/theme/shared/shared.module';
 import { NavLeftComponent } from './nav-left/nav-left.component';
 import { NavRightComponent } from './nav-right/nav-right.component';
 
+
 @Component({
   selector: 'app-nav-bar',
   imports: [SharedModule, NavLeftComponent, NavRightComponent, RouterModule, CommonModule],
@@ -28,8 +29,9 @@ export class NavBarComponent {
     this.headerStyle = '';
     this.menuClass = false;
     this.collapseStyle = 'none';
-  }
+    }
 
+    
   // public method
   toggleMobOption() {
     this.menuClass = !this.menuClass;

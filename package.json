@@ -29,6 +29,7 @@
     "@popperjs/core": "2.11.8",
     "apexcharts": "3.49.2",
     "bootstrap": "5.3.3",
+    "lodash": "^4.17.21",
     "ng-apexcharts": "1.11.0",
     "ngx-scrollbar": "16.1.1",
     "ngx-toastr": "^19.0.0",

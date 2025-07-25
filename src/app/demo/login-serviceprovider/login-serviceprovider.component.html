@@ -14,7 +14,19 @@
         </div>
         <h3 class="mb-4">ServiceProvider-Login</h3>
         <div class="input-group mb-3" *ngIf="!otpSent">
-          <input type="phoneNo" class="form-control" placeholder="Phone Number"  formControlName="phoneNumber" />
+        <!-- <input type="phoneNo" class="form-control" placeholder="Phone Number"  formControlName="phoneNumber" /> -->
+          <input
+              type="tel"
+              maxlength="10"
+              class="form-control"
+              placeholder="Phone Number"
+              formControlName="phoneNumber"
+              (keypress)="allowOnlyDigits($event)"
+              (paste)="blockPaste($event)" 
+              [ngClass]="{'is-invalid': phoneNumber?.invalid && (phoneNumber?.touched || phoneNumber?.dirty)}"
+            /> 
+
+
            <!-- [ngClass]="{ 'is-invalid': submitted && f.phoneNo.errors }" 
             <div *ngIf="submitted && f.phoneNo.errors" class="invalid-feedback">
             <div *ngIf="f.phoneNo.errors.required">
@@ -22,6 +34,7 @@
             </div>
           </div>-->
         </div>
+
         <!-- <h3 class="mb-4">Login</h3>
         <div class="input-group mb-3">
           <input type="email" class="form-control" placeholder="Email" />

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit , OnDestroy } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { BaseService } from 'src/app/services/base.service';
 import { SharedModule } from 'src/app/theme/shared/shared.module';
@@ -6,6 +6,9 @@ import { SubcatagorycartComponent } from '../subcatagorycart/subcatagorycart.com
 import { DataService } from 'src/app/services/data.service';
 import { CartStateService } from 'src/app/services/cart-state.service';
 import { UtilityService } from 'src/app/services/utility.service';
+
+import { Subject , Subscription} from 'rxjs';//debouce
+import { debounceTime } from 'rxjs/operators';//debounce
 
 @Component({
   selector: 'app-subcategory',
@@ -36,6 +39,14 @@ export class SubcategoryComponent implements OnInit {
 	subCategoryNameToDisplay: string;
 	subCategoryImageNameToDisplay: string;
 
+	//Add subject For Debouncing for ADD
+	private addServiceSubject = new Subject<any>();
+	private addServiceSubscription!: Subscription;
+	//Add subject For Debouncing for REMOVE
+	private removeServiceSubject = new Subject<any>();
+	private removeServiceSubscription!: Subscription;
+
+
 	constructor(
 		private baseService: BaseService,
 		private activatedRoute: ActivatedRoute,
@@ -62,6 +73,31 @@ export class SubcategoryComponent implements OnInit {
 			// Trigger change detection when quantity updates
 			// (you could also use ChangeDetectorRef.detectChanges(), but this is cleaner)
 		});
+
+		// Debounced Add Service Subscription
+		this.addServiceSubscription = this.addServiceSubject.pipe(
+			debounceTime(500)
+			).subscribe(({ subCategoryId, subCategoryName, subCategoryImageName, serviceId, serviceName, price }) => {
+			this.cartStateService.addOrUpdateService(subCategoryId, subCategoryName, subCategoryImageName, serviceId, serviceName, price);
+		});
+
+		// Debounce Remove service Subscription
+		this.removeServiceSubscription = this.removeServiceSubject.pipe(
+			debounceTime(500)
+			).subscribe(({ subCategoryId, serviceId }) => {
+			this.cartStateService.removeService(subCategoryId, serviceId);
+		});
+	}
+	// FOR DEBOUNCE LOGIC
+	ngOnDestroy() {
+		if (this.addServiceSubscription) {
+			this.addServiceSubscription.unsubscribe();
+		}
+
+		if (this.removeServiceSubscription) {
+			this.removeServiceSubscription.unsubscribe();
+		}
+
 	}
 
 	loadServiceFromSubCategory() {
@@ -111,7 +147,6 @@ export class SubcategoryComponent implements OnInit {
 		return quantity;
 	}
 
-	
 	addService(
 		subCategoryId: number,
 		subCategoryName: string,
@@ -120,13 +155,16 @@ export class SubcategoryComponent implements OnInit {
 		serviceName: string,
 		price: number
 	): void {
-		
-		this.cartStateService.addOrUpdateService(subCategoryId, subCategoryName, subCategoryImageName, serviceId, serviceName, price);
+	 // Debounced Add Button Handler
+		console.log(" Add Service clicked:", serviceId);
+		this.addServiceSubject.next({ subCategoryId, subCategoryName, subCategoryImageName, serviceId, serviceName, price });
 	}
 
 	removeService(subCategoryId:number, serviceId: number): void {
-		this.cartStateService.removeService(subCategoryId, serviceId)
-	}
+		// DEBOUNCE for REMOVE 
+		console.log(" Remove Service clicked:", serviceId);
+  		this.removeServiceSubject.next({ subCategoryId, serviceId });
+	}	
 
 
 }

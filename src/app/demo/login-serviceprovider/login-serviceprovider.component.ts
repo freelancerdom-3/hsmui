@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
 import { BaseService } from 'src/app/services/base.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-login-serviceprovider',
@@ -21,7 +22,8 @@ showPopup: boolean = false; // <-- control popup visibility
 
   constructor(private fb: FormBuilder, 
               private router: Router,
-              private baseService: BaseService
+              private baseService: BaseService,
+              private toastr: ToastrService
             ) {
               
     
@@ -29,9 +31,26 @@ showPopup: boolean = false; // <-- control popup visibility
 
   ngOnInit(){
     this.signinForm = this.fb.group({
-      phoneNumber: ['', [Validators.required, Validators.pattern('^[0-9]{10}$')]]
+      //phoneNumber: ['', [Validators.required, Validators.pattern('^[0-9]{10}$')]]
+       phoneNumber: ['', [Validators.required, Validators.pattern('^[6-9][0-9]{9}$')]]
+     });
+
+      // Live validation feedback
+    this.signinForm.get('phoneNumber')?.valueChanges.subscribe(value => {
+      const indianPattern = /^[6-9]\d{9}$/;
+
+      // Only if length is 10 and invalid
+      if (value && value.length === 10 && !indianPattern.test(value)) {
+        console.log("Invalid mobile number:", value);
+        this.toastr.error("Only valid Indian numbers allowed", "Invalid"); 
+      }
     });
   }
+
+  get phoneNumber() {
+    return this.signinForm.get('phoneNumber');
+  }
+
 
 
 sendOtp(){
@@ -93,6 +112,20 @@ sendOtp(){
 // }
 
 
+    allowOnlyDigits(event: KeyboardEvent): void {
+    const charCode = event.key.charCodeAt(0);
+    if (charCode < 48 || charCode > 57) {
+      event.preventDefault();
+    }
+  }
+
+  blockPaste(event: ClipboardEvent): void {
+    const pastedInput: string = event.clipboardData?.getData('text') || '';
+    const isValid = /^\d+$/.test(pastedInput);
+    if (!isValid || pastedInput.length > 10) {
+      event.preventDefault();
+    }
+  }
 
 
 }

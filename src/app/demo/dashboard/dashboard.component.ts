@@ -58,33 +58,6 @@ export class DashboardComponent implements OnInit {
 	// life cycle event
 	ngOnInit() {
 
-		const loginMsg = localStorage.getItem('loginSuccessMessage');
-			if (loginMsg) {
-				this.loginMessage = loginMsg;
-				this.showLoginMessage = true;
-
-				setTimeout(() => {
-					this.showLoginMessage = false;
-					this.loginMessage = null;
-				}, 3000);
-
-				localStorage.removeItem('loginSuccessMessage');
-			}
-
-		const logoutMsg = localStorage.getItem('logoutMessage');
-			if (logoutMsg) {
-				this.loginMessage = logoutMsg;
-				this.showLoginMessage = true;
-
-				setTimeout(() => {
-					this.showLoginMessage = false;
-					this.loginMessage = null;
-				}, 3000);
-
-				localStorage.removeItem('logoutMessage');
-			}
-
-
 		//Get top trending sub-categories
 		console.log("this is dashboard");
 		this.dataService.selectedRegion$.subscribe(region => {

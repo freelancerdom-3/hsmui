@@ -8,6 +8,10 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { UtilityService } from 'src/app/services/utility.service';
 import { DataService } from 'src/app/services/data.service';
 
+import { Subject , Subscription } from 'rxjs';
+import { debounceTime } from 'rxjs/operators';
+
+
 interface CartItem {
   id: number;
   name: string;
@@ -33,6 +37,14 @@ interface Fees {
 })
 export class CheckoutComponent implements OnInit {
   Fees: Fees[] = [];
+
+  //DEBOUNCE Subject for increment
+  private incrementSubject = new Subject<ServiceData>();
+  private incrementSubscription!: Subscription;
+
+  //DEBOUNCE Subject for decrement
+  private decrementSubject = new Subject<ServiceData>();
+  private decrementSubscription!: Subscription;
 
   constructor(private baseService: BaseService,
     private cartStateService: CartStateService,
@@ -95,8 +107,29 @@ export class CheckoutComponent implements OnInit {
       this.loadUserDetails();
     }
 
+    // SET DEBOUNCE LOGIC
+     this.incrementSubscription = this.incrementSubject.pipe(
+      debounceTime(300)
+    ).subscribe(service => {
+      this._increment(service);
+    });
+
+    // SET DEBOUNCE LOGIC
+    this.decrementSubscription = this.decrementSubject.pipe(
+      debounceTime(300)
+    ).subscribe(service => {
+      this._decrement(service);
+    });
+
 
   }
+
+   //for debounce
+   ngOnDestroy(): void {
+    this.incrementSubscription?.unsubscribe();
+    this.decrementSubscription?.unsubscribe();
+    }
+
   /* ------------------- customer + cart --------------------- */
   customer = {
     phone: '',
@@ -181,7 +214,12 @@ export class CheckoutComponent implements OnInit {
     return this.getSubtotal() + this.getTaxesAndFees;
   }
 
+   // debounce for increment with PRIVATE
   increment(service: ServiceData): void {
+    this.incrementSubject.next(service);
+  }
+  private _increment(service: ServiceData): void {
+    console.log('➕ Increment clicked:', service.serviceId);
     this.cartStateService.addOrUpdateService(
       this.subCategoryIdFromCart,
       '', // name optional
@@ -195,7 +233,13 @@ export class CheckoutComponent implements OnInit {
   /* This decrement function is also responsible to navigate to cart if user deletes all the
   services at checkout page
   */
+
+   // debounce for decrement  with PRIVATE
   decrement(service: ServiceData): void {
+    this.decrementSubject.next(service);
+  }
+  private _decrement(service: ServiceData): void {
+    console.log('➖ Decrement clicked:', service.serviceId);
     this.cartStateService.removeService(this.subCategoryIdFromCart, service.serviceId);
     if (this.serviceList.length <= 0) {
       this.router.navigate(['cart']);

@@ -24,7 +24,9 @@
               formControlName="phoneNumber"
               (keypress)="allowOnlyDigits($event)"
               (paste)="blockPaste($event)"
-              [ngClass]="{'is-invalid': phoneNumber?.invalid && (phoneNumber?.touched || phoneNumber?.dirty)}"
+             [ngClass]="{'is-invalid': phoneNumber?.invalid && (phoneNumber?.touched || phoneNumber?.dirty)}"
+
+
             />
         </div>
 
@@ -33,7 +35,7 @@
               *ngIf="phoneNumber?.invalid && (phoneNumber?.touched || phoneNumber?.dirty)"
               class="text-danger"
               style="font-size: 0.80rem; margin-top: -6px; margin-left: 3px;">
-              Please enter 10 digits mobile number
+              Please enter valid 10 digits mobile number
             </div>
           <!-- <input type="phoneNo" class="form-control" placeholder="Phone Number"  formControlName="phoneNumber" /> -->
 
