@@ -8,13 +8,122 @@
             },
             "FAN-REPAIR": {
                 "ImagePath": "https://res.cloudinary.com/urbanclap/image/upload/t_high_res_template,q_auto:low,f_auto/w_128,dpr_1,fl_progressive:steep,q_auto:low,f_auto,c_limit/images/growth/luminosity/1729158581570-e7cd15.jpeg"
+            },
+            "FAN-UNINSTALLATION": {
+                "ImagePath": "https://res.cloudinary.com/urbanclap/image/upload/t_high_res_template,q_auto:low,f_auto/w_128,dpr_1,fl_progressive:steep,q_auto:low,f_auto,c_limit/images/growth/luminosity/1729158488252-2dccdd.jpeg"
+            },
+            "FAN-INSTALLATION": {
+                "ImagePath": "https://res.cloudinary.com/urbanclap/image/upload/t_high_res_template,q_auto:low,f_auto/w_128,dpr_1,fl_progressive:steep,q_auto:low,f_auto,c_limit/images/growth/luminosity/1729158496446-b93dbc.jpeg"
+            },
+            "FAN-REGULATOR-REPAIR-REPLACEMENT": {
+                "ImagePath": "https://res.cloudinary.com/urbanclap/image/upload/t_high_res_template,q_auto:low,f_auto/w_128,dpr_1,fl_progressive:steep,q_auto:low,f_auto,c_limit/images/growth/luminosity/1729092733345-088896.jpeg"
             }
         },
         "SWITCH-AND-SOCKET": {
             "ImagePath": "https://res.cloudinary.com/urbanclap/image/upload/t_high_res_template,q_auto:low,f_auto/w_64,dpr_2,fl_progressive:steep,q_auto:low,f_auto,c_limit/images/supply/customer-app-supply/1719646923803-15ecf2.jpeg",
             "SWITCH-BOX-INSTALLATION": {
                 "ImagePath": "https://res.cloudinary.com/urbanclap/image/upload/t_high_res_template,q_auto:low,f_auto/w_128,dpr_2,fl_progressive:steep,q_auto:low,f_auto,c_limit/images/supply/customer-app-supply/1726730716477-571a68.jpeg"
+            },
+            "AC-SWITCHBOX-INSTALLATION": {
+                "ImagePath": "https://res.cloudinary.com/urbanclap/image/upload/t_high_res_template,q_auto:low,f_auto/w_128,dpr_2,fl_progressive:steep,q_auto:low,f_auto,c_limit/images/growth/luminosity/1713958919288-4be4b4.jpeg"
+            },
+            "SWITCHBOARD-INSTALLATION": {
+                "ImagePath": "https://res.cloudinary.com/urbanclap/image/upload/t_high_res_template,q_auto:low,f_auto/w_128,dpr_2,fl_progressive:steep,q_auto:low,f_auto,c_limit/images/supply/customer-app-supply/1726660614263-a79c79.jpeg"
+            },
+            "SMART-SWITCH-INSTALLTION": {
+                "ImagePath": "https://res.cloudinary.com/urbanclap/image/upload/t_high_res_template,q_auto:low,f_auto/w_128,dpr_2,fl_progressive:steep,q_auto:low,f_auto,c_limit/images/supply/customer-app-supply/1726731012290-c2849f.jpeg"
+            },
+            "SMART-APPLIANCE-CONTROLLER": {
+                "ImagePath": "https://res.cloudinary.com/urbanclap/image/upload/t_high_res_template,q_auto:low,f_auto/w_128,dpr_2,fl_progressive:steep,q_auto:low,f_auto,c_limit/images/supply/customer-app-supply/1701149690867-c12f53.jpeg"
+            },
+            "WIFI-SMART-SWITCH-INSTALLTION": {
+                "ImagePath": "https://res.cloudinary.com/urbanclap/image/upload/t_high_res_template,q_auto:low,f_auto/w_128,dpr_2,fl_progressive:steep,q_auto:low,f_auto,c_limit/images/supply/customer-app-supply/1701149738446-fcaf6b.jpeg"
+            },
+            "SWITCH-SOCKET-REPLACEMENT": {
+                "ImagePath": "https://res.cloudinary.com/urbanclap/image/upload/t_high_res_template,q_auto:low,f_auto/w_128,dpr_2,fl_progressive:steep,q_auto:low,f_auto,c_limit/images/growth/luminosity/1713957171193-d5fa54.jpeg"
+            },
+            "SWITCHBOARD-SWITCHBOX-REPAIR": {
+                "ImagePath": "https://res.cloudinary.com/urbanclap/image/upload/t_high_res_template,q_auto:low,f_auto/w_128,dpr_2,fl_progressive:steep,q_auto:low,f_auto,c_limit/images/growth/luminosity/1713963216053-f1bc31.jpeg"
             }
+        },
+        "MCB-SUBMETER": {
+            "ImagePath": "https://res.cloudinary.com/urbanclap/image/upload/t_high_res_template,q_auto:low,f_auto/w_64,dpr_2,fl_progressive:steep,q_auto:low,f_auto,c_limit/images/supply/customer-app-supply/1718988838289-6f4ca7.jpeg",
+            "SINGLE-POLE-MCB-INSTALLATION": {
+                "ImagePath": "https://res.cloudinary.com/urbanclap/image/upload/t_high_res_template,q_auto:low,f_auto/w_128,dpr_1,fl_progressive:steep,q_auto:low,f_auto,c_limit/images/growth/luminosity/1714053488625-8c6426.jpeg"
+            },
+            "DOUBLE-POLE-MCB-INSTALLATION": {
+                "ImagePath": "https://res.cloudinary.com/urbanclap/image/upload/t_high_res_template,q_auto:low,f_auto/w_128,dpr_1,fl_progressive:steep,q_auto:low,f_auto,c_limit/images/supply/customer-app-supply/1701149726512-5b2001.jpeg"
+            },
+            "MCB-FUSE-REPLACEMENT": {
+                "ImagePath": "https://res.cloudinary.com/urbanclap/image/upload/t_high_res_template,q_auto:low,f_auto/w_128,dpr_1,fl_progressive:steep,q_auto:low,f_auto,c_limit/images/supply/customer-app-supply/1713959096155-9713ba.jpeg"
+            },
+            "SUBMETER-INSTALLATION": {
+                "ImagePath": "https://res.cloudinary.com/urbanclap/image/upload/t_high_res_template,q_auto:low,f_auto/w_128,dpr_1,fl_progressive:steep,q_auto:low,f_auto,c_limit/images/supply/customer-app-supply/1713959541808-622f7c.jpeg"
+            },
+            "3-PHASE-CHANGEOVER-SWITCH-INSTALLATION": {
+                "ImagePath": "https://res.cloudinary.com/urbanclap/image/upload/t_high_res_template,q_auto:low,f_auto/w_128,dpr_1,fl_progressive:steep,q_auto:low,f_auto,c_limit/images/supply/customer-app-supply/1713959247141-167277.jpeg"
+            }
+        },
+        "WALL-CEILING-LIGHT": {
+            "ImagePath": "https://res.cloudinary.com/urbanclap/image/upload/t_high_res_template,q_auto:low,f_auto/w_64,dpr_1,fl_progressive:steep,q_auto:low,f_auto,c_limit/images/supply/customer-app-supply/1700638215421-85b9d3.jpeg"
+        },
+        "WIRING": {
+            "ImagePath": "https://res.cloudinary.com/urbanclap/image/upload/t_high_res_template,q_auto:low,f_auto/w_64,dpr_1,fl_progressive:steep,q_auto:low,f_auto,c_limit/images/supply/customer-app-supply/1701324401683-c49990.jpeg"
+        },
+        "DOORBELL": {
+            "ImagePath": "https://res.cloudinary.com/urbanclap/image/upload/t_high_res_template,q_auto:low,f_auto/w_64,dpr_1,fl_progressive:steep,q_auto:low,f_auto,c_limit/images/supply/customer-app-supply/1719646953257-df29fe.jpeg"
+        },
+        "INVERTER-STABILISERS": {
+            "ImagePath": "https://res.cloudinary.com/urbanclap/image/upload/t_high_res_template,q_auto:low,f_auto/w_64,dpr_1,fl_progressive:steep,q_auto:low,f_auto,c_limit/images/supply/customer-app-supply/1700638222320-fa8e14.jpeg"
+        },
+        "APPLIANCE": {
+            "ImagePath": "https://res.cloudinary.com/urbanclap/image/upload/t_high_res_template,q_auto:low,f_auto/w_64,dpr_1,fl_progressive:steep,q_auto:low,f_auto,c_limit/images/supply/customer-app-supply/1700638234862-fdd67a.jpeg"
         }
+    },
+
+    "APPLIANCE-REPAIR-SERVICE": {
+        "ImagePath": "https://res.cloudinary.com/urbanclap/image/upload/t_high_res_category/w_56,dpr_1,fl_progressive:steep,q_auto:low,f_auto,c_limit/images/growth/home-screen/1679292069715-fd242d.jpeg"
+    },
+
+    "PLUMBER": {
+        "ImagePath": "https://res.cloudinary.com/urbanclap/image/upload/t_high_res_category/w_48,dpr_1,fl_progressive:steep,q_auto:low,f_auto,c_limit/images/growth/luminosity/1722431282836-ee5db3.jpeg",
+        "BATH-FITTINGS": {
+            "ImagePath": "https://res.cloudinary.com/urbanclap/image/upload/t_high_res_template,q_auto:low,f_auto/w_64,dpr_1,fl_progressive:steep,q_auto:low,f_auto,c_limit/images/supply/customer-app-supply/1726208784284-311057.jpeg"
+        },
+        "BASIN-AND-SINK": {
+            "ImagePath": "https://res.cloudinary.com/urbanclap/image/upload/t_high_res_template,q_auto:low,f_auto/w_64,dpr_1,fl_progressive:steep,q_auto:low,f_auto,c_limit/images/supply/customer-app-supply/1726208786381-99c5c9.jpeg"
+        },
+        "GROUTING": {
+            "ImagePath": "https://res.cloudinary.com/urbanclap/image/upload/t_high_res_template,q_auto:low,f_auto/w_64,dpr_1,fl_progressive:steep,q_auto:low,f_auto,c_limit/images/supply/customer-app-supply/1726208788956-d88305.jpeg"
+        },
+        "WATER-FILTER": {
+            "ImagePath": "https://res.cloudinary.com/urbanclap/image/upload/t_high_res_template,q_auto:low,f_auto/w_64,dpr_1,fl_progressive:steep,q_auto:low,f_auto,c_limit/images/supply/customer-app-supply/1726208791525-b93fc6.jpeg"
+        },
+        "DRAINAGE": {
+            "ImagePath": "https://res.cloudinary.com/urbanclap/image/upload/t_high_res_template,q_auto:low,f_auto/w_64,dpr_1,fl_progressive:steep,q_auto:low,f_auto,c_limit/images/supply/customer-app-supply/1726208793920-02e537.jpeg"
+        },
+        "TOILET": {
+            "ImagePath": "https://res.cloudinary.com/urbanclap/image/upload/t_high_res_template,q_auto:low,f_auto/w_64,dpr_1,fl_progressive:steep,q_auto:low,f_auto,c_limit/images/supply/customer-app-supply/1726208800630-0a4b9f.jpeg"
+        },
+        "TAP-AND-MIXER": {
+            "ImagePath": "https://res.cloudinary.com/urbanclap/image/upload/t_high_res_template,q_auto:low,f_auto/w_64,dpr_1,fl_progressive:steep,q_auto:low,f_auto,c_limit/images/supply/customer-app-supply/1726208807457-b543b1.jpeg"
+        },
+        "WATER-TANK": {
+            "ImagePath": "https://res.cloudinary.com/urbanclap/image/upload/t_high_res_template,q_auto:low,f_auto/w_64,dpr_1,fl_progressive:steep,q_auto:low,f_auto,c_limit/images/supply/customer-app-supply/1726208809699-7904d8.jpeg"
+        },
+        "MOTOR": {
+            "ImagePath": "https://res.cloudinary.com/urbanclap/image/upload/t_high_res_template,q_auto:low,f_auto/w_64,dpr_1,fl_progressive:steep,q_auto:low,f_auto,c_limit/images/supply/customer-app-supply/1726208812077-9d50b6.jpeg"
+        },
+        "WATER-PIPES": {
+            "ImagePath": "https://res.cloudinary.com/urbanclap/image/upload/t_high_res_template,q_auto:low,f_auto/w_64,dpr_1,fl_progressive:steep,q_auto:low,f_auto,c_limit/images/supply/customer-app-supply/1726208814728-1aa5db.jpeg"
+        }
+    },
+
+    "CARPENTER": {
+        "ImagePath": "https://res.cloudinary.com/urbanclap/image/upload/t_high_res_category/w_48,dpr_1,fl_progressive:steep,q_auto:low,f_auto,c_limit/images/growth/luminosity/1722431287847-8acb8c.jpeg"
+    },
+
+    "BATHROOM-KITCHEN-CLEANING": {
+        "ImagePath": "https://res.cloudinary.com/urbanclap/image/upload/t_high_res_category/w_56,dpr_1,fl_progressive:steep,q_auto:low,f_auto,c_limit/images/growth/luminosity/1696841515066-87f38d.jpeg"
     }
 }

@@ -19,7 +19,17 @@ export enum ChildSubCategoryEnum {
   'WIRING' = 27,
   'DOORBELL' = 28,
   'INVERTER-STABILISERS' = 29,
-  'APPLIANCE' = 30
+  'APPLIANCE' = 30,
 
   // PLUMBER, etc. — Add as needed
+  'BATH-FITTINGS' = 13,
+  'BASIN-AND-SINK' = 14,
+  'GROUTING' = 31,
+  'WATER-FILTER' = 32,
+  'DRAINAGE' = 33,
+  'TOILET' = 34,
+  'TAP-AND-MIXER' = 35,
+  'WATER-TANK' = 36,
+  'MOTOR' = 37,
+  'WATER-PIPES' = 38
 }
